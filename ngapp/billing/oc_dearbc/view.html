@@ -1,0 +1,140 @@
+<div class="container-fluid" ng-controller="OCDEARBCCtrl as vm">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card full-width">
+                <div class="card-header">
+                    <h3 class="card-title">DEARBC</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="group-input">
+                                        <input type="text" class="form-control form-control-sm" ng-model="vm.dearbc.period_date" required disabled placeholder="Period Date">
+                                        <div class="button-group-append">
+                                            <button type="button" class="btn" ng-click="vm.searchDearbc()">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-success" ng-disabled="vm.dearbc.Status == 'TRANSMITTED'" ng-click="vm.newLetterHead('update')">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                            </button><button type="button" class="btn btn-danger" ng-disabled="vm.dearbc.Status == 'TRANSMITTED'" ng-click="vm.deleteDearbc()">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" name="paystation" class="form-control form-control-sm" ng-model="vm.dearbc.prepared_by" required disabled placeholder="Prepared By">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="text" name="period_date" class="form-control form-control-sm" ng-model="vm.dearbc.checked_by" required disabled placeholder="Checked By">
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" name="period_date" class="form-control form-control-sm" ng-model="vm.dearbc.approved_by" required disabled placeholder="Approved By">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <h4 class="text-danger"><b>{{vm.dearbc.Status}}</b></h4>
+                                </div>
+                                <div class="col-md-9 text-right">
+                                    <button class="btn btn-secondary" ng-if="vm.dearbc.Status == 'ACTIVE'" ng-click="vm.transmit()">
+                                        <i class="fa fa-sticky-note-o"></i> TRANSMIT
+                                    </button>
+                                    <button class="btn btn-danger" ng-if="vm.dearbc.Status == 'TRANSMITTED'" ng-click="vm.reactivate()">
+                                        <i class="fa fa-sticky-note-o"></i> REACTIVATE
+                                    </button>
+                                    <button class="btn" ng-click="vm.clearAll()">
+                                        <i class="fa fa-eraser"></i> Clear All
+                                    </button>
+                                    <button class="btn btn-warning" ng-click="vm.printPreview()">
+                                        <i class="fa fa-print"></i> PRINT REPORT
+                                    </button>
+                                    </button><button type="button" class="btn btn-primary" ng-click="vm.newLetterHead('new')">
+                                        <i class="fa fa-plus"></i> New DEARBC
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div style="height: 150px;" ui-grid="vm.dearbcGrid" ui-grid-selection ui-grid-resize-columns ui-grid-pinning></div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="group-input">
+                                <input type="text" class="form-control form-control-sm" ng-model="vm.header.SOANo" required disabled placeholder="SOANo">
+                                <div class="button-group-append">
+                                    <button type="button" class="btn btn-success" ng-disabled="vm.dearbc.Status == 'TRANSMITTED'" ng-click="vm.newDEARBC('update')">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    </button><button type="button" ng-disabled="vm.dearbc.Status == 'TRANSMITTED'" class="btn btn-danger" ng-click="vm.delete()">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                    </button><button type="button" ng-disabled="vm.dearbc.Status == 'TRANSMITTED'" class="btn btn-primary" ng-click="vm.newDEARBC('new')">
+                                        <i class="fa fa-plus"></i> New Header
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" name="paystation" class="form-control form-control-sm" ng-model="vm.header.paystation" required disabled placeholder="Paystation">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" name="period_date" class="form-control form-control-sm" ng-model="vm.header.period_date" required disabled placeholder="Period">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input type="text" name="paystation" class="form-control form-control-sm" ng-model="vm.header.prepared_by" required disabled placeholder="Prepared By">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" name="period_date" class="form-control form-control-sm" ng-model="vm.header.checked_by" required disabled placeholder="Checked By">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" name="period_date" class="form-control form-control-sm" ng-model="vm.header.approved_by" required disabled placeholder="Approved By">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-2 text-right">
+                                    <h4 class="text-primary"><b>GROSS:</b></h4>
+                                </div>
+                                <div class="col-md-3 text-right">
+                                    <input type="text" name="period_date" class="form-control form-control-sm text-right" ng-model="vm.header.TotalGross" required disabled placeholder="Gross Billing" only-numbers-wo-negative>
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <h4 class="text-danger"><b>{{vm.header.admin_percentage}} % Admin Fee ({{vm.header.TotalAdminfee | number: 2}})</b></h4>
+                                </div>
+                                <div class="col-md-3 text-right">
+                                    <input type="text" name="period_date" class="form-control form-control-sm text-right" ng-model="vm.header.TotalBilling" required disabled placeholder="Total Billing" only-numbers-wo-negative>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn float-right" ng-click="vm.clear()">
+                                <i class="fa fa-eraser"></i> Clear
+                            </button>
+                            <button class="btn btn-secondary float-right" ng-disabled="vm.dearbc.Status == 'TRANSMITTED'" ng-click="vm.addEmployee('')">
+                                <i class="fa fa-plus-circle"></i> Add Employee
+                            </button>
+                        </div>
+                        <div class="col-md-12">
+                            <div style="height: 500px;" ui-grid="vm.defaultGrid" ui-grid-selection ui-grid-resize-columns ui-grid-pinning></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

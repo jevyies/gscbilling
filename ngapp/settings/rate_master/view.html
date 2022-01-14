@@ -1,0 +1,60 @@
+<div class="container-fluid" ng-controller="RateCtrl as vm">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card full-width">
+                <div class="card-header">
+                    <h3 class="card-title">Rate Master File
+                        <select ng-model="vm.type" ng-change="vm.changeType()">
+                            <option>DAR</option>
+                            <option>SAR</option>
+                            <option>SLERS</option>
+                            <option>BCC</option>
+                            <option>CLUBHOUSE</option>
+                            <option>CONSTRUCTION</option>
+                        </select>
+                    </h3>
+                    <div class="text-right">
+                        <button class="btn btn-warning" ng-click="vm.reactivateRate()" ng-if="vm.type === 'DAR'">
+                            <i class="fa fa-plus-circle"></i> Reactivate Rate
+                        </button>
+                        <button class="btn btn-secondary" ng-click="vm.DarRate()" ng-if="vm.type === 'DAR'">
+                            <i class="fa fa-plus-circle"></i> Add Rate
+                        </button>
+                    </div>
+                    <button class="btn btn-secondary float-right" ng-click="vm.SarRate()" ng-if="vm.type === 'SAR'">
+                        <i class="fa fa-plus-circle"></i> Add Rate
+                    </button>
+                    <button class="btn btn-secondary float-right" ng-click="vm.BCCRate()" ng-if="vm.type === 'BCC'">
+                        <i class="fa fa-plus-circle"></i> Add Rate
+                    </button>
+                    <button class="btn btn-secondary float-right" ng-click="vm.SlersRate()" ng-if="vm.type === 'SLERS'">
+                        <i class="fa fa-plus-circle"></i> Add Rate
+                    </button>
+                    <button class="btn btn-secondary float-right" ng-click="vm.ClubhouseRate()" ng-if="vm.type === 'CLUBHOUSE'">
+                        <i class="fa fa-plus-circle"></i> Add Rate
+                    </button>
+                    <button class="btn btn-secondary float-right" ng-click="vm.ConstructionRate()" ng-if="vm.type === 'CONSTRUCTION'">
+                        <i class="fa fa-plus-circle"></i> Add Rate
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12 bottom-margin">
+                            <div ng-if="vm.type === 'DAR'" style="height: 500px;" ui-grid="vm.defaultGrid" ui-grid-selection ui-grid-resize-columns ui-grid-pinning ui-grid ui-grid-exporter></div>
+                            <div ng-if="vm.type === 'SAR'" style="height: 500px;" ui-grid="vm.defaultSARGrid" ui-grid-selection ui-grid-resize-columns
+                                ui-grid-pinning ui-grid-exporter></div>
+                            <div ng-if="vm.type === 'BCC'" style="height: 500px;" ui-grid="vm.defaultGridBCC" ui-grid-selection ui-grid-resize-columns
+                                ui-grid-pinningui-grid-exporter></div>
+                            <div ng-if="vm.type === 'SLERS'" style="height: 500px;" ui-grid="vm.defaultGridSlers" ui-grid-selection ui-grid-resize-columns
+                                ui-grid-pinningui-grid-exporter></div>
+                            <div ng-if="vm.type === 'CLUBHOUSE'" style="height: 500px;" ui-grid="vm.defaultGridClubhouse" ui-grid-selection ui-grid-resize-columns
+                                ui-grid-pinningui-grid-exporter></div>
+                            <div ng-if="vm.type === 'CONSTRUCTION'" style="height: 500px;" ui-grid="vm.defaultGridConstruction" ui-grid-selection ui-grid-resize-columns
+                                ui-grid-pinningui-grid-exporter></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

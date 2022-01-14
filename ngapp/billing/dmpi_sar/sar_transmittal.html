@@ -1,0 +1,131 @@
+<div class="container-fluid" ng-controller="DMPISARTransmittalCtrl as vm">
+    <div class="card">
+        <div class="card-header sar">
+            <h3 class="card-title">SAR Transmittal</h3>
+            <a class="pointer text-success" ui-sref="app.billing.dmpi-sar">
+                <i class="fa fa-chevron-left fa-fw"></i>Back to SAR Entry</a>
+        </div>
+        <div class="card-body">
+            <form ng-submit="vm.save()">
+                <div class="row bottom-margin">
+                    <div class="col-md-4">
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <h4>Transmittal Entry</h4>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="transmittal_id">Transmittal ID</label>
+                                <div class="input-group input-group-sm">
+                                    <input type="text" disabled="disabled" class="form-control" ng-model="vm.variables.id">
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-outline-success btn-sm" ng-click="vm.searchHeader()">
+                                            <i aria-hidden="true" class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Transmittal No:</label>
+                                <input type="text" class="form-control form-control-sm" required="required" ng-model="vm.variables.TransmittalNo" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Transmittal Date:</label>
+                                <input type="date" class="form-control form-control-sm" required="required" ng-model="vm.variables.date" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Volume Type:</label>
+                                <select required="required" class="form-control form-control-sm" ng-model="vm.variables.type">
+                                    <option></option>
+                                    <option>CHECK DAM</option>
+                                    <option>DAIRY</option>
+                                    <option>PAPAYA</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Period Covered:</label>
+                                <input type="text" class="form-control form-control-sm" required="required" ng-model="vm.variables.period" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Store into:</label>
+                                <input type="text" class="form-control form-control-sm" required="required" ng-model="vm.variables.store" />
+                            </div>
+                            <div class="col-md-12">
+                                <label>Billing Statement No.:</label>
+                                <input type="text" class="form-control form-control-sm" required="required" ng-model="vm.variables.billing_statement" />
+                            </div>
+                            <div class="col-md-12">
+                                <label>
+                                    <strong>Prepared By:</strong>
+                                </label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control form-control-sm" ng-model="vm.variables.PreparedBy" required disabled>
+                                    <input type="text" class="form-control form-control-sm" ng-model="vm.variables.PreparedByPos" required disabled>
+                                    <div class="button-group-append">
+                                        <button type="button" class="btn btn-outline-success" ng-click="vm.searchSignatory(1)">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <label>
+                                    <strong>Checked By:</strong>
+                                </label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control form-control-sm" ng-model="vm.variables.CheckedBy" required disabled>
+                                    <input type="text" class="form-control form-control-sm" ng-model="vm.variables.CheckedByPos" required disabled>
+                                    <div class="button-group-append">
+                                        <button type="button" class="btn btn-outline-success" ng-click="vm.searchSignatory(2)">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <label>
+                                    <strong>Approved By:</strong>
+                                </label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control form-control-sm" ng-model="vm.variables.ApprovedBy" required disabled>
+                                    <input type="text" class="form-control form-control-sm" ng-model="vm.variables.ApprovedByPos" required disabled>
+                                    <div class="button-group-append">
+                                        <button type="button" class="btn btn-outline-success" ng-click="vm.searchSignatory(3)">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="text-right bottom-margin">
+                            <button type="button" class="btn btn-success" ng-disabled="!vm.variables.id" ng-click="vm.addSOA()">
+                                <i class="fa fa-plus"></i> Add SOA</button>
+                        </div>
+                        <div style="height: 300px;" ui-grid="vm.defaultGrid" ui-grid-selection ui-grid-resize-columns></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fa fa-save"></i> Save</button>
+                        <button type="button" class="btn btn-default" ng-click="vm.clearFunction()">
+                            <i class="fa fa-times"></i> Clear</button>
+                        <button type="button" class="btn btn-danger" ng-if="vm.variables.id" ng-click="vm.delete()">
+                            <i class="fa fa-trash"></i> Delete</button>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <button type="button" class="btn btn-outline-info btn-sm" ng-disabled="!vm.variables.id" ng-click="vm.print('pdf')">
+                            <i class="fa fa-print"></i>
+                            <strong>Print PDF</strong>
+                        </button>
+                        <button type="button" class="btn btn-outline-info btn-sm" ng-disabled="!vm.variables.id" ng-click="vm.print('excel')">
+                            <i class="fa fa-file-excel-o"></i>
+                            <strong>Export To Excel</strong>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

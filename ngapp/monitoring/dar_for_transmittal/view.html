@@ -1,0 +1,125 @@
+<div class="container-fluid" ng-controller="DARForTransmittalCtrl as vm">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card full-width">
+                <div class="card-header">
+                    <h3 class="card-title">DAR SOA For Transmittal</h3>
+                </div>
+                <div class="card-body pb70">
+                    <div class="row bottom-margin" ng-if="vm.showSOAs">
+                        <div class="col-md-12">
+                            <div class="well">
+                                <div class="bottom-margin">
+                                    <strong>List of Soa that is not confirmed in this transmittal number:</strong> {{vm.showThisSOA}}
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 text-right">
+                                        <!-- <button class="btn btn-sm btn-outline-info" type="button" ng-click="vm.proceedTransmittalSummary()">
+                                            <i class="fa fa-check fa-fw"></i>Proceed</button> -->
+                                        <button class="btn btn-sm btn-outline-secondary" type="button" ng-click="vm.showSOAs = false">
+                                            <i class="fa fa-times fa-fw"></i>Close</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row bottom-margin">
+                        <div class="col-md-3">
+                            <label>
+                                <strong>Transmittal No.</strong>
+                            </label>
+                            <div class="group-input">
+                                <div class="autocomplete">
+                                    <input type="text" class="form-control form-control-sm toUpper" ng-model="vm.searchTrans" ng-change="vm.changeTransmittal()">
+                                    <div class="autocomplete-items" ng-if="vm.searchTrans && vm.transmittals.length > 0">
+                                        <div ng-repeat="x in vm.transmittals" ng-click="vm.clickTransmittal(x)">{{x.TransmittalNo}}</div>
+                                    </div>
+                                </div>
+                                <div class="button-group-append">
+                                    <button type="button" class="btn" ng-click="vm.searchTransmittal()">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label>
+                                <strong>Control No.</strong>
+                            </label>
+                            <!-- <div class="group-input"> -->
+                            <input type="text" class="form-control form-control-sm" ng-model="vm.searchCNo" ng-change="vm.searchControlNo()">
+                            <!-- <div class="button-group-append">
+                                    <button type="button" class="btn" ng-click="vm.searchControlNo()">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div> -->
+                            <!-- </div> -->
+                        </div>
+                        <div class="col-md-3">
+                            <label>
+                                <strong>SOA No.</strong>
+                            </label>
+                            <!-- <div class="group-input"> -->
+                            <input type="text" class="form-control form-control-sm" ng-model="vm.searchSOA" ng-change="vm.searchSOANumber()">
+                            <!-- <div class="button-group-append">
+                                    <button type="button" class="btn" ng-click="vm.searchSOANumber()">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div> -->
+                            <!-- </div> -->
+                        </div>
+                        <!-- <div class="col-md-3">
+                            <br>
+                            <button type="button" class="btn btn-success" ng-click="vm.bulkTransmittal()">
+                                <i class="fa fa-save fa-fw"></i>Set as Transmitted</button>
+                        </div> -->
+                    </div>
+                    <div class="row bottom-margin">
+                        <div class="col-md-12">
+                            <div style="height: 400px;" ui-grid="vm.defaultGrid" ui-grid-selection ui-grid-resize-columns></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4>Total Amount: {{ vm.totalAmount | number:2}}</h4>
+                            <div>
+                                <strong>{{vm.transmittalDate}}</strong>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+
+                        </div>
+                        <div class="col-md-8 text-right">
+                            <div class="btn-group dropdown">
+                                <button class="btn btn-outline-warning btn-sm dropdown-toggle" role="button" id="previewTransmittal" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false" type="button">
+                                    <i class="fa fa-print fa-fw"></i>Preview Transmittal Summary
+                                    <i class="fa fa-caret-down fa-fw"></i>
+                                </button>
+                                <div class="dropdown-menu" role="menu" aria-labelledby="previewTransmittal">
+                                    <a class="dropdown-item" ng-click="vm.previewTransmittal(1)">
+                                        <i class="fa fa-list-alt fa-fw"></i>Short</a>
+                                    <a class="dropdown-item" ng-click="vm.previewTransmittal(2)">
+                                        <i class="fa fa-calendar fa-fw"></i>Long</a>
+                                </div>
+                            </div>
+                            <!-- <button type="button" class="btn btn-outline-warning btn-sm" ng-click="vm.previewTransmittal()">
+                                <i class="fa fa-eye"></i>
+                                <strong>Preview Transmittal Summary</strong>
+                            </button> -->
+                            <button type="button" class="btn btn-outline-success btn-sm" ng-click="vm.printTransmittal()">
+                                <i class="fa fa-print"></i>
+                                <strong>Export to Excel</strong>
+                            </button>
+                            <button type="button" class="btn btn-outline-info btn-sm" ng-click="vm.transmittalSummary()">
+                                <i class="fa fa-print"></i>
+                                <strong>Print Transmittal Summary</strong>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

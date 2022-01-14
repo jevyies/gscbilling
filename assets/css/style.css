@@ -1,0 +1,317 @@
+@import url('../fonts/aladin/aladin.css');
+@import url('../fonts/abeezee/abeezee.css');
+* {
+	padding: 0px;
+	margin: 0px;
+	box-sizing: border-box;
+}
+
+.login-page {
+	overflow: hidden;
+	position: relative;
+	width: 100%;
+}
+
+.dark-bg {
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 100vh;
+	width: 100%;
+	background: rgba(0, 0, 0, 0.4);
+	z-index: 2;
+}
+
+.background-images {
+	position: relative;
+	height: 100vh;
+	width: 500%;
+	animation: 30s slider infinite;
+	left: 0;
+	margin: 0;
+}
+
+.background-images img {
+	width: 20%;
+	height: 100%;
+	float: left;
+}
+
+.login {
+	z-index: 3;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+}
+
+@keyframes slider {
+	0% {
+		left: 0;
+	}
+	20% {
+		left: 0;
+	}
+	25% {
+		left: -100%;
+	}
+	45% {
+		left: -100%;
+	}
+	50% {
+		left: -200%;
+	}
+	70% {
+		left: -200%;
+	}
+	75% {
+		left: -300%;
+	}
+	95% {
+		left: -300%;
+	}
+	100% {
+		left: -400%;
+	}
+}
+
+body {
+	background: #fff;
+}
+
+.h10vh {
+	height: 10vh;
+}
+
+.h30vh {
+	height: 30vh;
+}
+
+.login-bg {
+	display: flex;
+	height: 60vh;
+}
+
+.logo-div {
+	width: 50%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	/* border-right: 3px solid rgba(0, 0, 0, 0.3); */
+}
+
+.logo-brand i {
+	font-size: 90px;
+	text-shadow: 2px 10px rgba(0, 0, 0, 0.3);
+	color: #fff;
+}
+
+.logo-text p.first {
+	font-size: 70px;
+	font-weight: 600;
+	color: #fff;
+	text-shadow: -5px 6px rgba(0, 0, 0, 0.3);
+	font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+	letter-spacing: 5px;
+}
+
+.logo-text p.second {
+	font-size: 30px;
+	font-weight: 600;
+	color: #fff;
+	text-shadow: -5px 6px rgba(0, 0, 0, 0.3);
+	font-family: "ABeeZee", sans-serif;
+}
+
+.login-div {
+	width: 50%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	font-family: "ABeeZee", sans-serif;
+}
+
+.panel {
+	width: 400px;
+	margin: 0 auto;
+	font-family: sans-serif;
+	font-weight: 500;
+	box-shadow: 5px 10px;
+	border-radius: 10px;
+}
+
+.panel-header {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+	padding: 20px 0;
+}
+
+/* .form-control{
+	height: 50px;
+	font-weight: 500;
+}
+.form-control:focus{
+	box-shadow: none;
+} */
+
+.col-form-label {
+	padding-top: calc(0.375rem + 1px);
+	padding-bottom: calc(0.375rem + 1px);
+	margin-bottom: 0;
+	font-size: inherit;
+	line-height: 1.6;
+	font-weight: normal;
+}
+
+.floating-label {
+	margin: 30px 0;
+	position: relative;
+}
+
+.floating-label label {
+	position: absolute;
+	top: 15px;
+	left: 10px;
+	color: rgba(0, 0, 0, 0.6);
+	pointer-events: none;
+	transition: .3s;
+	font-weight: 600;
+	font-size: 16px;
+}
+
+.floating-label input:focus~label {
+	top: -9px;
+	left: 5px;
+	color: rgba(0, 0, 0, 0.6);
+	padding: 0 5px;
+	background: #fff;
+	font-size: 12px;
+}
+
+.floating-label input:valid~label {
+	color: rgb(11 145 167);
+	top: -9px;
+	left: 5px;
+	padding: 0 5px;
+	background: #fff;
+	font-size: 12px;
+}
+
+.floating-label input:active, .floating-label input:focus {
+	border-color: #999;
+}
+
+.floating-label input:valid {
+	border-color: rgb(11 145 167);
+}
+
+.submit-form {
+	background: rgb(11 145 167);
+	color: #fff;
+}
+
+.submit-form:hover {
+	background: rgb(11 145 167);
+	color: #fff;
+}
+
+.error-text {
+	color: #ff0e0eb8;
+}
+
+.justify-content-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.btn-primary {
+	color: #fff;
+	background-color: #3490dc;
+	border-color: #3490dc;
+}
+
+.card-header {
+	padding: 1rem 1.25rem;
+	margin-bottom: 0;
+	background-color: rgba(0, 0, 0, 0.03);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.card-header:first-child {
+	border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
+}
+
+.card {
+	position: relative;
+	display: -webkit-box;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	flex-direction: column;
+	min-width: 0;
+	word-wrap: break-word;
+	background-color: #fff;
+	background-clip: border-box;
+	border: 1px solid rgba(0, 0, 0, 0.125);
+	border-radius: 0.25rem;
+}
+
+.card-body {
+	-webkit-box-flex: 1;
+	flex: 1 1 auto;
+	padding: 1.25rem;
+}
+
+@media (max-width: 960px) {
+	.login-bg {
+		flex-direction: column;
+		margin: 0 auto;
+	}
+	.login-div, .logo-div {
+		width: 100%;
+	}
+}
+
+.shadow-sm {
+	box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+}
+
+.bg-white {
+	background-color: #fff !important;
+}
+
+@media (min-width: 768px) {
+	.navbar-expand-md {
+		-webkit-box-orient: horizontal;
+		-webkit-box-direction: normal;
+		flex-flow: row nowrap;
+		-webkit-box-pack: start;
+		justify-content: flex-start;
+	}
+}
+.navbar {
+    position: relative;
+    display: -webkit-box;
+    display: flex;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+}
+.navbar-light .navbar-brand {
+    color: rgba(0, 0, 0, 0.9);
+}
+.navbar ul{
+	list-style: none;
+	display: flex;
+	align-items: center;
+	padding-top: 15px;
+	flex-direction: row-reverse;
+}
+.nav-item a{
+	color: rgba(0, 0, 0, 0.7);
+}

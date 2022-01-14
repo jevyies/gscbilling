@@ -1,0 +1,122 @@
+<div ng-controller="PaymentCtrl as vm">
+    <form class="row bottom-margin" ng-submit="vm.save()">
+        <div class="col-md-3">
+            <div>
+                <label>
+                    <strong>Payment ID:</strong>
+                </label>
+                <div class="group-input">
+                    <input type="text" class="form-control form-control-sm" ng-model="vm.variables.PHDRID" required disabled>
+                    <div class="button-group-append">
+                        <button type="button" class="btn" ng-click="vm.searchHeader()">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <label>
+                    <strong>Client</strong>
+                </label>
+                <select class="form-control form-control-sm" ng-model="vm.variables.Client" required>
+                    <option></option>
+                    <option>DAR</option>
+                    <option>SAR</option>
+                    <option>BCC</option>
+                    <option>SLERS</option>
+                    <option>LABNOTIN</option>
+                    <option>DEARBC</option>
+                    <option>CLUBHOUSE</option>
+                </select>
+            </div>
+            <div class="bottom-margin">
+                <label>
+                    <strong>Date:</strong>
+                </label>
+                <input type="date" class="form-control form-control-sm" ng-model="vm.variables.Date" required disabled>
+            </div>
+            <div class="bottom-margin">
+                <label>
+                    <strong>Payment No.:</strong>
+                </label>
+                <input type="text" class="form-control form-control-sm" ng-model="vm.variables.PayNo" disabled>
+            </div>
+            <div class="text-right">
+                <button type="button" class="btn btn-danger" ng-click="vm.delete()">
+                    <i class="fa fa-trash fa-fw"></i>Delete</button>
+                <button type="submit" class="btn btn-success">
+                    <i class="fa fa-save fa-fw"></i>Save</button>
+                <button type="button" class="btn btn-primary" ng-click="vm.clearFunction()">
+                    <i class="fa fa-times fa-fw"></i>Clear</button>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 class="no-margin">Total Payment Amount: Php {{vm.variables.TotalAmount | number: 2}}</h4>
+                </div>
+                <div class="col-md-6">
+                    <div class="text-right bottom-margin">
+                        <button type="button" class="btn btn-default" ng-click="vm.uploadPayment()">
+                            <i class="fa fa-upload fa-fw"></i>Upload Payment</button>
+                        <button type="button" class="btn btn-default" ng-click="vm.addPayment()">
+                            <i class="fa fa-plus fa-fw"></i>Add Payment</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="height: 180px;" ui-grid="vm.paymentGrid" ui-grid-selection ui-grid-resize-columns></div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="row">
+                <div class="col-md-12 bottom-margin">
+                    <button type="button" class="full-width-btn" ng-click="vm.searchSOA()">Search/ Add SOA
+                        <sup>[1]</sup>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div style="height: 230px;" ui-grid="vm.soaGrid" ui-grid-selection ui-grid-resize-columns ui-grid-exporter></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <button type="button" class="btn btn-primary" ng-click="vm.applyPayment()">Apply Payment
+                <sup>[2]</sup>
+            </button>
+            <button type="button" class="btn btn-success" ng-click="vm.savePayment()">Save Payment
+                <sup>[3]</sup>
+            </button>
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-8">
+                    <span>Total Amount Paid: {{vm.TotalPaid | number: 2}}</span>
+                    <div>
+                        <span>Balance: {{vm.BalancePayment | number: 2}}</span>
+                    </div>
+                </div>
+                <div class="col-md-4 text-right">
+                    <button class="btn btn-success" ng-click="vm.uploadSOA()">
+                        <i class="fa fa-upload fa-fw"></i>Upload SOA for this Check</button>
+                </div>
+            </div>
+            <div class="row" ng-if="vm.notSaved.length > 0">
+                <div class="col-md-12">
+                    <div class="well">
+                        <strong>SOA Amount uploaded exceeds SOA Amount in the system:</strong>
+                        <div ng-repeat="x in vm.notSaved">
+                            <span>SOA No.: {{x.SOANumber}}</span>;&nbsp;&nbsp;&nbsp;
+                            <span>Balance: {{x.Balance}}</span>;&nbsp;&nbsp;&nbsp;
+                            <span>Uploaded Amt: {{x.Amt}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button style="z-index:1020;position:fixed;top:10px;right:10px;" type="button" ng-click="vm.inspectSOA()" class="btn btn-primary"><i class="fa fa-search fa-fw"></i>Search SOA Here</button>
+</div>

@@ -1,0 +1,165 @@
+<div class="modal-content">
+    <div class="modal-title-div">
+        <strong class="modal-title-name">SAR Header</strong>
+        <button class="modal-exit" ng-click="modal.close()">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+    <form ng-submit="modal.save()">
+        <div class="modal-body">
+            <div class="row mt-3">
+                <div class="col-md-offset-8 col-md-4">
+                    <label>
+                        <strong>Monthly Cut-off:</strong>
+                    </label>
+                    <div class="input-group">
+                        <select class="form-control form-control-sm" ng-model="modal.variables.cutoff_month" required>
+                            <option></option>
+                            <option ng-repeat="x in modal.months" value="{{x.value}}">{{x.name}}</option>
+                        </select>
+                        <select class="form-control form-control-sm" ng-model="modal.variables.cutoff_year" required>
+                            <option></option>
+                            <option ng-repeat="x in modal.years">{{x.year}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-3">
+                    <label for="">RefID</label>
+                    <input disabled="disabled" type="text" name="id" class="form-control form-control-sm" ng-model="modal.variables.id">
+                </div>
+                <div class="col-md-3">
+                    <label>Volume Type:</label>
+                    <select required="required" class="form-control form-control-sm" ng-model="modal.variables.volumeType">
+                        <option></option>
+                        <option value="1">CHECK DAM</option>
+                        <option value="2">DAIRY</option>
+                        <option value="3">PAPAYA</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label>To Payment Of:</label>
+                    <!-- <select required="required" class="form-control form-control-sm" ng-model="modal.variables.locationID">
+                        <option></option>
+                        <option ng-repeat="x in modal.locations" value="{{x.LocationID}}">{{x.Location}}</option>
+                    </select> -->
+                    <input type="text" class="form-control form-control-sm" required="required" ng-model="modal.variables.Location" />
+                </div>
+            </div>
+            <hr>
+            <div class="row mt-3">
+                <div class="col-md-4">
+                    <label>Document Date:</label>
+                    <input type="date" class="form-control form-control-sm mb-2" ng-model="modal.variables.docDate">
+                </div>
+                <div class="col-md-4">
+                    <label>Period Covered From:</label>
+                    <input type="date" class="form-control form-control-sm mb-2" ng-model="modal.variables.periodCoveredFrom" required>
+                </div>
+                <div class="col-md-4">
+                    <label>Period Covered To:</label>
+                    <input type="date" class="form-control form-control-sm mb-2" ng-model="modal.variables.periodCoveredTo" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label>Date Transmitted:</label>
+                    <input type="date" class="form-control form-control-sm mb-2" ng-model="modal.variables.DateTransmitted" required>
+                </div>
+                <div class="col-md-4">
+                    <label>Control Number</label>
+                    <input type="text" class="form-control form-control-sm" ng-model="modal.variables.controlNo" required>
+                </div>
+                <div class="col-md-4">
+                    <label>Billing Statement Number:</label>
+                    <input required type="text" class="form-control form-control-sm" ng-model="modal.variables.soaNumber">
+                </div>
+            </div>
+            <hr>
+            <div class="row mt-3">
+                <div class="col-sm-6">
+                    <strong>Prepared By:</strong>
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control form-control-sm" disabled ng-model="modal.variables.preparedBy">
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-outline-success btn-sm" ng-click="modal.searchSig(1)">
+                                <i aria-hidden="true" class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-sm-6">
+                    <strong>Verified and Checked By:</strong>
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control form-control-sm" disabled ng-model="modal.variables.verifiedBy">
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-outline-success btn-sm" ng-click="modal.searchSig(2)">
+                                <i aria-hidden="true" class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-sm-6">
+                    <strong>Noted By:</strong>
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control form-control-sm" disabled ng-model="modal.variables.notedBy">
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-outline-success btn-sm" ng-click="modal.searchSig(3)">
+                                <i aria-hidden="true" class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <strong>
+                        <sup>1st</sup> Approved By:</strong>
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control form-control-sm" disabled ng-model="modal.variables.approvedBy1">
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-outline-success btn-sm" ng-click="modal.searchSig(4)">
+                                <i aria-hidden="true" class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-sm-6">
+                    <strong>
+                        <sup>2nd</sup> Approved By:</strong>
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control form-control-sm" disabled ng-model="modal.variables.approvedBy2">
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-outline-success btn-sm" ng-click="modal.searchSig(5)">
+                                <i aria-hidden="true" class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <strong>
+                        <sup>3rd</sup> Approved By:</strong>
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control form-control-sm" disabled ng-model="modal.variables.approvedBy3">
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-outline-success btn-sm" ng-click="modal.searchSig(6)">
+                                <i aria-hidden="true" class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </div>
+        <div class="modal-footer text-right">
+            <button type="submit" class="btn btn-success">
+                <i class="fa fa-save fa-fw"></i>Save</button>
+            <button type="button" class="btn btn-default" ng-click="modal.close()">
+                <i class="fa fa-times fa-fw"></i>Close</button>
+        </div>
+    </form>
+</div>

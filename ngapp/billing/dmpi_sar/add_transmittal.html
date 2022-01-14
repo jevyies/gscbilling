@@ -1,0 +1,42 @@
+<div class="modal-content">
+    <div class="modal-title-div">
+        <strong class="modal-title-name">Search SOA</strong>
+        <button class="modal-exit" ng-click="modal.close()">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row bottom-margin">
+            <div class="col-md-2">
+                <label>
+                    <strong>Year</strong>
+                </label>
+                <select class="form-control form-control-sm" ng-model="modal.year" ng-change="modal.startSearch(modal.year)">
+                    <option></option>
+                    <option ng-repeat="x in modal.years">{{x.year}}</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label>
+                    <strong>Control No.</strong>
+                </label>
+                <input type="text" class="form-control form-control-sm" ng-change="modal.searching(2)" ng-model="modal.controlNo">
+            </div>
+            <div class="col-md-3">
+                <label>
+                    <strong>Billing Statement</strong>
+                </label>
+                <input type="text" class="form-control form-control-sm" ng-change="modal.searching(1)" ng-model="modal.statementNumber">
+            </div>
+            <div class="col-md-4 text-right">
+                <br>
+                <button type="button" class="btn btn-warning" ng-click="modal.getActive()">Show All Active</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div style="height: 350px;" ui-grid="modal.defaultGrid" ui-grid-selection ui-grid-resize-columns></div>
+            </div>
+        </div>
+    </div>
+</div>

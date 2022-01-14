@@ -1,0 +1,86 @@
+<div class="modal-content">
+    <div class="modal-title-div">
+        <strong class="modal-title-name">Year To Date Aging Report</strong>
+        <button class="modal-exit" ng-click="modal.close()">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row bottom-margin">
+            <div class="col-sm-4">
+                <strong>Date From:</strong>
+                <input type="date" ng-model="modal.variables.from" class="form-control form-control-sm">
+            </div>
+            <div class="col-sm-4">
+                <strong>Date To:</strong>
+                <input type="date" ng-model="modal.variables.to" class="form-control form-control-sm">
+            </div>
+            <div class="col-sm-4">
+                <strong>Aging To:</strong>
+                <input type="date" ng-model="modal.variables.aging" class="form-control form-control-sm">
+            </div>
+        </div>
+        <div class="row bottom-margin">
+            <div class="col-md-12">
+                <strong>Category</strong>
+                <select class="form-control" ng-model="modal.variables.category">
+                    <option>ALL</option>
+                    <option>LABOR</option>
+                    <option>TRUCKING</option>
+                    <option>OTHER INCOME</option>
+                    <option>CARPENTRY</option>
+                </select>
+            </div>
+        </div>
+        <div class="row bottom-margin" ng-if="modal.variables.category !== 'ALL'">
+            <div class="col-md-12">
+                <strong>Client</strong>
+                <select class="form-control" ng-model="modal.variables.client" ng-if="modal.variables.category === 'LABOR'">
+                    <option></option>
+                    <option>ALL</option>
+                    <option>DMPI DAR</option>
+                    <option>DMPI SAR</option>
+                    <option>BCC</option>
+                    <option>DEARBC</option>
+                    <option>SLERS</option>
+                    <option>LABNOTIN</option>
+                    <option>CLUBHOUSE</option>
+                    <option>INCENTIVE</option>
+                    <option>ALLOWANCE</option>
+                </select>
+                <select class="form-control" ng-model="modal.variables.client" ng-if="modal.variables.category === 'TRUCKING'">
+                    <option></option>
+                    <option>ALL</option>
+                    <option>GOLFCART</option>
+                    <option>JEEP</option>
+                    <option>PHB</option>
+                    <option>LIFT TRUCK</option>
+                    <option>OVL</option>
+                    <option>OTHER UNITS</option>
+                    <option>WING VAN</option>
+                </select>
+                <select class="form-control" ng-model="modal.variables.client" ng-if="modal.variables.category === 'OTHER INCOME'">
+                    <option></option>
+                    <option>ALL</option>
+                    <option>PPE</option>
+                    <option>FUEL</option>
+                    <option>SUPPLIES</option>
+                    <option>INCENTIVES</option>
+                    <option>OTHERS</option>
+                </select>
+                <select class="form-control" ng-model="modal.variables.client" ng-if="modal.variables.category === 'CARPENTRY'">
+                    <option></option>
+                    <option>CONSTRUCTION</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer text-right">
+        <button class="btn btn-primary" type="button" ng-click="modal.generate('PDF')">
+            <i class="fa fa-print fa-fw"></i>Print PDF</button>
+        <button class="btn btn-success" type="button" ng-click="modal.generate('EXCEL')">
+            <i class="fa fa-download fa-fw"></i>Download Excel</button>
+        <button class="btn btn-default" type="button" ng-click="modal.close()">
+            <i class="fa fa-times fa-fw"></i>Close</button>
+    </div>
+</div>

@@ -1,0 +1,159 @@
+<div class="container-fluid" ng-controller="DMPISARCtrl as vm">
+    <div class="card">
+        <div class="card-header sar">
+            <h3 class="card-title">DMPI SAR / Volume DAR</h3>
+            <a class="pointer text-success" ui-sref="app.billing.dmpi-sar-transmittal">
+                <i class="fa fa-sign-out fa-fw"></i>Create Transmittal</a>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-2">
+                    <label>Search entry (Ref ID):</label>
+                    <div class="input-group input-group-sm">
+                        <input type="text" disabled="disabled" class="form-control" ng-model="vm.variables.id">
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-outline-success btn-sm" ng-click="vm.searchHeader()" ng-if="!vm.variables.id">
+                                <i aria-hidden="true" class="fa fa-search"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-success btn-sm" ng-click="vm.newHeader()" ng-if="!vm.variables.id">
+                                <i aria-hidden="true" class="fa fa-plus"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-success btn-sm" ng-click="vm.newHeader(vm.variables)" ng-if="vm.variables.id">
+                                <i aria-hidden="true" class="fa fa-edit"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label>Volume Type:</label>
+                    <select disabled class="form-control form-control-sm" ng-model="vm.variables.volumeType">
+                        <option></option>
+                        <option value="1">CHECK DAM</option>
+                        <option value="2">DAIRY</option>
+                        <option value="3">PAPAYA</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label>To Payment Of:</label>
+                    <input type="text" class="form-control form-control-sm" ng-model="vm.variables.Location" disabled>
+                </div>
+                <div class="col-md-3">
+                    <label>Billing Statement No.</label>
+                    <input disabled="disabled" type="text" class="form-control form-control-sm" ng-model="vm.variables.soaNumber">
+                </div>
+                <div class="col-md-3">
+                    <label>
+                        <strong>Monthly Cut-off:</strong>
+                    </label>
+                    <div class="input-group">
+                        <select class="form-control form-control-sm" ng-model="vm.variables.cutoff_month" required disabled>
+                            <option ng-repeat="x in vm.months" value="{{x.value}}">{{x.name}}</option>
+                        </select>
+                        <!-- <input class="form-control form-control-sm" ng-model="vm.variables.cutoff_month" required disabled/> -->
+                        <input class="form-control form-control-sm" ng-model="vm.variables.cutoff_year" required disabled/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <!-- <div class="col-md-2">
+                    <label>SOA Date:</label>
+                    <input disabled="disabled" type="date" class="form-control form-control-sm" ng-model="vm.variables.soaDate">
+                </div> -->
+                <div class="col-md-2">
+                    <label>Period Covered From:</label>
+                    <input disabled="disabled" type="date" class="form-control form-control-sm" ng-model="vm.variables.periodCoveredFrom">
+                </div>
+                <div class="col-md-2">
+                    <label>Period Covered To:</label>
+                    <input disabled="disabled" type="date" class="form-control form-control-sm" ng-model="vm.variables.periodCoveredTo">
+                </div>
+                <div class="col-md-3">
+                    <label>Date Transmitted:</label>
+                    <input disabled="disabled" type="date" class="form-control form-control-sm" ng-model="vm.variables.DateTransmitted">
+                </div>
+                <div class="col-md-3">
+                    <label>Control Number</label>
+                    <input disabled="disabled" type="text" class="form-control form-control-sm" ng-model="vm.variables.controlNo">
+                </div>
+                <div class="col-md-2">
+                    <span ng-if="vm.variables.status === 'active'" class="text-primary status">{{vm.variables.status}}</span>
+                    <span ng-if="vm.variables.status === 'submitted'" class="text-success status">{{vm.variables.status}}</span>
+                    <span ng-if="vm.variables.status === 'confirmed'" class="text-warning status">{{vm.variables.status}}</span>
+                    <span ng-if="vm.variables.status === 'transmitted'" class="text-danger status">{{vm.variables.status}}</span>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-sm-4">
+                    <strong>Prepared By:</strong>
+                    <input type="text" disabled="disabled" class="form-control form-control-sm" ng-model="vm.variables.preparedBy">
+                </div>
+                <div class="col-sm-4">
+                    <strong>Verified and Checked By:</strong>
+                    <input type="text" disabled="disabled" class="form-control form-control-sm" ng-model="vm.variables.verifiedBy">
+                </div>
+                <div class="col-sm-4">
+                    <strong>Noted By:</strong>
+                    <input type="text" disabled="disabled" class="form-control form-control-sm" ng-model="vm.variables.notedBy">
+                </div>
+                <div class="col-sm-4">
+                    <strong>
+                        <sup>1st</sup> Approved By:</strong>
+                    <input type="text" disabled="disabled" class="form-control form-control-sm" ng-model="vm.variables.approvedBy1">
+                </div>
+                <div class="col-sm-4">
+                    <strong>
+                        <sup>2nd</sup> Approved By:</strong>
+                    <input type="text" disabled="disabled" class="form-control form-control-sm" ng-model="vm.variables.approvedBy2">
+                </div>
+                <div class="col-sm-4">
+                    <strong>
+                        <sup>3rd</sup> Approved By:</strong>
+                    <input type="text" disabled="disabled" class="form-control form-control-sm" ng-model="vm.variables.approvedBy3">
+                </div>
+            </div>
+            <hr class="hr-1">
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="button" ng-disabled="!vm.variables.id" class="btn float-right btn-success" ng-click="vm.addDetails()">
+                        <i class="fa fa-plus-square"> Add new detail</i>
+                    </button>
+                </div>
+            </div>
+            <br>
+            <div class="row mt-2">
+                <div class="col-md-12">
+                    <div style="height: 200px;" ui-grid="vm.defaultGrid" ui-grid-selection ui-grid-resize-columns></div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    <button type="button" class="btn btn-primary" ng-disabled="vm.variables.status !== 'active'" ng-click="vm.updateStatus('submitted')">
+                        <i class="fa fa-save"></i> Submit</button>
+                    <button type="button" class="btn btn-primary" ng-disabled="vm.variables.status !== 'submitted'" ng-click="vm.updateStatus('confirmed')">
+                        <i class="fa fa-save"></i> Confirm</button>
+                    <button type="button" class="btn btn-primary" ng-disabled="vm.variables.status !== 'confirmed'" ng-click="vm.updateStatus('transmitted')">
+                        <i class="fa fa-save"></i> Transmit</button>
+                    <button type="button" class="btn btn-warning" ng-disabled="vm.variables.status === 'active'" ng-click="vm.reactivate()">
+                        <i class="fa fa-repeat"></i> Reactivate</button>
+                    <button type="button" class="btn btn-danger" ng-if="vm.variables.id" ng-click="vm.delete()">
+                        <i class="fa fa-trash"></i> Delete</button>
+                </div>
+                <div class="col-md-6 flex flex-right">
+                    <button type="button" class="btn btn-success" ng-click="vm.clearFunction()">
+                        <i class="fa fa-mail-reply"></i> &nbsp; Clear</button>&nbsp;&nbsp;
+                        <span class="f22p">Total: {{vm.totalAmount}}</span>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-outline-info btn-sm" ng-click="vm.printPDF()">
+                        <i class="fa fa-print"></i> &nbsp; Print PDF</button>
+                    <button type="button" class="btn btn-success-info btn-sm" ng-click="vm.printExcel()">
+                        <i class="fa fa-print"></i> &nbsp; Generate Excel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

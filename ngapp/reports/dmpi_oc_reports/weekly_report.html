@@ -1,0 +1,50 @@
+<div class="modal-content">
+    <div class="modal-title-div">
+        <strong class="modal-title-name">Weekly Report</strong>
+        <button class="modal-exit" ng-click="modal.close()">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <!-- <div class="row bottom-margin">
+            <div class="col-sm-4">
+                <strong>Month Year:</strong>
+                <input type="month" ng-model="modal.variables.monthYear" class="form-control form-control-sm">
+            </div>
+            <div class="col-sm-3">
+                <strong>Period:</strong>
+                <select class="form-control form-control-sm" ng-model="modal.variables.period">
+                    <option></option>
+                    <option>1</option>
+                    <option>2</option>
+                </select>
+            </div>
+        </div> -->
+        <div class="row bottom-margin">
+            <div class="col-sm-12">
+                <strong>Search By:</strong>
+                <select class="form-control form-control-sm" ng-model="modal.variables.searchBy" required>
+                    <option></option>
+                    <option value="soaDate">SOA Date</option>
+                    <option value="DMPIReceivedDate">DMPI Transmitted Date</option>
+                </select>
+            </div>
+        </div>
+        <div class="row bottom-margin">
+            <div class="col-sm-6">
+                <strong>Date From:</strong>
+                <input type="date" ng-model="modal.variables.from" class="form-control form-control-sm" required>
+            </div>
+            <div class="col-sm-6">
+                <strong>Date To:</strong>
+                <input type="date" ng-model="modal.variables.to" class="form-control form-control-sm" required>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer text-right">
+        <button class="btn btn-success" type="submit" ng-click="modal.generate()">
+            <i class="fa fa-download fa-fw"></i>Download Excel</button>
+        <button class="btn btn-default" type="button" ng-click="modal.close()">
+            <i class="fa fa-times fa-fw"></i>Close</button>
+    </div>
+</div>

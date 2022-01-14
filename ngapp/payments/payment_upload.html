@@ -1,0 +1,97 @@
+<div class="modal-content">
+    <div class="modal-title-div">
+        <strong class="modal-title-name">Upload Payment</strong>
+        <button class="modal-exit" ng-click="modal.close()">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+    <form ng-submit="modal.save()">
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-4">
+                    <label for="refence">Payment Mode</label>
+                    <select class="form-control form-control-sm" :required="true" ng-model="modal.variables.Mode">
+                        <option ng-repeat="m in modal.modes">{{ m.name }}</option>
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <label for="date">Payment Date</label>
+                    <input type="date" class="form-control form-control-sm" ng-model="modal.variables.PayDate" />
+                </div>
+                <div class="col-sm-4">
+                    <label for="refence">OR / Ref No</label>
+                    <input type="text" class="form-control form-control-sm" ng-model="modal.variables.ORNo" required/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <label>Check Card No</label>
+                    <input type="text" class="form-control form-control-sm" ng-model="modal.variables.CardNo" />
+                </div>
+                <div class="col-sm-4">
+                    <label>Check Card / Bank Name</label>
+                    <input type="text" class="form-control form-control-sm" ng-model="modal.variables.BankName" />
+                </div>
+                <div class="col-sm-4">
+                    <label for="remarks">Remarks</label>
+                    <input type="text" class="form-control form-control-sm" ng-model="modal.variables.Remarks" />
+                    <!-- <label>Amount</label>
+                    <input type="text" class="form-control form-control-sm text-right" ng-model="modal.variables.Amount" only-numbers-wo-negative/> -->
+                </div>
+            </div>
+            <div class="row bottom-margin">
+                <div class="col-md-9">
+                    <label>
+                        <strong>File:</strong>
+                    </label>
+                    <div class="file-upload" ng-class="{active: modal.excelFile.name}">
+                        <div class="file-select">
+                            <div class="file-select-button">Select File</div>
+                            <div class="file-select-name" ng-if="modal.excelFile.name">
+                                {{ modal.excelFile.name }}
+                            </div>
+                            <div class="file-select-name" ng-if="!modal.excelFile.name">
+                                No file choosen...
+                            </div>
+                            <input id="file-input" type="file" file-model="modal.excelFile" ng-click="modal.fileNameChanged()" custom-on-change handler="modal.checkExcel()" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <br>
+                    <button type="button" class="btn btn-outline-danger" ng-click="modal.removeFile()">
+                        <i class="fa fa-minus-square-o"></i> Remove selected file</button>
+                </div>
+            </div>
+            <div class="row" ng-if="modal.notFetched.length > 0">
+                <div class="col-md-12">
+                    <h4 class="text-danger">There are {{modal.notFetched.length}} SOA that are not recorded in the system.</h4>
+                </div>
+                <div class="col-md-12">
+                    <div style="height: 230px;" ui-grid="modal.soaGrid" ui-grid-selection ui-grid-resize-columns></div>
+                </div>
+            </div>
+            <div class="row" ng-if="modal.fetched.length > 0 && modal.notFetched.length == 0">
+                <div class="col-md-12">
+                    <h4 class="text-success">Your excel is ready to upload.</h4>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-md-6 text-left">
+                    <button ng-if="modal.uploaded.length > 0" type="button" class="btn btn-success" ng-click="modal.printReport('pdf')">
+                        <i class="fa fa-print fa-fw"></i>Print Uploaded Report</button>
+                    <button ng-if="modal.uploaded.length > 0" type="button" class="btn btn-success" ng-click="modal.printReport('excel')">
+                        <i class="fa fa-print fa-fw"></i>Export Uploaded Report</button>
+                </div>
+                <div class="col-md-6 text-right">
+                    <button type="submit" class="btn btn-primary" ng-disabled="modal.disableSave">
+                        <i class="fa fa-save fa-fw"></i>Save</button>
+                    <button type="button" class="btn btn-default" ng-click="modal.close()">
+                        <i class="fa fa-times fa-fw"></i>Close</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

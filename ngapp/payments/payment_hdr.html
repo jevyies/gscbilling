@@ -1,0 +1,36 @@
+<div class="modal-content">
+    <div class="modal-title-div">
+        <strong class="modal-title-name">Search Header</strong>
+        <button class="modal-exit" ng-click="modal.close()">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <form ng-submit="modal.searching()">
+            <div class="row bottom-margin">
+                <div class="col-md-3">
+                    <label>
+                        <strong>Search By:</strong>
+                    </label>
+                    <select class="form-control form-control-sm" ng-model="modal.searchBy">
+                        <option value="ORNo">O.R No.</option>
+                        <option value="PayNo">Ref No.</option>
+                        <option value="CardNo">Check No.</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label>
+                        <strong>Search Here</strong>
+                    </label>
+                    <input type="text" class="form-control form-control-sm" ng-model="modal.search" autofocus>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-md-12">
+                <div style="height: 350px;" ui-grid="modal.defaultGrid" ui-grid-selection ui-grid-resize-columns ui-grid-exporter></div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,172 @@
+<div class="modal-content">
+    <div class="modal-title-div">
+        <strong class="modal-title-name">SAR Details</strong>
+        <button class="modal-exit" ng-click="modal.close()">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+    <form ng-submit="modal.save()">
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" ng-model="modal.variables.link" ng-truth-value="1" ng-false-value="0">
+                        <label class="custom-control-label">&nbsp;&nbsp;
+                            <strong>Link a batch from payroll</strong>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-if="modal.variables.link == 1">
+                <div class="col-md-12">
+                    <div class="card card-success">
+                        <div class="card-header">
+                            <h3 class="card-title">Batch Information</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row bottom-margin">
+                                <div class="col-md-3">
+                                    <label>
+                                        <strong>Month</strong>
+                                    </label>
+                                    <select class="form-control form-control-sm" ng-model="modal.variables.month" ng-change="modal.getBatch()" ng-disabled="modal.batchIsLoading || modal.soaIsLoading"
+                                        required>
+                                        <option></option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                        <option>6</option>
+                                        <option>7</option>
+                                        <option>8</option>
+                                        <option>9</option>
+                                        <option>10</option>
+                                        <option>11</option>
+                                        <option>12</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>
+                                        <strong>Year</strong>
+                                    </label>
+                                    <select class="form-control form-control-sm" ng-model="modal.variables.year" ng-change="modal.getBatch()" ng-disabled="modal.batchIsLoading"
+                                        required>
+                                        <option></option>
+                                        <option ng-repeat="x in modal.years">{{x.year}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>
+                                        <strong>Period</strong>
+                                    </label>
+                                    <select class="form-control form-control-sm" ng-model="modal.variables.period" ng-change="modal.getBatch()" ng-disabled="modal.batchIsLoading">
+                                        <option></option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>
+                                        <strong>Batch Number:</strong>
+                                    </label>
+                                    <div class="spinner-grow text-green" ng-if="modal.batchIsLoading"></div>
+                                    <span class="badge badge-danger badge-pill badge-sm" ng-if="!modal.batchIsLoading && modal.batches.length == 0">No batch</span>
+                                    <select class="form-control form-control-sm" ng-disabled="modal.batchIsLoading || modal.batches.length == 0 || modal.soaIsLoading"
+                                        ng-model="modal.variables.batcIDLink" ng-change="modal.getBatchInfo()">
+                                        <option ng-repeat="x in modal.batches" ng-value="{{x.BID}}">{{x.BNo}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div id="manual" class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Select a DayType</label>
+                        <select class="form-control form-control-sm" ng-model="modal.variables.batchDaytypeID" required ng-change="modal.changeRate()">
+                            <option></option>
+                            <option ng-repeat="x in modal.dayBatch" value="{{x.id}}">{{x.batchDay}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label ng-if="modal.volumeType !== '3'">Date Performed</label>
+                    <label ng-if="modal.volumeType === '3'">Period Covered</label>
+                    <input type="text" class="form-control form-control-sm" ng-model="modal.variables.datePerformed">
+                </div>
+                <div class="col-md-3">
+                    <label for="refence">PO Number</label>
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control form-control-sm" ng-model="modal.variables.poNumber" disabled>
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-outline-success btn-sm" ng-click="modal.searchPO()">
+                                <i aria-hidden="true" class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label>Activity / Operation:</label>
+                    <select required="required" class="form-control form-control-sm" ng-model="modal.variables.activity" ng-change="modal.getUnits()">
+                        <option></option>
+                        <option ng-repeat="x in modal.activities">{{x.activity}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label>GL Account:</label>
+                    <select required="required" class="form-control form-control-sm" ng-model="modal.variables.glID" ng-change="modal.changeGL()">
+                        <option></option>
+                        <option ng-repeat="x in modal.gls" value="{{x.id}}">{{x.gl}}</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label>Cost Center</label>
+                    <input type="text" class="form-control form-control-sm" ng-model="modal.variables.costCenter">
+                </div>
+                <div class="col-md-3">
+                    <label>Qty</label>
+                    <input type="text" class="form-control form-control-sm text-right" ng-model="modal.variables.qty" ng-change="modal.calculateAmount()"
+                        only-numbers-wo-negative>
+                </div>
+                <div class="col-md-3">
+                    <label>Unit:</label>
+                    <select ng-disabled="!modal.variables.activity" class="form-control form-control-sm" ng-model="modal.variables.unit" ng-change="modal.changeRate()">
+                        <option></option>
+                        <option ng-repeat="x in modal.units">{{x.unit}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-3">
+                    <label>Rate</label>
+                    <input disabled="disabled" type="text" class="form-control form-control-sm text-right" ng-model="modal.variables.rate" only-numbers-wo-negative>
+                </div>
+                <div class="col-md-3">
+                    <label>Amount</label>
+                    <input disabled="disabled" type="text" class="form-control form-control-sm text-right" ng-model="modal.variables.amount"
+                        only-numbers-wo-negative>
+                </div>
+                <div class="col-md-3">
+                    <label>Entry Sheet Number</label>
+                    <input type="text" class="form-control form-control-sm" ng-model="modal.variables.entrySheetNumber">
+                </div>
+                <div class="col-md-3">
+                    <label for="refence">GR Doc. Number</label>
+                    <input type="text" class="form-control form-control-sm" ng-model="modal.variables.serviceNumber">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer text-right">
+            <button type="submit" class="btn btn-success">
+                <i class="fa fa-save fa-fw"></i>Save</button>
+            <button type="button" class="btn btn-default" ng-click="modal.close()">
+                <i class="fa fa-times fa-fw"></i>Close</button>
+        </div>
+    </form>
+</div>

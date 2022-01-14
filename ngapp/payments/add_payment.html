@@ -1,0 +1,59 @@
+<div class="modal-content">
+    <div class="modal-title-div">
+        <strong class="modal-title-name">Payment Details</strong>
+        <button class="modal-exit" ng-click="modal.close()">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+    <form ng-submit="modal.save()">
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-4">
+                    <label for="refence">Payment Mode</label>
+                    <select class="form-control form-control-sm" :required="true" ng-model="modal.variables.Mode">
+                        <option ng-repeat="m in modal.modes">{{ m.name }}</option>
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <label for="date">Payment Date</label>
+                    <input type="date" class="form-control form-control-sm" ng-model="modal.variables.PayDate" />
+                </div>
+                <div class="col-sm-4">
+                    <label for="refence">OR / Ref No</label>
+                    <input type="text" class="form-control form-control-sm" ng-model="modal.variables.ORNo" required/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <label>Check Card No</label>
+                    <input type="text" class="form-control form-control-sm" ng-model="modal.variables.CardNo" />
+                </div>
+                <div class="col-sm-4">
+                    <label>Check Card / Bank Name</label>
+                    <input type="text" class="form-control form-control-sm" ng-model="modal.variables.BankName" />
+                </div>
+                <div class="col-sm-4">
+                    <label>Amount</label>
+                    <input type="text" ng-disabled="modal.updates" class="form-control form-control-sm text-right" ng-model="modal.variables.Amount" only-numbers-wo-negative/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="remarks">Remarks</label>
+                    <input type="text" class="form-control form-control-sm" ng-model="modal.variables.Remarks" />
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <!-- <button type="button" class="btn btn-danger" ng-click="modal.delete()" ng-if="modal.variables.PDTLID">
+                        <i class="fa fa-trash fa-fw"></i>Delete</button> -->
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-save fa-fw"></i>Save</button>
+                    <button type="button" class="btn btn-default" ng-click="modal.close()">
+                        <i class="fa fa-times fa-fw"></i>Close</button>
+                </div>
+            </div>
+        </div>
+</div>

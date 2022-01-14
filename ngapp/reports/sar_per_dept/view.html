@@ -1,0 +1,45 @@
+<div class="modal-content">
+    <div class="modal-title-div">
+        <strong class="modal-title-name">SAR Per Department Report</strong>
+        <button class="modal-exit" ng-click="modal.close()">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row bottom-margin">
+            <div class="col-md-5">
+                <label>Volume Type:</label>
+                <select required="required" class="form-control form-control-sm" ng-model="modal.variables.dept">
+                    <option value="ALL">ALL</option>
+                    <option value="1">CHECK DAM</option>
+                    <option value="2">DAIRY</option>
+                    <option value="3">PAPAYA</option>
+                </select>
+            </div>
+        </div>
+        <div class="row bottom-margin">
+            <div class="col-sm-6">
+                <strong>Date From:</strong>
+                <input type="date" ng-model="modal.variables.from" class="form-control form-control-sm">
+            </div>
+            <div class="col-sm-6">
+                <strong>Date To:</strong>
+                <input type="date" ng-model="modal.variables.to" class="form-control form-control-sm">
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer text-right">
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <button class="btn btn-primary" type="button" ng-click="modal.print('pdf')">
+                    <i class="fa fa-print fa-fw"></i>Preview PDF
+                </button>
+                <button class="btn btn-success" type="button" ng-click="modal.print('excel')">
+                    <i class="fa fa-download fa-fw"></i>Download Excel
+                </button>
+                <button class="btn btn-default" type="button" ng-click="modal.close()">
+                    <i class="fa fa-times fa-fw"></i>Close</button>
+            </div>
+        </div>
+    </div>
+</div>

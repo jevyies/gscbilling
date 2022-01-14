@@ -1,0 +1,46 @@
+<div class="container-fluid" ng-controller="OtherBillingMonitoringCtrl as vm">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card full-width">
+                <div class="card-header">
+                    <h3 class="card-title">Other Billing Monitoring</h3>
+                </div>
+                <div class="card-body">
+                    <form ng-submit="vm.generate()">
+                        <div class="row bottom-margin">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>
+                                            <strong>YEAR:</strong>
+                                        </label>
+                                        <input type="text" class="form-control form-control-sm" ng-model="vm.year" maxlength="4" placeholder="Example: 2020" ng-change="vm.searchSOA()">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>SELECT CLIENT:</strong>
+                                        <div class="input-group">
+                                            <select class="form-control form-control-sm" ng-model="vm.client" style="width:30%">
+                                                <option>SLERS</option>
+                                                <option>BCC</option>
+                                                <option>LABNOTIN</option>
+                                                <option>CLUBHOUSE</option>
+                                                <option>DEARBC</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6" style="padding:10px;">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">GENERATE MONITORING</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

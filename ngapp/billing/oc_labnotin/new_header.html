@@ -1,0 +1,133 @@
+<div class="modal-content">
+    <div class="modal-title-div">
+        <strong class="modal-title-name">NEW LABNOTIN</strong>
+        <button class="modal-exit" ng-click="modal.close()">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+    <form ng-submit="modal.save()">
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="SOANo">SOANo</label>
+                    <input type="text" name="SOANo" class="form-control form-control-sm" ng-model="modal.variables.SOANo" required disabled>
+                </div>
+                <div class="col-md-4">
+                    <label for="period_date">Search Period</label>
+                    <div class="group-input">
+                        <input type="text" class="form-control form-control-sm" ng-model="modal.variables.period_date" required disabled>
+                        <div class="button-group-append">
+                            <button type="button" class="btn" ng-click="modal.searchPayrollPeriod()">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="admin_percentage">Admin Percentage (%)</label>
+                    <input type="text" name="admin_percentage" class="form-control form-control-sm" ng-model="modal.variables.admin_percentage" required>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="prepared_by">Prepared By</label>
+                    <div class="group-input">
+                        <input type="text" class="form-control form-control-sm" ng-model="modal.variables.Prepared_by" required disabled>
+                        <div class="button-group-append">
+                            <button type="button" class="btn" ng-click="modal.searchSig(1)">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="checked_by">Checked By</label>
+                    <div class="group-input">
+                        <input type="text" class="form-control form-control-sm" ng-model="modal.variables.Checked_by" required disabled>
+                        <div class="button-group-append">
+                            <button type="button" class="btn" ng-click="modal.searchSig(3)">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="checked_by">Noted By</label>
+                    <div class="group-input">
+                        <input type="text" class="form-control form-control-sm" ng-model="modal.variables.Noted_by" required disabled>
+                        <div class="button-group-append">
+                            <button type="button" class="btn" ng-click="modal.searchSig(2)">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4">
+                    <label for="approved_by">Checked By</label>
+                    <div class="group-input">
+                        <input type="text" class="form-control form-control-sm" ng-model="modal.variables.Approved_by_2" required disabled>
+                        <div class="button-group-append">
+                            <button type="button" class="btn" ng-click="modal.searchSig(5)">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="approved_by">Approved By</label>
+                    <div class="group-input">
+                        <input type="text" class="form-control form-control-sm" ng-model="modal.variables.Approved_by" required disabled>
+                        <div class="button-group-append">
+                            <button type="button" class="btn" ng-click="modal.searchSig(4)">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4">
+                    <label for="approved_by">Cut off Month</label>
+                    <select class="form-control" ng-model="modal.variables.cut_off_month">
+                        <option>01</option>
+                        <option>02</option>
+                        <option>03</option>
+                        <option>04</option>
+                        <option>05</option>
+                        <option>06</option>
+                        <option>07</option>
+                        <option>08</option>
+                        <option>09</option>
+                        <option>10</option>
+                        <option>11</option>
+                        <option>12</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="approved_by">Cut off Year</label>
+                    <select class="form-control" ng-model="modal.variables.cut_off_year">
+                        <option>2020</option>
+                        <option>2021</option>
+                        <option>2022</option>
+                        <option>2023</option>
+                        <option>2024</option>
+                        <option>2025</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="text-right">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-save fa-fw"></i>Save</button>
+                <button type="button" class="btn btn-clear" ng-click="modal.close()">
+                    <i class="fa fa-times fa-fw"></i>Close</button>
+            </div>
+        </div>
+    </form>
+</div>

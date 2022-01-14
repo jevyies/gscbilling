@@ -1,0 +1,35 @@
+<div class="modal-content">
+    <div class="modal-title-div">
+        <strong class="modal-title-name">Print Transmittal</strong>
+        <button class="modal-exit" ng-click="modal.close()">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+    <form ng-submit="modal.printTransmittal()">
+        <div class="modal-body">
+            <div class="row bottom-margin">
+                <div class="col-md-12">
+                    <label for="">
+                        <strong>Transmittal No.</strong>
+                    </label>
+                    <div class="group-input">
+                        <input type="text" class="form-control form-control-sm" ng-model="modal.variables.transmittalNo" required>
+                        <div class="button-group-append">
+                            <button type="submit" class="btn">
+                                <i class="fa fa-print"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="modal-footer">
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <button type="button" ng-click="modal.close()" class="btn btn-default">
+                        <i class="fa fa-times fa-fw"></i>Close</button>
+                </div>
+            </div>
+        </div> -->
+    </form>
+</div>

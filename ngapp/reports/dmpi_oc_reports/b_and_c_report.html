@@ -1,0 +1,40 @@
+<div class="modal-content">
+    <div class="modal-title-div">
+        <strong class="modal-title-name">Billing and Collection Report</strong>
+        <button class="modal-exit" ng-click="modal.close()">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+    <form ng-submit="modal.generate()">
+        <div class="modal-body">
+            <div class="row bottom-margin">
+                <div class="col-sm-12">
+                    <strong>Generate by:</strong>
+                    <select ng-model="modal.variables.generation" class="form-control form-control-sm">
+                        <option ng-value="1">Unpaid(All)</option>
+                        <option ng-value="2">Unpaid(Yearly)</option>
+                        <option ng-value="3">Yearly Based on Monthly Cut-off</option>
+                        <option ng-value="4">Monthly Based on Monthly Cut-off</option>
+                        <option ng-value="5">Monthly Based on Transmitted Date to Accounting</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row bottom-margin">
+                <div class="col-sm-6">
+                    <strong>Date Range From:</strong>
+                    <input type="date" ng-model="modal.variables.from" class="form-control form-control-sm">
+                </div>
+                <div class="col-sm-6">
+                    <strong>Date To:</strong>
+                    <input type="date" ng-model="modal.variables.to" class="form-control form-control-sm">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer text-right">
+            <button class="btn btn-success" type="button" ng-click="modal.generate()">
+                <i class="fa fa-print fa-fw"></i>Generate Report</button>
+            <button class="btn btn-default" type="button" ng-click="modal.close()">
+                <i class="fa fa-times fa-fw"></i>Close</button>
+        </div>
+    </form>
+</div>

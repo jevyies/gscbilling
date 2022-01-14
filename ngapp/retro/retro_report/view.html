@@ -1,0 +1,157 @@
+<div class="container-fluid" ng-controller="RetroReport as vm">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card full-width">
+                <div class="card-header">
+                    <h3 class="card-title">Retro Report</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row bottom-margin">
+                        <div class="col-md-2">
+                            <label>
+                                <strong>Client</strong>
+                            </label>
+                            <select ng-model="vm.variables.client" class="form-control form-control-sm" >
+                                <option>DAR</option>
+                                <option>SAR</option>
+                                <option>SLERS</option>
+                                <option>BCC</option>
+                                <option>CLUBHOUSE</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3" ng-if="vm.variables.client === 'DAR'">
+                            <label>
+                                <strong>Location</strong>
+                            </label>
+                            <div class="group-input">
+                                <input type="text" class="form-control form-control-sm" ng-model="vm.variables.location" required disabled>
+                                <div class="button-group-append">
+                                    <button type="button" class="btn" ng-click="vm.searchLocation()">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label>
+                                <strong>From</strong>
+                            </label>
+                            <input type="date" class="form-control form-control-sm" ng-model="vm.variables.from" required>
+                        </div>
+                        <div class="col-md-2">
+                            <label>
+                                <strong>To</strong>
+                            </label>
+                            <input type="date" class="form-control form-control-sm" ng-model="vm.variables.to" required>
+                        </div>
+                        <div class="col-md-3">
+                            <br />
+                            <button type="button" class="btn btn-primary" ng-click="vm.generate()">
+                                <i class="fa fa-print fa-fw"></i>Generate</button>
+                            <button type="button" class="btn btn-success" ng-click="vm.downloadExcel()">
+                                <i class="fa fa-download fa-fw"></i>Download Excel</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" ng-if="vm.variables.client === 'DAR'">
+                            <div style="height: 450px;" ui-grid="vm.darGrid" ui-grid-selection ui-grid-resize-columns></div>
+                        </div>
+                        <div class="col-md-12" ng-if="vm.variables.client === 'SLERS'">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label for="period_date">Search Period</label>
+                                    <div class="group-input">
+                                        <input type="text" class="form-control form-control-sm" ng-model="vm.variables.period_date" required disabled>
+                                        <div class="button-group-append">
+                                            <button type="button" class="btn" ng-click="vm.searchPayrollPeriod()">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="period_date">Date Uploaded</label>
+                                    <select ng-model="vm.variables.selectedDate" class="form-control form-control-sm" ng-repeat="item in vm.slersUploads">
+                                        <option value="item.date_uploaded_description">{{item.date_uploaded_description}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <br>
+                                    <button type="button" class="btn btn-success" ng-click="vm.generateOC()">
+                                        <i class="fa fa-print fa-fw"></i>Generate Excel</button>
+                                </div>
+                                <div class="col-md-2 text-right">
+                                    <br>
+                                    <button type="button" class="btn btn-warning" ng-click="vm.searchOCLast()">
+                                        <i class="fa fa-search fa-fw"></i>Search Last Retro</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" ng-if="vm.variables.client === 'BCC'">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label for="period_date">Search Period</label>
+                                    <div class="group-input">
+                                        <input type="text" class="form-control form-control-sm" ng-model="vm.variables.period_date" required disabled>
+                                        <div class="button-group-append">
+                                            <button type="button" class="btn" ng-click="vm.searchPayrollPeriod()">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="period_date">Date Uploaded</label>
+                                    <select ng-model="vm.variables.selectedDate" class="form-control form-control-sm">
+                        
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <br>
+                                    <button type="button" class="btn btn-success" ng-click="vm.generateOC()">
+                                        <i class="fa fa-print fa-fw"></i>Generate Excel</button>
+                                </div>
+                                <div class="col-md-2 text-right">
+                                    <br>
+                                    <button type="button" class="btn btn-warning" ng-click="vm.searchOCLast()">
+                                        <i class="fa fa-search fa-fw"></i>Search Last Retro</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" ng-if="vm.variables.client === 'CLUBHOUSE'">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label for="period_date">Search Period</label>
+                                    <div class="group-input">
+                                        <input type="text" class="form-control form-control-sm" ng-model="vm.variables.period_date" required disabled>
+                                        <div class="button-group-append">
+                                            <button type="button" class="btn" ng-click="vm.searchPayrollPeriod()">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="period_date">Date Uploaded</label>
+                                    <select ng-model="vm.variables.selectedDate" class="form-control form-control-sm">
+                        
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <br>
+                                    <button type="button" class="btn btn-success" ng-click="vm.generateOC()">
+                                        <i class="fa fa-print fa-fw"></i>Generate Excel</button>
+                                </div>
+                                <div class="col-md-2 text-right">
+                                    <br>
+                                    <button type="button" class="btn btn-warning" ng-click="vm.searchOCLast()">
+                                        <i class="fa fa-search fa-fw"></i>Search Last Retro</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

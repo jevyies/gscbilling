@@ -1,0 +1,124 @@
+<div class="container-fluid" ng-controller="DARSOAMonitoringCtrl as vm">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card full-width">
+                <div class="card-header">
+                    <h3 class="card-title">DAR SOA Monitoring</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row bottom-margin">
+                        <div class="col-md-3">
+                            <strong>Search Period:</strong>
+                            <div class="input-group">
+                                <input type="month" class="form-control form-control-sm" ng-model="vm.variables.month" style="width:60%">
+                                <select class="form-control form-control-sm" ng-model="vm.variables.period" style="width:30%">
+                                    <option ng-value="1">1</option>
+                                    <option ng-value="2">2</option>
+                                </select>
+                                <div class="input-group-btn" style="width:10%">
+                                    <button type="button" class="btn btn-bordered" ng-click="vm.searchPP()">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label>
+                                <strong>SOA Number:</strong>
+                            </label>
+                            <input type="text" class="form-control form-control-sm" ng-model="vm.soaNumber" ng-change="vm.searchSOA()">
+                        </div>
+                        <div class="col-md-6">
+                            <label>
+                                <strong>Status:</strong>
+                            </label>
+                            <div>
+                                <label class="radio-inline">
+                                    <input type="radio" ng-model="vm.variables.status" value="ALL" ng-change="vm.changeStatus(vm.variables.status)">
+                                    <strong>All</strong>
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" ng-model="vm.variables.status" value="PENDING" ng-change="vm.changeStatus(vm.variables.status)">
+                                    <strong>Pending</strong>
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" ng-model="vm.variables.status" value="ACTIVE" ng-change="vm.changeStatus(vm.variables.status)">
+                                    <strong>Active</strong>
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" ng-model="vm.variables.status" value="SUBMITTED" ng-change="vm.changeStatus(vm.variables.status)">
+                                    <strong>Submitted</strong>
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" ng-model="vm.variables.status" value="TRANSMITTED" ng-change="vm.changeStatus(vm.variables.status)">
+                                    <strong>Transmitted</strong>
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" ng-model="vm.variables.status" value="CONFIRMED" ng-change="vm.changeStatus(vm.variables.status)">
+                                    <strong>Confirmed</strong>
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" ng-model="vm.variables.status" value="PRINTED TRANSMITTAL" ng-change="vm.changeStatus(vm.variables.status)">
+                                    <strong>Printed Transmittal</strong>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row bottom-margin">
+                        <div class="col-md-4">
+                            <strong>Search By Date Range:</strong>
+                            <div class="input-group">
+                                <input type="date" class="form-control form-control-sm" ng-model="vm.variables.from" style="width:40%">
+                                <input type="date" class="form-control form-control-sm" ng-model="vm.variables.to" style="width:40%">
+                                <div class="input-group-btn" style="width:20%">
+                                    <button type="button" class="btn btn-bordered" ng-click="vm.searchDateRange()">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div style="margin-top:2rem;" ng-if="vm.variables.status === 'PENDING'">
+                                <label class="radio-inline">
+                                    <input type="radio" ng-model="vm.variables.pendingCheck" value="all" ng-change="vm.changeCheckedPending(vm.variables.pendingCheck)">
+                                    <strong>All</strong>
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" ng-model="vm.variables.pendingCheck" value="1" ng-change="vm.changeCheckedPending(vm.variables.pendingCheck)">
+                                    <strong>Checked</strong>
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" ng-model="vm.variables.pendingCheck" value="0" ng-change="vm.changeCheckedPending(vm.variables.pendingCheck)">
+                                    <strong>Unchecked</strong>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-right">
+                            <br>
+                            <input type="checkbox" id="supervisor" ng-change="vm.checkSupervisorOnly()" ng-model="vm.supervisorOnly">
+                            <b>
+                                <label class="text-danger" for="supervisor">Supervisor Entry Only</label>
+                            </b>
+                        </div>
+                    </div>
+                    <div class="row bottom-margin">
+                        <div class="col-md-12">
+                            <div style="height: 400px;" ui-grid="vm.defaultGrid" ui-grid-selection ui-grid-resize-columns ui-grid-exporter></div>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="vm.filtered.length > 0">
+                        <div class="col-md-4 text-left">
+                            <strong>Total Amount: Php {{vm.totalAmount | number:2}}</strong>
+                        </div>
+                        <div class="col-md-8 text-right">
+                            <button type="button" class="btn btn-success" ng-click="vm.exportSupervisorExcel()">
+                                <i class="fa fa-download fa-fw"></i>Export Supervisor Entry Excel</button>
+                            <button type="button" class="btn btn-success" ng-click="vm.exportExcel()">
+                                <i class="fa fa-download fa-fw"></i>Export Excel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

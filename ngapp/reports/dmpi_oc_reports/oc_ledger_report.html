@@ -1,0 +1,33 @@
+<div class="modal-content">
+    <div class="modal-title-div">
+        <strong class="modal-title-name">Other Client Ledger Report</strong>
+        <button class="modal-exit" ng-click="modal.close()">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row bottom-margin">
+            <div class="col-md-12">
+                <strong>Select Client</strong>
+                <select class="form-control" ng-model="modal.variables.client">
+                    <option>BCC</option>
+                    <option>SLERS</option>
+                    <option>LABNOTIN</option>
+                    <option>DEARBC</option>
+                    <option>CLUBHOUSE</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer text-right">
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <button class="btn btn-success" type="button" ng-click="modal.print('excel')">
+                    <i class="fa fa-download fa-fw"></i>Download Excel
+                </button>
+                <button class="btn btn-default" type="button" ng-click="modal.close()">
+                    <i class="fa fa-times fa-fw"></i>Close</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,84 @@
+<div class="container-fluid" ng-controller="DARTransmittalCtrl as vm">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card full-width">
+                <div class="card-header">
+                    <h3 class="card-title">DAR SOA Create Transmittal</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row bottom-margin">
+                        <div class="col-md-3">
+                            <label>
+                                <strong>Transmittal No.</strong>
+                            </label>
+                            <div class="group-input">
+                                <div class="autocomplete">
+                                    <input type="text" class="form-control form-control-sm toUpper" ng-model="vm.searchTrans" ng-change="vm.changeTransmittal()">
+                                    <div class="autocomplete-items" ng-if="vm.searchTrans && vm.transmittals.length > 0">
+                                        <div ng-repeat="x in vm.transmittals" ng-click="vm.clickTransmittal(x)">{{x.TransmittalNo}}</div>
+                                    </div>
+                                </div>
+                                <div class="button-group-append">
+                                    <button type="button" class="btn" ng-click="vm.searchTransmittal()">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label>
+                                <strong>Control No.</strong>
+                            </label>
+                            <!-- <div class="group-input"> -->
+                            <input type="text" class="form-control form-control-sm" ng-model="vm.searchCNo" ng-change="vm.searchControlNo()">
+                            <!-- <div class="button-group-append">
+                                    <button type="button" class="btn" ng-click="vm.searchControlNo()">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div> -->
+                            <!-- </div> -->
+                        </div>
+                        <div class="col-md-3">
+                            <label>
+                                <strong>SOA No.</strong>
+                            </label>
+                            <!-- <div class="group-input"> -->
+                            <input type="text" class="form-control form-control-sm" ng-model="vm.searchSOA" ng-change="vm.searchSOANumber()">
+                            <!-- <div class="button-group-append">
+                                    <button type="button" class="btn" ng-click="vm.searchSOANumber()">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div> -->
+                            <!-- </div> -->
+                        </div>
+                        <div class="col-md-3">
+                            <br>
+                            <button type="button" class="btn btn-success" ng-click="vm.bulkTransmittal()">
+                                <i class="fa fa-save fa-fw"></i>Set as Transmitted</button>
+                        </div>
+                    </div>
+                    <div class="row bottom-margin">
+                        <div class="col-md-12">
+                            <div style="height: 400px;" ui-grid="vm.defaultGrid" ui-grid-selection ui-grid-resize-columns></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4>Total Amount: {{ vm.totalAmount | number:2}}</h4>
+                        </div>
+                        <div class="col-md-8 text-right">
+                            <button type="button" class="btn btn-outline-info btn-sm" ng-click="vm.printTransmittal()">
+                                <i class="fa fa-print"></i>
+                                <strong>Convert to Excel</strong>
+                            </button>
+                            <button type="button" class="btn btn-outline-info btn-sm" ng-click="vm.transmittalSummary()">
+                                <i class="fa fa-print"></i>
+                                <strong>Print Transmittal Summary</strong>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

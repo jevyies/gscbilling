@@ -1,0 +1,211 @@
+<div class="navbar-default sidebar" role="navigation">
+    <div class="sidebar-nav">
+        <div class="brand">
+            <div class="brand-logo">
+                <img src="assets/images/logo.png" />
+            </div>
+            <div class="brand-text">
+                <p>GSC-BILLING</p>
+            </div>
+        </div>
+        <div class="profile">
+            <!-- <div class="round">
+				<img ng-src="{{vm.pic}}" />
+			</div> -->
+            <div class="profile-setting">
+                <h3>Logged in As: {{ vm.userName }}</h3>
+                <div class="dropdown show">
+                    <h4 class="dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Account Settings
+                        <i class="fa fa-caret-down fa-fw"></i>
+                    </h4>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" ui-sref="app.profile">
+                            <i class="fa fa-user fa-fw"></i>View Profile</a>
+                        <a class="dropdown-item" ng-click="vm.logout()">
+                            <i class="fa fa-sign-out fa-fw"></i>Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="menus">
+            <ul class="nav" id="side-menu">
+                <!-- <li ui-sref-active="selected">
+					<a ui-sref="app.main" ng-click="vm.dashboard()">
+						<i class="fa fa-th-large"></i> Dashboard</a>
+				</li> -->
+                <li ng-class="{active: vm.openMenu === 'billing'}">
+                    <a class="pointer" ng-click="vm.openSubMenu('billing')">
+                        <i class="fa fa-circle-thin f20 green"></i> &nbsp;
+                        <span>BILLING</span>
+                        <span class="fa arrow"></span>
+                    </a>
+                    <ul class="nav nav-second-level" ng-class="{'open': vm.openMenu === 'billing'}">
+                        <li ui-sref-active="selected">
+                            <a ng-click="vm.goToPage('1','app.billing.dmpi-dar')" class="pointer">
+                                <i class="fa fa-gg-circle"></i> DMPI DAR</a>
+                        </li>
+                        <li ui-sref-active="selected">
+                            <a ng-click="vm.goToPage('2','app.billing.dmpi-sar')" class="pointer">
+                                <i class="fa fa-gg-circle"></i> DMPI SAR</a>
+                        </li>
+                        <li ui-sref-active="selected">
+                            <a ng-click="vm.goToPage('3','app.billing.oc-bcc')" class="pointer">
+                                <i class="fa fa-gg-circle"></i> OC BCC</a>
+                        </li>
+                        <li ui-sref-active="selected">
+                            <a ng-click="vm.goToPage('4','app.billing.oc-dearbc')" class="pointer">
+                                <i class="fa fa-gg-circle"></i> OC DEARBC</a>
+                        </li>
+                        <li ui-sref-active="selected">
+                            <a ng-click="vm.goToPage('5','app.billing.oc-slers')" class="pointer">
+                                <i class="fa fa-gg-circle"></i> OC SLERS</a>
+                        </li>
+                        <li ui-sref-active="selected">
+                            <a ng-click="vm.goToPage('6','app.billing.oc-labnotin')" class="pointer">
+                                <i class="fa fa-gg-circle"></i> OC LABNOTIN</a>
+                        </li>
+                        <li ui-sref-active="selected">
+                            <a ng-click="vm.goToPage('7','app.billing.oc-clubhouse')" class="pointer">
+                                <i class="fa fa-gg-circle"></i> OC CLUBHOUSE</a>
+                        </li>
+                    </ul>
+                </li>
+                <li ng-class="{active: vm.openMenu === 'monitoring'}">
+                    <a class="pointer" ng-click="vm.openSubMenu('monitoring')">
+                        <i class="fa fa-desktop f20 green"></i> &nbsp;
+                        <span>BILLING MONITORING</span>
+                        <span class="fa arrow"></span>
+                    </a>
+                    <ul class="nav nav-second-level" ng-class="{'open': vm.openMenu === 'monitoring'}">
+                        <li ui-sref-active="selected">
+                            <a ng-click="vm.goToPage('8','app.monitoring.dar-soa')" class="pointer">
+                                <i class="fa fa-gg-circle"></i> DAR SOA Monitoring</a>
+                        </li>
+                        <li ui-sref-active="selected">
+                            <a ng-click="vm.goToPage('9','app.monitoring.dar-transmittal')" class="pointer">
+                                <i class="fa fa-gg-circle"></i> DAR Create Transmittal</a>
+                        </li>
+                        <li ui-sref-active="selected">
+                            <a ng-click="vm.goToPage('10','app.monitoring.dar-confirmation')" class="pointer">
+                                <i class="fa fa-gg-circle"></i> DAR SOA Confirmation</a>
+                        </li>
+                        <li ui-sref-active="selected">
+                            <a ng-click="vm.goToPage('11','app.monitoring.dar-for-transmittal')" class="pointer">
+                                <i class="fa fa-gg-circle"></i> DAR SOA Transmitted</a>
+                        </li>
+                        <hr>
+                        <li ui-sref-active="selected">
+                            <a ng-click="vm.goToPage('12','app.monitoring.other-billing')" class="pointer">
+                                <i class="fa fa-gg-circle"></i> Other Billing Monitoring</a>
+                        </li>
+                    </ul>
+                </li>
+                <li ui-sref-active="selected">
+                    <a ng-click="vm.goToPage('13','app.payments')" class="pointer">
+                        <i class="fa fa-money"></i> &nbsp;&nbsp;
+                        <span>Billing Payments</span>
+                    </a>
+                </li>
+                <li ng-class="{active: vm.openMenu === 'reports'}">
+                    <a class="pointer" ng-click="vm.openSubMenu('reports')">
+                        <i class="fa fa-user f20 green"></i> &nbsp;
+                        <span>ADMIN REPORTS</span>
+                        <span class="fa arrow"></span>
+                    </a>
+                    <ul class="nav nav-second-level" ng-class="{'open': vm.openMenu === 'reports'}">
+                        <li ui-sref-active="selected">
+                            <a ng-click="vm.goToPage('14','app.reports.dar-reports')" class="pointer">
+                                <i class="fa fa-gg-circle"></i> DAR Reports</a>
+                        </li>
+                        <li ui-sref-active="selected">
+                            <a ng-click="vm.goToPage('15','app.reports.per-pay-station')" class="pointer">
+                                <i class="fa fa-gg-circle"></i> DAR Per Pay Station</a>
+                        </li>
+                        <li ui-sref-active="selected">
+                            <a ng-click="vm.goToPage('16','app.reports.sar-volume-report')" class="pointer">
+                                <i class="fa fa-gg-circle"></i> SAR Volume Report</a>
+                        </li>
+                        <li ng-click="vm.sarPerDept()" class="pointer">
+                            <a>
+                                <i class="fa fa-gg-circle"></i> SAR Report per Department</a>
+                        </li>
+                        <li ng-click="vm.sarPOReport()" class="pointer">
+                            <a>
+                                <i class="fa fa-gg-circle"></i> SAR PO Report</a>
+                        </li>
+                        <li ui-sref-active="selected">
+                            <a ng-click="vm.goToPage('19','app.reports.dmpi-oc-report')" class="pointer">
+                                <i class="fa fa-gg-circle"></i> DMPI & Other Client Reports</a>
+                        </li>
+                    </ul>
+                </li>
+                <li ng-class="{active: vm.openMenu === 'settings'}">
+                    <a class="pointer" ng-click="vm.openSubMenu('settings')">
+                        <i class="fa fa-cogs f20 green"></i> &nbsp;
+                        <span>Settings</span>
+                        <span class="fa arrow"></span>
+                    </a>
+                    <ul class="nav nav-second-level" ng-class="{'open': vm.openMenu === 'settings'}">
+                        <li ui-sref-active="selected">
+                            <a ng-click="vm.goToPage('20','app.settings.billing-signatories')" class="pointer">
+                                <i class="fa fa-gg-circle"></i> Billing Signatories</a>
+                        </li>
+                        <li ui-sref-active="selected">
+                            <a ng-click="vm.goToPage('21','app.settings.rate-master')" class="pointer">
+                                <i class="fa fa-gg-circle"></i> Rate Master File</a>
+                        </li>
+                        <li ui-sref-active="selected">
+                            <a ng-click="vm.goToPage('22','app.settings.location-master')" class="pointer">
+                                <i class="fa fa-gg-circle"></i> Location Master</a>
+                        </li>
+                        <li ui-sref-active="selected">
+                            <a ng-click="vm.goToPage('23','app.settings.cost-center-master')" class="pointer">
+                                <i class="fa fa-gg-circle"></i> Cost Center Master</a>
+                        </li>
+                        <li ui-sref-active="selected">
+                            <a ng-click="vm.goToPage('24','app.settings.gl-master')" class="pointer">
+                                <i class="fa fa-gg-circle"></i> GL Master</a>
+                        </li>
+                        <li ui-sref-active="selected">
+                            <a ng-click="vm.goToPage('25','app.settings.activity-master')" class="pointer">
+                                <i class="fa fa-gg-circle"></i> Activity Master</a>
+                        </li>
+                        <li ui-sref-active="selected">
+                            <a ng-click="vm.goToPage('26','app.settings.activity-master-oc')" class="pointer">
+                                <i class="fa fa-gg-circle"></i> Activity Master Other Client</a>
+                        </li>
+                        <li ui-sref-active="selected">
+                            <a ng-click="vm.goToPage('27','app.settings.sar-po-master')" class="pointer">
+                                <i class="fa fa-gg-circle"></i> SAR PO Masterfile</a>
+                        </li>
+                        <li ui-sref-active="selected" ng-if="vm.role == 1">
+                            <a ng-click="vm.goToPage('28','app.settings.users')" class="pointer">
+                                <i class="fa fa-gg-circle"></i> User List</a>
+                        </li>
+
+                    </ul>
+                </li>
+                <li ng-class="{active: vm.openMenu === 'retro'}">
+                    <a class="pointer" ng-click="vm.openSubMenu('retro')">
+                        <i class="fa fa-dashboard f20 green"></i> &nbsp;
+                        <span>Retro</span>
+                        <span class="fa arrow"></span>
+                    </a>
+                    <ul class="nav nav-second-level" ng-class="{'open': vm.openMenu === 'retro'}">
+                        <li ui-sref-active="selected">
+                            <a ng-click="vm.goToPage('29','app.retro.retro-rates')" class="pointer">
+                                <i class="fa fa-gg-circle"></i> Retro Rates</a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-second-level" ng-class="{'open': vm.openMenu === 'retro'}">
+                        <li ui-sref-active="selected">
+                            <a ng-click="vm.goToPage('30','app.retro.retro-reports')" class="pointer">
+                                <i class="fa fa-gg-circle"></i> Retro Reports</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

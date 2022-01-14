@@ -1,0 +1,39 @@
+<div class="container-fluid" ng-controller="VolumeReport as vm">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card full-width">
+                <div class="card-header">
+                    <h3 class="card-title">SAR Volume Report</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row bottom-margin">
+                        <div class="col-md-3">
+                            <label>
+                                <strong>From:</strong>
+                            </label>
+                            <input type="date" class="form-control form-control-sm" ng-model="vm.variables.from" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label>
+                                <strong>To:</strong>
+                            </label>
+                            <input type="date" class="form-control form-control-sm" ng-model="vm.variables.to" required>
+                        </div>
+                        <div class="col-md-3">
+                            <br />
+                            <button type="button" class="btn btn-primary" ng-click="vm.generate()">
+                                <i class="fa fa-print fa-fw"></i>Generate</button>
+                            <button type="button" class="btn btn-success" ng-click="vm.downloadExcel()">
+                                <i class="fa fa-download fa-fw"></i>Download Excel</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div style="height: 300px;" ui-grid="vm.defaultGrid" ui-grid-selection ui-grid-resize-columns></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

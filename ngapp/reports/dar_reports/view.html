@@ -1,0 +1,95 @@
+<div class="container-fluid" ng-controller="DARReportCtrl as vm">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    DAR Statistics Report(TOTAL AVERAGE HEAD COUNT)
+                </div>
+                <form class="card-body" ng-submit="vm.generate()">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Select Month</label>
+                            <select ng-model="vm.variables.month" required>
+                                <option value="">Choose Month...</option>
+                                <option ng-repeat="x in vm.months" value="{{x.value}}">{{x.name}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label>Select Year</label>
+                            <select ng-model="vm.variables.year" required>
+                                <option value="">Choose Year...</option>
+                                <option ng-repeat="x in vm.years">{{x.year}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label>Select Phase</label>
+                            <select ng-model="vm.variables.phase" required>
+                                <option value="">Choose Phase...</option>
+                                <option ng-value="1">1</option>
+                                <option ng-value="2">2</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group mb-3 input-group-sm">
+                                <button type="submit" class="btn btn-primary">Generate</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="parent">
+                        <canvas id="myChart"></canvas>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    DAR Statistics Report(TOTAL AMOUNT)
+                </div>
+                <div class="card-body">
+                    <div id="parent2">
+                        <canvas id="myChart2"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body table-responsive pre-scrollables">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Pay Station</th>
+                                <th>Average Head Count</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in vm.data track by $index">
+                                <td>{{$index+1}}</td>
+                                <td>{{x.PayStation}}</td>
+                                <td>{{x.Total}}</td>
+                                <td>Php {{x.TotalAmount | number:2}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>GRAND TOTAL</th>
+                        <th style="text-align: right;">Total Average Head Count: {{vm.FinalViewTotalAverageHeadCount | number:2}}</th>
+                        <th style="text-align: right;">Total Amount: Php {{vm.TotalNetAmount | number:2}}</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+</div>

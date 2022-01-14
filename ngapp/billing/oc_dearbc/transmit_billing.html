@@ -1,0 +1,32 @@
+<div class="modal-content">
+    <div class="modal-title-div">
+        <strong class="modal-title-name">Transmit DEARBC</strong>
+        <button class="modal-exit" ng-click="modal.close()">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <label for="transmittal_no">Transmittal Number</label>
+                <input type="text" name="transmittal_no" class="form-control form-control-sm" ng-model="modal.variables.transmittal_no" required>
+            </div>
+            <div class="col-md-12">
+                <label for="date_transmitted">Date Transmitted</label>
+                <input type="date" name="date_transmitted" class="form-control form-control-sm" ng-model="modal.variables.date_transmitted" required>
+            </div>
+            <div class="col-md-12">
+                <label for="billing_statement">Billing Statement Number</label>
+                <input type="text" name="billing_statement" class="form-control form-control-sm" ng-model="modal.variables.billing_statement" required>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-right">
+            <button type="button" class="btn btn-clear" ng-click="modal.close()">
+                <i class="fa fa-times fa-fw"></i> Close</button>
+            <button type="button" class="btn btn-warning" ng-click="modal.transmit()">
+                <i class="fa fa-check fa-fw"></i> Transmit</button>
+        </div>
+    </div>
+</div>

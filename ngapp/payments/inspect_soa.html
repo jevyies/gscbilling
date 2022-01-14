@@ -1,0 +1,40 @@
+<div class="modal-content">
+    <div class="modal-title-div">
+        <strong class="modal-title-name">Search Header</strong>
+        <button class="modal-exit" ng-click="modal.close()">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form ng-submit="modal.searching()">
+            <div class="row bottom-margin">
+                <div class="col-md-3">
+                    <label>
+                        <strong>Client</strong>
+                    </label>
+                    <select class="form-control form-control-sm" ng-model="modal.variables.Client" required>
+                        <option></option>
+                        <option>DAR</option>
+                        <option>SAR</option>
+                        <option>BCC</option>
+                        <option>SLERS</option>
+                        <option>LABNOTIN</option>
+                        <option>DEARBC</option>
+                        <option>CLUBHOUSE</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label>
+                        <strong>SOA Number</strong>
+                    </label>
+                    <input type="text" class="form-control form-control-sm" ng-model="modal.search" required>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-md-12">
+                <div style="height: 350px;" ui-grid="modal.defaultGrid" ui-grid-selection ui-grid-resize-columns></div>
+            </div>
+        </div>
+    </div>
+</div>

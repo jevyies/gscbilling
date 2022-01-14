@@ -1,0 +1,86 @@
+<div class="modal-content">
+    <div class="modal-title-div">
+        <strong class="modal-title-name">Print {{modal.searchTrans}} Transmittal</strong>
+        <button class="modal-exit" ng-click="modal.close()">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row bottom-margin">
+            <div class="col-md-12">
+                <label>
+                    <strong>Received By:</strong>
+                </label>
+                <div class="input-group">
+                    <input type="text" class="form-control form-control-sm" ng-model="modal.variables.confirmedBy" required disabled>
+                    <input type="text" class="form-control form-control-sm" ng-model="modal.variables.confirmedByPosition" required disabled>
+                    <div class="button-group-append">
+                        <button type="button" class="btn btn-outline-success" ng-click="modal.searchSignatory(2)">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row bottom-margin">
+            <div class="col-md-12">
+                <label>
+                    <strong>Approved By:</strong>
+                    <span class="text-success" ng-click="modal.addSig = 1" ng-if="modal.addSig !== 1">
+                        <i class="fa fa-plus fa-fw"></i>Add Signatory</span>
+                    <span class="text-danger" ng-click="modal.removeSignatory()" ng-if="modal.addSig !== 0">
+                        <i class="fa fa-minus fa-fw"></i>Remove Signatory</span>
+                </label>
+                <div class="input-group">
+                    <input type="text" class="form-control form-control-sm" ng-model="modal.variables.approvedBy" required disabled>
+                    <input type="text" class="form-control form-control-sm" ng-model="modal.variables.approvedByPosition" required disabled>
+                    <div class="button-group-append">
+                        <button type="button" class="btn btn-outline-success" ng-click="modal.searchSignatory(3)">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row bottom-margin" ng-if="modal.addSig == 1">
+            <div class="col-md-12">
+                <label>
+                    <strong>Approved By 2:
+                    </strong>
+                </label>
+                <div class="input-group">
+                    <input type="text" class="form-control form-control-sm" ng-model="modal.variables.approvedBy2" required disabled>
+                    <input type="text" class="form-control form-control-sm" ng-model="modal.variables.approvedByPosition2" required disabled>
+                    <div class="button-group-append">
+                        <button type="button" class="btn btn-outline-success" ng-click="modal.searchSignatory(4)">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <div class="btn-group dropdown">
+                    <button class="btn btn-info dropdown-toggle" role="button" id="previewTransmittal" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false" type="button">
+                        <i class="fa fa-print fa-fw"></i>Print Summary
+                        <i class="fa fa-caret-down fa-fw"></i>
+                    </button>
+                    <div class="dropdown-menu" role="menu" aria-labelledby="previewTransmittal">
+                        <a class="dropdown-item" ng-click="modal.printTransmittal(1)">
+                            <i class="fa fa-list-alt fa-fw"></i>Short</a>
+                        <a class="dropdown-item" ng-click="modal.printTransmittal(2)">
+                            <i class="fa fa-calendar fa-fw"></i>Long</a>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-default" ng-click="modal.close()">
+                    <i class="fa fa-times"></i>
+                    <strong>Close</strong>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

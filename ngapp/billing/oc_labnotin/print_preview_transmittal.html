@@ -1,0 +1,137 @@
+<div class="modal-content">
+    <div class="modal-title-div">
+        <strong class="modal-title-name">LABNOTIN TRANSMITTAL PREVIEW</strong>
+        <button class="modal-exit" ng-click="modal.close()">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <!-- <div class="row">
+            <div class="col-md-8"> -->
+        <div class="row" style="padding:20px;">
+            <div class="col-md-12" style="border: 1px solid black;height:420px;padding:10px;">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label><b>Transmittal No:</b></label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" name="transmittal_no" class="form-control form-control-sm" ng-model="modal.variables.transmittal_no" required placeholder="Transmittal Number">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label><b>Date Transmitted:</b></label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="date" name="date_transmitted" class="form-control form-control-sm" ng-model="modal.variables.date_transmitted" required placeholder="Date Transmitted">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label><b>Document Date:</b></label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="date" name="document_date" class="form-control form-control-sm" ng-model="modal.variables.document_date" required placeholder="Document Date">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label><b>Prepared By:</b></label>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="group-input">
+                            <input type="text" class="form-control form-control-sm" ng-model="modal.variables.Prepared_by" required disabled>
+                            <div class="button-group-append">
+                                <button type="button" class="btn" ng-click="modal.searchSig(1)">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label><b>Checked By:</b></label>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="group-input">
+                            <input type="text" class="form-control form-control-sm" ng-model="modal.variables.Checked_by" required disabled>
+                            <div class="button-group-append">
+                                <button type="button" class="btn" ng-click="modal.searchSig(2)">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label><b>Received By:</b></label>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="group-input">
+                            <input type="text" class="form-control form-control-sm" ng-model="modal.variables.Received_by" required disabled>
+                            <div class="button-group-append">
+                                <button type="button" class="btn" ng-click="modal.searchSig(3)">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label><b>Approved By:</b></label>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="group-input">
+                            <input type="text" class="form-control form-control-sm" ng-model="modal.variables.Approved_by" required disabled>
+                            <div class="button-group-append">
+                                <button type="button" class="btn" ng-click="modal.searchSig(4)">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label><b>Approved By:</b></label>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="group-input">
+                            <input type="text" class="form-control form-control-sm" ng-model="modal.variables.Approved_by_2" required disabled>
+                            <div class="button-group-append">
+                                <button type="button" class="btn" ng-click="modal.searchSig(5)">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- </div>
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-12"></div>
+                </div>
+            </div> -->
+        <!-- </div> -->
+    </div>
+    <div class="modal-footer">
+        <div class="text-right">
+            <button type="button" class="btn btn-clear" ng-click="modal.close()">
+                <i class="fa fa-times fa-fw"></i>Close</button>
+            <button type="button" class="btn btn-warning" ng-click="modal.generate()">
+                <i class="fa fa-print fa-fw"></i>Generate Report</button>
+        </div>
+    </div>
+</div>

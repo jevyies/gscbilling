@@ -1,0 +1,29 @@
+<div class="modal-content">
+    <div class="modal-title-div">
+        <strong class="modal-title-name">Payroll Period List</strong>
+        <button class="modal-exit" ng-click="modal.close()">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row bottom-margin">
+            <div class="col-md-6">
+                <strong>Search List</strong>
+                <input type="text" ng-model="modal.search" ng-change="modal.searching()" class="form-control" placeholder="Search Month Here...">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" style="height:400px;" ng-if="modal.loading">
+                <div class="text-center" style="margin:5% auto;">
+                    <h5 style="color:red;text-align:center;">{{modal.loading}}</h5>
+                    <img src="/epis/static/img/loading.gif">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" ng-if="!modal.loading">
+                <div class="modal-grid-with-buttons bottom-margin" style="height:400px;" ui-grid="modal.defaultGrid" ui-grid-selection ui-grid-resize-columns></div>
+            </div>
+        </div>
+    </div>
+</div>

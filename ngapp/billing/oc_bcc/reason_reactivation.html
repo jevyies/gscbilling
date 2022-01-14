@@ -1,0 +1,24 @@
+<div class="modal-content">
+    <div class="modal-title-div">
+        <strong class="modal-title-name">Reason of Reactivation</strong>
+        <button class="modal-exit" ng-click="modal.close()">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <label for="reason">Enter Reason</label>
+                <textarea class="form-control" rows="3" name="reason" ng-model="modal.reason"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-right">
+            <button type="button" class="btn btn-clear" ng-click="modal.close()">
+                <i class="fa fa-times fa-fw"></i> Close</button>
+            <button type="button" class="btn btn-warning" ng-click="modal.reactivate()">
+                <i class="fa fa-check fa-fw"></i> Reactivate</button>
+        </div>
+    </div>
+</div>

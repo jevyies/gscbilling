@@ -1,0 +1,267 @@
+<div class="modal-content">
+    <div class="modal-title-div">
+        <strong class="modal-title-name">SOA Number: {{modal.variables.soaNumber}}</strong>
+        <button class="modal-exit" ng-click="modal.close()">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row bottom-margin">
+            <!-- <div class="col-md-3">
+                <label>
+                    <strong>SOA No.</strong>
+                </label>
+                <input type="text" class="form-control form-control-sm" ng-model="modal.variables.soaNumber" disabled>
+            </div> -->
+            <div class="col-md-3">
+                <label>
+                    <strong>SOA Date.</strong>
+                </label>
+                <input type="date" class="form-control form-control-sm" ng-model="modal.variables.soaDate" disabled>
+            </div>
+            <div class="col-md-3">
+                <label>
+                    <strong>Batch No</strong>
+                </label>
+                <input type="text" class="form-control form-control-sm" ng-model="modal.variables.Batches" disabled>
+            </div>
+            <div class="col-md-3">
+                <label>
+                    <strong>Status</strong>
+                </label>
+                <input type="text" class="form-control form-control-sm" ng-model="modal.variables.status" disabled>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="dmpi-dar-upload">
+                    <div>
+                        <h5>
+                            <span class="badge badge-info badge-pill">Uploaded DMPI DAR details</span>
+                        </h5>
+                    </div>
+                    <div class="preview-uploaded-dar">
+                        <div class=" table-responsive">
+                            <table id="dtl" class="table table-sm table-upload-dar dmpi-dar-uploaded">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="no-border"></th>
+                                        <th scope="col" class="no-border"></th>
+                                        <th scope="col" class="no-border"></th>
+                                        <th scope="col" class="no-border"></th>
+                                        <th scope="col" class="no-border"></th>
+                                        <th scope="col" class="no-border"></th>
+                                        <th scope="col" class="bg-bl-tr">RD</th>
+                                        <th scope="col" class="no-border"></th>
+                                        <th scope="col" class="no-border"></th>
+                                        <th scope="col" class="no-border"></th>
+                                        <th scope="col" class="bg-bl-tr">SHOL</th>
+                                        <th scope="col" class="no-border"></th>
+                                        <th scope="col" class="no-border"></th>
+                                        <th scope="col" class="no-border"></th>
+                                        <th scope="col" class="bg-bl-tr">SHRD</th>
+                                        <th scope="col" class="no-border"></th>
+                                        <th scope="col" class="no-border"></th>
+                                        <th scope="col" class="no-border"></th>
+                                        <th scope="col" class="bg-bl-tr">RHOL</th>
+                                        <th scope="col" class="no-border"></th>
+                                        <th scope="col" class="no-border"></th>
+                                        <th scope="col" class="no-border"></th>
+                                        <th scope="col" class="bg-bl-tr">RHRD</th>
+                                        <th scope="col" class="no-border"></th>
+                                        <th scope="col" class="no-border"></th>
+                                        <th scope="col" class="no-border"></th>
+                                        <th scope="col" class="bg-bl-tr">Total</th>
+                                        <th scope="col" class="no-border"></th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col" class="column-sticky">Activity</th>
+                                        <th scope="col">Field</th>
+                                        <th scope="col">Accomplished</th>
+                                        <th scope="col">GL</th>
+                                        <th scope="col">CC</th>
+                                        <th scope="col">ST</th>
+                                        <th scope="col">OT</th>
+                                        <th scope="col">ND</th>
+                                        <th scope="col">NDOT</th>
+                                        <th scope="col">ST</th>
+                                        <th scope="col">OT</th>
+                                        <th scope="col">ND</th>
+                                        <th scope="col">NDOT</th>
+                                        <th scope="col">ST</th>
+                                        <th scope="col">OT</th>
+                                        <th scope="col">ND</th>
+                                        <th scope="col">NDOT</th>
+                                        <th scope="col">ST</th>
+                                        <th scope="col">OT</th>
+                                        <th scope="col">ND</th>
+                                        <th scope="col">NDOT</th>
+                                        <th scope="col">ST</th>
+                                        <th scope="col">OT</th>
+                                        <th scope="col">ND</th>
+                                        <th scope="col">NDOT</th>
+                                        <th scope="col">ST</th>
+                                        <th scope="col">OT</th>
+                                        <th scope="col">ND</th>
+                                        <th scope="col">NDOT</th>
+                                        <th scope="col">Total Amt</th>
+                                        <th scope="col">HC</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="x in modal.details">
+                                        <td>{{x.No}}</td>
+                                        <td class="column-sticky">{{x.activity}}</td>
+                                        <td>{{x.field}}</td>
+                                        <td>{{x.accomplished}}</td>
+                                        <td>{{x.gl}}</td>
+                                        <td>{{x.cc}}</td>
+                                        <td>{{x.rdst | number:2}}</td>
+                                        <td>{{x.rdot | number:2}}</td>
+                                        <td>{{x.rdnd | number:2}}</td>
+                                        <td>{{x.rdndot | number:2}}</td>
+                                        <td>{{x.sholst | number:2}}</td>
+                                        <td>{{x.sholot | number:2}}</td>
+                                        <td>{{x.sholnd | number:2}}</td>
+                                        <td>{{x.sholndot | number:2}}</td>
+                                        <td>{{x.shrdst | number:2}}</td>
+                                        <td>{{x.shrdot | number:2}}</td>
+                                        <td>{{x.shrdnd | number:2}}</td>
+                                        <td>{{x.shrdndot | number:2}}</td>
+                                        <td>{{x.rholst | number:2}}</td>
+                                        <td>{{x.rholot | number:2}}</td>
+                                        <td>{{x.rholnd | number:2}}</td>
+                                        <td>{{x.rholndot | number:2}}</td>
+                                        <td>{{x.rhrdst | number:2}}</td>
+                                        <td>{{x.rhrdot | number:2}}</td>
+                                        <td>{{x.rhrdnd | number:2}}</td>
+                                        <td>{{x.rhrdndot | number:2}}</td>
+                                        <td>{{x.totalst | number:2}}</td>
+                                        <td>{{x.totalot | number:2}}</td>
+                                        <td>{{x.totalnd | number:2}}</td>
+                                        <td>{{x.totalndot | number:2}}</td>
+                                        <td>{{x.totalAmt | number:2}}</td>
+                                        <td>{{x.headCount}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6" class="column-sticky text-right">Total</td>
+                                        <td>{{modal.totalRDST}}</td>
+                                        <td>{{modal.totalRDOT}}</td>
+                                        <td>{{modal.totalRDND}}</td>
+                                        <td>{{modal.totalRDNDOT}}</td>
+                                        <td>{{modal.totalSHOLST}}</td>
+                                        <td>{{modal.totalSHOLOT}}</td>
+                                        <td>{{modal.totalSHOLND}}</td>
+                                        <td>{{modal.totalSHOLNDOT}}</td>
+                                        <td>{{modal.totalSHRDST}}</td>
+                                        <td>{{modal.totalSHRDOT}}</td>
+                                        <td>{{modal.totalSHRDND}}</td>
+                                        <td>{{modal.totalSHRDNDOT}}</td>
+                                        <td>{{modal.totalRHOLST}}</td>
+                                        <td>{{modal.totalRHOLOT}}</td>
+                                        <td>{{modal.totalRHOLND}}</td>
+                                        <td>{{modal.totalRHOLNDOT}}</td>
+                                        <td>{{modal.totalRHRDST}}</td>
+                                        <td>{{modal.totalRHRDOT}}</td>
+                                        <td>{{modal.totalRHRDND}}</td>
+                                        <td>{{modal.totalRHRDNDOT}}</td>
+                                        <td>{{modal.totalST}}</td>
+                                        <td>{{modal.totalOT}}</td>
+                                        <td>{{modal.totalND}}</td>
+                                        <td>{{modal.totalNDOT}}</td>
+                                        <td class="text-right">{{modal.totalAmt | number: 2}}</td>
+                                        <td>{{modal.totalHC}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- <div>
+                        <h5>
+                            <span class="badge badge-info badge-pill">Uploaded DMPI DAR rates</span>
+                        </h5>
+                    </div> -->
+                    <!-- <div class="preview-uploaded-dar rate-table">
+                        <div class=" table-responsive">
+                            <table id="rate" class="table table-sm table-upload-dar">
+                                <thead>
+                                    <tr>
+                                        <th>activity</th>
+                                        <th>GL</th>
+                                        <th>CC</th>
+                                        <th>rd-st</th>
+                                        <th>rd-ot</th>
+                                        <th>rd-nd</th>
+                                        <th>rd-ndot</th>
+                                        <th>shol-st</th>
+                                        <th>shol-ot</th>
+                                        <th>shol-nd</th>
+                                        <th>shol-ndot</th>
+                                        <th>shrd-st</th>
+                                        <th>shrd-ot</th>
+                                        <th>shrd-nd</th>
+                                        <th>shrd-ndot</th>
+                                        <th>rhol-st</th>
+                                        <th>rhol-ot</th>
+                                        <th>rhol-nd</th>
+                                        <th>rhol-ndot</th>
+                                        <th>rhrd-st</th>
+                                        <th>rhrd-ot</th>
+                                        <th>rhrd-nd</th>
+                                        <th>rhrd-ndot</th>
+                                        <th>status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="x in vm.rates">
+                                        <td ng-class="{'danger-mode': x.matchID == 0}">{{x.activity_fr_mg}}</td>
+                                        <td>{{x.gl_fr_mg}}</td>
+                                        <td>{{x.costcenter__}}</td>
+                                        <td>{{x.rd_st | number:2 }}</td>
+                                        <td>{{x.rd_ot | number:2 }}</td>
+                                        <td>{{x.rd_nd | number:2 }}</td>
+                                        <td>{{x.rd_ndot | number:2 }}</td>
+                                        <td>{{x.shol_st | number:2 }}</td>
+                                        <td>{{x.shol_ot | number:2 }}</td>
+                                        <td>{{x.shol_nd | number:2 }}</td>
+                                        <td>{{x.shol_ndot | number:2 }}</td>
+                                        <td>{{x.shrd_st | number:2 }}</td>
+                                        <td>{{x.shrd_ot | number:2 }}</td>
+                                        <td>{{x.shrd_nd | number:2 }}</td>
+                                        <td>{{x.shrd_ndot | number:2 }}</td>
+                                        <td>{{x.rhol_st | number:2 }}</td>
+                                        <td>{{x.rhol_ot | number:2 }}</td>
+                                        <td>{{x.rhol_nd | number:2 }}</td>
+                                        <td>{{x.rhol_ndot | number:2 }}</td>
+                                        <td>{{x.rhrd_st | number:2 }}</td>
+                                        <td>{{x.rhrd_ot | number:2 }}</td>
+                                        <td>{{x.rhrd_nd | number:2 }}</td>
+                                        <td>{{x.rhrd_ndot | number:2 }}</td>
+                                        <td>{{x.fetchStatus }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <button type="button" class="btn btn-info" ng-click="modal.print()">
+                    <i class="fa fa-file-excel-o"></i>
+                    <strong>Export To Excel</strong>
+                </button>
+                <button type="button" class="btn btn-primary" ng-disabled="modal.variables.status !== 'submitted'" ng-click="modal.updateStatus('confirmed')">
+                    <i class="fa fa-save"></i> Confirm</button>
+                <button type="button" class="btn btn-default" ng-click="modal.close()">
+                    <i class="fa fa-times"></i>
+                    <strong>Close</strong>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

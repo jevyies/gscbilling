@@ -1,0 +1,75 @@
+<div class="container-fluid" ng-controller="DMPIOCCtrl as vm">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    Other Client & Dmpi Reports
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="bottom-margin">
+                                <button type="button" class="btn btn-primary" ng-click="vm.billingTransmittal()">
+                                    <i class="fa fa-play-circle"> &nbsp; Billing Transmittal</i>
+                                </button>
+                            </div>
+                            <div class="bottom-margin">
+                                <button type="button" class="btn btn-primary" ng-click="vm.reactivatedSOA()">
+                                    <i class="fa fa-play-circle"> &nbsp; Reactivated SOA Report</i>
+                                </button>
+                            </div>
+                            <div class="bottom-margin">
+                                <button type="button" class="btn btn-primary" ng-click="vm.yearToDate()">
+                                    <i class="fa fa-play-circle"> &nbsp; Year to Date Collection Report</i>
+                                </button>
+                            </div>
+                            <div class="bottom-margin">
+                                <button type="button" class="btn btn-primary" ng-click="vm.agingReport()">
+                                    <i class="fa fa-play-circle"> &nbsp; Year to Date Aging Report</i>
+                                </button>
+                            </div>
+                            <div class="bottom-margin">
+                                <button type="button" class="btn btn-primary" ng-click="vm.perClientReport()">
+                                    <i class="fa fa-play-circle"> &nbsp; Billing Report Per Client</i>
+                                </button>
+                            </div>
+                            <div class="bottom-margin">
+                                <button type="button" class="btn btn-primary" ng-click="vm.annualReport()">
+                                    <i class="fa fa-play-circle"> &nbsp; Payroll Billing Annual Report</i>
+                                </button>
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-primary" ng-click="vm.bandCReport()">
+                                    <i class="fa fa-play-circle"> &nbsp; Billing and Collection Report</i>
+                                </button>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="bottom-margin">
+                                <button type="button" class="btn btn-primary" ng-click="vm.weeklyReport()">
+                                    <i class="fa fa-play-circle"> &nbsp; SP Weekly Report</i>
+                                </button>
+                            </div>
+                            <div class="bottom-margin">
+                                <button type="button" class="btn btn-primary" ng-click="vm.monthlyReport()">
+                                    <i class="fa fa-play-circle"> &nbsp; SP Monthly Report</i>
+                                </button>
+                            </div>
+                            <div class="bottom-margin">
+                                <button type="button" class="btn btn-primary" ng-click="vm.accrualReport()">
+                                    <i class="fa fa-play-circle"> &nbsp; Accrual Report</i>
+                                </button>
+                            </div>
+                            <div class="bottom-margin">
+                                <button type="button" class="btn btn-primary" ng-click="vm.OCLedgerReport()">
+                                    <i class="fa fa-play-circle"> &nbsp; Other Client Ledger</i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

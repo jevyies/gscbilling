@@ -1,0 +1,17 @@
+<div class="container-fluid" ng-controller="BillingSignatoryCtrl as vm">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card full-width">
+                <div class="card-header">
+                    <h3 class="card-title">Billing Signatories</h3>
+                    <button class="btn btn-secondary float-right" ng-click="vm.addSignatory()">
+                        <i class="fa fa-plus-circle"></i> Add new signatory
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div style="height: 400px;" ui-grid="vm.defaultGrid" ui-grid-selection ui-grid-resize-columns></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

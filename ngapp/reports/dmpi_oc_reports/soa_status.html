@@ -1,0 +1,63 @@
+<div class="modal-content">
+    <div class="modal-title-div">
+        <strong class="modal-title-name">SOA Status Report</strong>
+        <button class="modal-exit" ng-click="modal.close()">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+    <form ng-submit="modal.generate()">
+        <div class="modal-body">
+            <!-- <div class="row bottom-margin">
+            <div class="col-sm-4">
+                <strong>Month:</strong>
+                <select class="form-control form-control-sm" ng-model="modal.variables.month" required>
+                    <option></option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                    <option>9</option>
+                    <option>10</option>
+                    <option>11</option>
+                    <option>12</option>
+                </select>
+            </div>
+            <div class="col-sm-4">
+                <strong>Year:</strong>
+                <select class="form-control form-control-sm" ng-model="modal.variables.year" required>
+                    <option></option>
+                    <option ng-repeat="x in modal.years">{{x.year}}</option>
+                </select>
+            </div>
+            <div class="col-sm-4">
+                <strong>Period:</strong>
+                <select class="form-control form-control-sm" ng-model="modal.variables.period">
+                    <option></option>
+                    <option>1</option>
+                    <option>2</option>
+                </select>
+            </div>
+        </div> -->
+            <div class="row bottom-margin">
+                <div class="col-sm-6">
+                    <strong>Date Range From:</strong>
+                    <input type="date" ng-model="modal.variables.from" class="form-control form-control-sm">
+                </div>
+                <div class="col-sm-6">
+                    <strong>Date To:</strong>
+                    <input type="date" ng-model="modal.variables.to" class="form-control form-control-sm">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer text-right">
+            <button class="btn btn-success" type="button" ng-click="modal.generate()">
+                <i class="fa fa-print fa-fw"></i>Generate Report</button>
+            <button class="btn btn-default" type="button" ng-click="modal.close()">
+                <i class="fa fa-times fa-fw"></i>Close</button>
+        </div>
+    </form>
+</div>

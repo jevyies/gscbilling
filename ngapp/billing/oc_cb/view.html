@@ -1,0 +1,314 @@
+<div class="container-fluid" ng-controller="OCCBCTRL as vm">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card full-width">
+                <div class="card-header">
+                    <h3 class="card-title">CLUBHOUSE</h3>
+                </div>
+                <div class="card-body">
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="group-input">
+                                <input type="text" class="form-control form-control-sm" ng-model="vm.header.SOANo" required disabled placeholder="SOANo">
+                                <div class="button-group-append">
+                                    <button type="button" class="btn" ng-click="vm.searchHeader('update')">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-success" ng-disabled="vm.header.Status == 'TRANSMITTED'" ng-click="vm.newHeader('update')">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    </button><button type="button" ng-disabled="vm.header.Status == 'TRANSMITTED'" class="btn btn-danger" ng-click="vm.delete()">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                    </button><button type="button" ng-disabled="vm.header.Status == 'TRANSMITTED'" class="btn btn-primary" ng-click="vm.newHeader('new')">
+                                        <i class="fa fa-plus"></i> New Header
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" name="period_date" class="form-control form-control-sm" ng-model="vm.header.period_date" required disabled placeholder="Period">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" name="paystation" class="form-control form-control-sm" ng-model="vm.header.Prepared_by" required disabled placeholder="Prepared By">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input type="text" name="paystation" class="form-control form-control-sm" ng-model="vm.header.Noted_by" required disabled placeholder="Noted By">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" name="period_date" class="form-control form-control-sm" ng-model="vm.header.Checked_by" required disabled placeholder="Checked By">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" name="period_date" class="form-control form-control-sm" ng-model="vm.header.Approved_by" required disabled placeholder="Approved By">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h4 class="text-danger"><b>{{vm.header.Status}}</b></h4>
+                        </div>
+                        <div class="col-md-2 text-right">
+                            <h4 class="text-primary"><b>GROSS:</b></h4>
+                        </div>
+                        <div class="col-md-2 text-right">
+                            <input type="text" name="period_date" class="form-control form-control-sm text-right" ng-model="vm.header.TotalGross" required disabled placeholder="Gross Billing">
+                        </div>
+                        <div class="col-md-3 text-right">
+                            <h4 class="text-danger"><b>{{vm.header.admin_percentage}} % Admin Fee ({{vm.header.TotalAdminfee}})</b></h4>
+                        </div>
+                        <div class="col-md-2 text-right">
+                            <input type="text" name="period_date" class="form-control form-control-sm text-right" ng-model="vm.header.TotalBilling" required disabled placeholder="Total Billing">
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row bottom-margin">
+                                <div class="col-md-12">
+                                    <span class="lb-dar">Data and Comparison</span>
+                                    <div class="dmpi-dar-upload">
+                                        <div>
+                                            <h5>
+                                                <span class="badge badge-info badge-pill">CLUBHOUSE Details</span>
+                                            </h5>
+                                        </div>
+                                        <div class="preview-uploaded-dar">
+                                            <div class=" table-responsive">
+                                                <table id="dtl" class="table table-sm table-upload-dar dmpi-dar-uploaded">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col" class="no-border"></th>
+                                                            <th scope="col" class="no-border"></th>
+                                                            <th scope="col" class="no-border"></th>
+                                                            <th scope="col" class="bg-bl-tr">RD</th>
+                                                            <th scope="col" class="no-border"></th>
+                                                            <th scope="col" class="no-border"></th>
+                                                            <th scope="col" class="no-border"></th>
+                                                            <th scope="col" class="bg-bl-tr">SHOL</th>
+                                                            <th scope="col" class="no-border"></th>
+                                                            <th scope="col" class="no-border"></th>
+                                                            <th scope="col" class="no-border"></th>
+                                                            <th scope="col" class="bg-bl-tr">SHRD</th>
+                                                            <th scope="col" class="no-border"></th>
+                                                            <th scope="col" class="no-border"></th>
+                                                            <th scope="col" class="no-border"></th>
+                                                            <th scope="col" class="bg-bl-tr">RHOL</th>
+                                                            <th scope="col" class="no-border"></th>
+                                                            <th scope="col" class="no-border"></th>
+                                                            <th scope="col" class="no-border"></th>
+                                                            <th scope="col" class="bg-bl-tr">RHRD</th>
+                                                            <th scope="col" class="no-border"></th>
+                                                            <th scope="col" class="no-border"></th>
+                                                            <th scope="col" class="no-border"></th>
+                                                            <th scope="col" class="bg-bl-tr">RH2x</th>
+                                                            <th scope="col" class="no-border"></th>
+                                                            <th scope="col" class="no-border"></th>
+                                                            <th scope="col" class="no-border"></th>
+                                                            <th scope="col" class="bg-bl-tr">RHRD2x</th>
+                                                            <th scope="col" class="no-border"></th>
+                                                            <th scope="col" class="no-border"></th>
+                                                            <th scope="col" class="no-border"></th>
+                                                            <th scope="col" class="bg-bl-tr">Total</th>
+                                                            <th scope="col" class="no-border"></th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="col">Activity</th>
+                                                            <th scope="col">Chapa</th>
+                                                            <th scope="col">Employee</th>
+                                                            <th scope="col">ST</th>
+                                                            <th scope="col">OT</th>
+                                                            <th scope="col">ND</th>
+                                                            <th scope="col">NDOT</th>
+                                                            <th scope="col">ST</th>
+                                                            <th scope="col">OT</th>
+                                                            <th scope="col">ND</th>
+                                                            <th scope="col">NDOT</th>
+                                                            <th scope="col">ST</th>
+                                                            <th scope="col">OT</th>
+                                                            <th scope="col">ND</th>
+                                                            <th scope="col">NDOT</th>
+                                                            <th scope="col">ST</th>
+                                                            <th scope="col">OT</th>
+                                                            <th scope="col">ND</th>
+                                                            <th scope="col">NDOT</th>
+                                                            <th scope="col">ST</th>
+                                                            <th scope="col">OT</th>
+                                                            <th scope="col">ND</th>
+                                                            <th scope="col">NDOT</th>
+                                                            <th scope="col">ST</th>
+                                                            <th scope="col">OT</th>
+                                                            <th scope="col">ND</th>
+                                                            <th scope="col">NDOT</th>
+                                                            <th scope="col">ST</th>
+                                                            <th scope="col">OT</th>
+                                                            <th scope="col">ND</th>
+                                                            <th scope="col">NDOT</th>
+                                                            <th scope="col">ST</th>
+                                                            <th scope="col">OT</th>
+                                                            <th scope="col">ND</th>
+                                                            <th scope="col">NDOT</th>
+                                                            <th scope="col">Total Amt</th>
+                                                            <th scope="col">MHRS</th>
+                                                            <th scope="col">HC</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="pointer" ng-click="vm.addEmployee(x)" ng-repeat="x in vm.list">
+                                                            <td>{{x.Activity}}</td>
+                                                            <td>{{x.Chapa}}</td>
+                                                            <td>{{x.Name}}</td>
+                                                            <td>{{x.rd_st | number:2}}</td>
+                                                            <td>{{x.rd_ot | number:2}}</td>
+                                                            <td>{{x.rd_nd | number:2}}</td>
+                                                            <td>{{x.rd_ndot | number:2}}</td>
+                                                            <td>{{x.shol_st | number:2}}</td>
+                                                            <td>{{x.shol_ot | number:2}}</td>
+                                                            <td>{{x.shol_nd | number:2}}</td>
+                                                            <td>{{x.shol_ndot | number:2}}</td>
+                                                            <td>{{x.shrd_st | number:2}}</td>
+                                                            <td>{{x.shrd_ot | number:2}}</td>
+                                                            <td>{{x.shrd_nd | number:2}}</td>
+                                                            <td>{{x.shrd_ndot | number:2}}</td>
+                                                            <td>{{x.rhol_st | number:2}}</td>
+                                                            <td>{{x.rhol_ot | number:2}}</td>
+                                                            <td>{{x.rhol_nd | number:2}}</td>
+                                                            <td>{{x.rhol_ndot | number:2}}</td>
+                                                            <td>{{x.rhrd_st | number:2}}</td>
+                                                            <td>{{x.rhrd_ot | number:2}}</td>
+                                                            <td>{{x.rhrd_nd | number:2}}</td>
+                                                            <td>{{x.rhrd_ndot | number:2}}</td>
+                                                            <td>{{x.rhol_st2x | number:2}}</td>
+                                                            <td>{{x.rhol_ot2x | number:2}}</td>
+                                                            <td>{{x.rhol_nd2x | number:2}}</td>
+                                                            <td>{{x.rhol_ndot2x | number:2}}</td>
+                                                            <td>{{x.rholrd_st2x | number:2}}</td>
+                                                            <td>{{x.rholrd_ot2x | number:2}}</td>
+                                                            <td>{{x.rholrd_nd2x | number:2}}</td>
+                                                            <td>{{x.rholrd_ndot2x | number:2}}</td>
+                                                            <td>{{x.total_st | number:2}}</td>
+                                                            <td>{{x.total_ot | number:2}}</td>
+                                                            <td>{{x.total_nd | number:2}}</td>
+                                                            <td>{{x.total_ndot | number:2}}</td>
+                                                            <td>{{x.total | number:2}}</td>
+                                                            <td>{{x.MHRS}}</td>
+                                                            <td>{{x.HC}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <h5>
+                                                        <span class="badge badge-info badge-pill">CLUBHOUSE Rates</span>
+                                                    </h5>
+                                                </div>
+                                                <div class="col-md-8 text-right">
+                                                    <button title="Refresh Rates" type="button" class="btn btn-warning btn-sm" ng-click="vm.getRatesSelected(vm.header.TOCSHDR)"><i class="fa fa-undo"></i> Refresh Rates</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="preview-uploaded-dar rate-table">
+                                            <div class=" table-responsive">
+                                                <table id="rate" class="table table-sm table-upload-dar">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Activity</th>
+                                                            <th>rd-st</th>
+                                                            <th>rd-ot</th>
+                                                            <th>rd-nd</th>
+                                                            <th>rd-ndot</th>
+                                                            <th>shol-st</th>
+                                                            <th>shol-ot</th>
+                                                            <th>shol-nd</th>
+                                                            <th>shol-ndot</th>
+                                                            <th>shrd-st</th>
+                                                            <th>shrd-ot</th>
+                                                            <th>shrd-nd</th>
+                                                            <th>shrd-ndot</th>
+                                                            <th>rhol-st</th>
+                                                            <th>rhol-ot</th>
+                                                            <th>rhol-nd</th>
+                                                            <th>rhol-ndot</th>
+                                                            <th>rhrd-st</th>
+                                                            <th>rhrd-ot</th>
+                                                            <th>rhrd-nd</th>
+                                                            <th>rhrd-ndot</th>
+
+                                                            <th>rhol-st2x</th>
+                                                            <th>rhol-ot2x</th>
+                                                            <th>rhol-nd2x</th>
+                                                            <th>rhol-ndot2x</th>
+                                                            <th>rholrd-st2x</th>
+                                                            <th>rholrd-ot2x</th>
+                                                            <th>rholrd-nd2x</th>
+                                                            <th>rholrd-ndot2x</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="x in vm.listRates">
+                                                            <td>{{x.activity_fr_mg}}</td>
+                                                            <td>{{x.rd_st | number:2}}</td>
+                                                            <td>{{x.rd_ot | number:2}}</td>
+                                                            <td>{{x.rd_nd | number:2}}</td>
+                                                            <td>{{x.rd_ndot | number:2}}</td>
+                                                            <td>{{x.shol_st | number:2}}</td>
+                                                            <td>{{x.shol_ot | number:2}}</td>
+                                                            <td>{{x.shol_nd | number:2}}</td>
+                                                            <td>{{x.shol_ndot | number:2}}</td>
+                                                            <td>{{x.shrd_st | number:2}}</td>
+                                                            <td>{{x.shrd_ot | number:2}}</td>
+                                                            <td>{{x.shrd_nd | number:2}}</td>
+                                                            <td>{{x.shrd_ndot | number:2}}</td>
+                                                            <td>{{x.rhol_st | number:2}}</td>
+                                                            <td>{{x.rhol_ot | number:2}}</td>
+                                                            <td>{{x.rhol_nd | number:2}}</td>
+                                                            <td>{{x.rhol_ndot | number:2}}</td>
+                                                            <td>{{x.rhrd_st | number:2}}</td>
+                                                            <td>{{x.rhrd_ot | number:2}}</td>
+                                                            <td>{{x.rhrd_nd | number:2}}</td>
+                                                            <td>{{x.rhrd_ndot | number:2}}</td>
+                                                            <td>{{x.rhol_st2x | number:2}}</td>
+                                                            <td>{{x.rhol_ot2x | number:2}}</td>
+                                                            <td>{{x.rhol_nd2x | number:2}}</td>
+                                                            <td>{{x.rhol_ndot2x | number:2}}</td>
+                                                            <td>{{x.rholrd_st2x | number:2}}</td>
+                                                            <td>{{x.rholrd_ot2x | number:2}}</td>
+                                                            <td>{{x.rholrd_nd2x | number:2}}</td>
+                                                            <td>{{x.rholrd_ndot2x | number:2}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-info" ng-if="vm.header.Status != 'TRANSMITTED'" ng-click="vm.transmit()">
+                                <i class="fa fa-sticky-note-o"></i> TRANSMIT CLUBHOUSE
+                            </button>
+                            <button class="btn btn-danger" ng-if="vm.header.Status == 'TRANSMITTED'" ng-click="vm.reactivate()">
+                                <i class="fa fa-redo"></i> REACTIVATE CLUBHOUSE
+                            </button>
+                            <button class="btn btn-warning" ng-if="vm.header.Status == 'TRANSMITTED'" ng-click="vm.printPreview()">
+                                <i class="fa fa-redo"></i> PRINT
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn float-right" ng-click="vm.clear()">
+                                <i class="fa fa-eraser"></i> Clear
+                            </button>
+                            <button class="btn btn-secondary float-right" ng-disabled="vm.header.Status == 'TRANSMITTED'" ng-click="vm.addEmployee('')">
+                                <i class="fa fa-plus-circle"></i> Add Detail
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

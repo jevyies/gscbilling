@@ -1,0 +1,39 @@
+<div class="modal-content">
+    <div class="modal-title-div">
+        <strong class="modal-title-name">Upload Excel for Retro DAR Rate</strong>
+        <button class="modal-exit" ng-click="modal.close()">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <label>
+                    <strong>File:</strong>
+                </label>
+                <div class="file-upload" ng-class="{active: modal.excelFile.name}">
+                    <div class="file-select">
+                        <div class="file-select-button">Select File</div>
+                        <div class="file-select-name" ng-if="modal.excelFile.name">
+                            {{ modal.excelFile.name }}
+                        </div>
+                        <div class="file-select-name" ng-if="!modal.excelFile.name">
+                            No file choosen...
+                        </div>
+                        <input id="file-input" type="file" file-model="modal.excelFile" custom-on-change handler="modal.checkExcel()" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <button type="button" class="btn btn-primary" ng-click="modal.uploadExcel(0, 99)">
+                    <i class="fa fa-save fa-fw"></i>Upload</button>
+                <button type="button" class="btn btn-clear" ng-click="modal.close()">
+                    <i class="fa fa-times fa-fw"></i>Close</button>
+            </div>
+        </div>
+    </div>
+</div>

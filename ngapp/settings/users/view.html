@@ -1,0 +1,54 @@
+<div class="container-fluid" ng-controller="UserMasterCtrl as vm">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card full-width">
+                <div class="card-header">
+                    <h3 class="card-title">List of User</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div style="height: 400px;" ui-grid="vm.defaultGrid" ui-grid-selection ui-grid-resize-columns></div>
+                        </div>
+                        <div class="col-md-8">
+                            <form ng-submit="vm.save()">
+                                <div class="row bottom-margin">
+                                    <div class="col-md-3">
+                                        <label>Name</label>
+                                        <input type="text" ng-model="vm.variables.name" class="form-control form-control-sm" required autofocus>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Email</label>
+                                        <input type="text" ng-model="vm.variables.email" class="form-control form-control-sm" required autofocus>
+                                    </div>
+                                    <div class="col-md-3" ng-if="!vm.variables.id">
+                                        <label>Password</label>
+                                        <input type="password" ng-model="vm.variables.password" class="form-control form-control-sm" required autofocus>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Type</label>
+                                        <select ng-model="vm.variables.role_id" class="form-control form-control-sm" required>
+                                            <option ng-value="0"></option>
+                                            <option ng-value="2">ENCODER</option>
+                                            <option ng-value="1">ADMIN</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <button type="button" class="btn btn-dark" ng-click="vm.accessRights()" ng-if="vm.variables.id">Set Access Rights</button>
+                                    <button type="button" class="btn btn-warning" ng-click="vm.resetPassword()" ng-if="vm.variables.id">Reset Password</button>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fa fa-save fa-fw"></i>Save</button>
+                                    <button type="button" class="btn btn-danger" ng-click="vm.delete()">
+                                        <i class="fa fa-times fa-fw"></i>Delete</button>
+                                    <button type="button" class="btn btn-default" ng-click="vm.clearFunction()">
+                                        <i class="fa fa-times fa-fw"></i>Clear</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

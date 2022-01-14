@@ -1,0 +1,42 @@
+<div class="modal-content">
+    <div class="modal-title-div">
+        <strong class="modal-title-name">Reactivated SOA Report</strong>
+        <button class="modal-exit" ng-click="modal.close()">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row bottom-margin">
+            <div class="col-sm-6">
+                <strong>Date From:</strong>
+                <input type="date" ng-model="modal.variables.from" class="form-control form-control-sm">
+            </div>
+            <div class="col-sm-6">
+                <strong>Date To:</strong>
+                <input type="date" ng-model="modal.variables.to" class="form-control form-control-sm">
+            </div>
+        </div>
+        <div class="row bottom-margin">
+            <div class="col-md-6 text-left bottom-margin">
+                <button class="btn btn-warning" type="button" ng-click="modal.generate('OTHER CLIENT')">
+                    <i class="fa fa-print fa-fw"></i>Generate OTHER CLIENT Report</button>
+            </div>
+            <div class="col-md-6 text-left bottom-margin">
+                <button class="btn btn-secondary" type="button" ng-click="modal.generate('OTHER INCOME')">
+                    <i class="fa fa-print fa-fw"></i>Generate OTHER INCOME Report</button>
+            </div>
+            <div class="col-md-6 text-left">
+                <button class="btn btn-primary" type="button" ng-click="modal.generate('SAR')">
+                    <i class="fa fa-print fa-fw"></i>Generate SAR Report</button>
+            </div>
+            <div class="col-md-6 text-left">
+                <button class="btn btn-success" type="button" ng-click="modal.generate('DAR')">
+                    <i class="fa fa-print fa-fw"></i>Generate DAR Report</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-default" type="button" ng-click="modal.close()">
+            <i class="fa fa-times fa-fw"></i>Close</button>
+    </div>
+</div>

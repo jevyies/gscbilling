@@ -1,0 +1,23 @@
+<div class="modal-content">
+    <div class="modal-title-div">
+        <strong class="modal-title-name">Reactivate Rate</strong>
+        <button class="modal-exit" ng-click="modal.close()">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row bottom-margin">
+            <div class="col-md-12">
+                <div style="height: 300px;" ui-grid="modal.defaultGrid" ui-grid-selection ui-grid-resize-columns></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-right">
+            <button type="button" class="btn btn-success" ng-if="modal.variables.id" ng-click="modal.reactivate()">
+                <i class="fa fa-save fa-fw"></i>Reactivate</button>
+            <button type="button" class="btn btn-clear" ng-click="modal.close()">
+                <i class="fa fa-times fa-fw"></i>Close</button>
+        </div>
+    </div>
+</div>

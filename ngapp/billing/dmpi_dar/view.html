@@ -1,0 +1,851 @@
+<div class="container-fluid" ng-controller="DMPIDARCtrl as vm">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card full-width">
+                <div class="card-header" id="scrollTop">
+                    <h3 class="card-title">DMPI DAR</h3>
+                </div>
+                <form class="card-body" ng-submit="vm.save(0)" autocomplete="disabled">
+
+                    <div class="well" ng-if="vm.showWarnings && vm.fixable">
+                        <div class="bottom-margin">
+                            <strong>Are you sure?</strong>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                Check for some errors. Are you sure you want to proceed?
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <button type="button" class="btn btn-sm btn-success" ng-click="vm.save(1)">Proceed</button>
+                                <button type="button" class="btn btn-sm btn-default" ng-click="vm.fixable = false">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-repeat="warning in vm.warnings track by $index" ng-if="vm.showWarnings" class="callout cust-pad" ng-class="{'callout-danger':warning.type === 'error','callout-warning': warning.type === 'warning'}">
+                        <h6 ng-class="{'red':warning.type === 'error','orange': warning.type === 'warning'}">
+                            <i class="fa fa-exclamation-triangle"></i> {{warning.error}}</h6>
+                        <div>
+                            <h6>{{warning.description}}</h6>
+                        </div>
+                        <div class="exit-button">
+                            <i class="fa fa-times" ng-click="vm.eraseWarning($index)"></i>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <input type="checkbox" ng-model="vm.variables.isClubhouse" ng-true-value="1" ng-false-value="0" id="isClubhouse" />
+                            <label for="isClubhouse">
+                                <strong>is Clubhouse</strong>
+                            </label>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="checkbox" ng-model="vm.variables.nonBatch" ng-true-value="1" ng-false-value="0" id="nonBatch" />
+                            <label for="nonBatch">
+                                <strong>Non Batch Link</strong>
+                            </label>
+                        </div>
+                        <div class="col-md-4">
+                            <label>
+                                <strong>Monthly Cut-off:</strong>
+                            </label>
+                            <div class="input-group">
+                                <select class="form-control form-control-sm" ng-model="vm.variables.cutoff_month" required>
+                                    <option></option>
+                                    <option ng-repeat="x in vm.months" value="{{x.value}}">{{x.name}}</option>
+                                </select>
+                                <select class="form-control form-control-sm" ng-model="vm.variables.cutoff_year" required>
+                                    <option></option>
+                                    <option ng-repeat="x in vm.years">{{x.year}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="">
+                                <strong>Search entry (Ref ID):</strong>
+                            </label>
+                            <div class="group-input">
+                                <input type="text" class="form-control form-control-sm" ng-model="vm.variables.id" required disabled>
+                                <div class="button-group-append">
+                                    <button type="button" class="btn" ng-click="vm.searchHeader()">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5" class="text-right">
+                            <h2 class="text-primary">{{vm.variables.status}}</h2>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">
+                                <strong>Total Amount:</strong>
+                            </label>
+                            <input type="text" class="form-control form-control-sm text-right" ng-model="vm.variables.totalAmount" disabled>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row bottom-margin">
+                        <div class="col-md-3">
+                            <label>
+                                <strong>Month</strong>
+                            </label>
+                            <select class="form-control form-control-sm" ng-model="vm.variables.month" ng-disabled="vm.batchIsLoading || vm.soaIsLoading"
+                                required>
+                                <option></option>
+                                <option ng-repeat="x in vm.months" value="{{x.value}}">{{x.name}}</option>
+                                <!-- <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                                <option>11</option>
+                                <option>12</option> -->
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label>
+                                <strong>Year</strong>
+                            </label>
+                            <select class="form-control form-control-sm" ng-model="vm.variables.year" ng-disabled="vm.batchIsLoading || vm.soaIsLoading"
+                                required>
+                                <option></option>
+                                <option ng-repeat="x in vm.years">{{x.year}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label>
+                                <strong>Period</strong>
+                            </label>
+                            <select class="form-control form-control-sm" ng-model="vm.variables.period" ng-disabled="vm.batchIsLoading || vm.soaIsLoading"
+                                required>
+                                <option></option>
+                                <option>1</option>
+                                <option>2</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>
+                                <strong>Batch Number:</strong>
+                            </label>
+                            <div class="spinner-grow text-green" ng-if="vm.batchIsLoading"></div>
+                            <i class="fa fa-check green" ng-if="!vm.batchIsLoading && vm.batchTable.length > 0"></i>
+                            <span class="badge badge-danger badge-pill badge-sm" ng-if="!vm.batchIsLoading && vm.batchCheck == 0 && vm.batchTable.length == 0">No batch found</span>
+                            <span class="badge badge-danger badge-pill badge-sm" ng-if="!vm.batchIsLoading && vm.batchCheck > 0 && vm.batchTable.length > 0">Batch Number already exists</span>
+                            <!-- <select class="form-control form-control-sm" ng-disabled="vm.batchIsLoading || vm.batches.length == 0 || vm.soaIsLoading"
+                                ng-model="vm.variables.batcIDLink" ng-change="vm.getBatchInfo()">
+                                <option ng-repeat="x in vm.batches" ng-value="{{x.BID}}">{{x.BNo}}</option>
+                            </select> -->
+                            <div class="group-input">
+                                <input type="text" class="form-control form-control-sm" ng-model="vm.batchNo" ng-disabled="!vm.batchIsLoading && vm.batchTable.length > 0"
+                                />
+                                <div class="button-group-append">
+                                    <button type="button" class="btn" ng-click="vm.getBatchInfo()" ng-disabled="!vm.variables.period || vm.batchTable.length > 0">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label>
+                                <strong>SOA Number:</strong>
+                            </label>
+                            <div class="spinner-grow text-green" ng-if="vm.soaIsLoading"></div>
+                            <i class="fa fa-check green" ng-if="!vm.soaIsLoading && vm.soaCheck == 0"></i>
+                            <span class="badge badge-danger badge-pill badge-sm" ng-if="!vm.soaIsLoading && vm.soaCheck > 0">Soa Number already exists</span>
+                            <div class="group-input">
+                                <input type="text" class="form-control form-control-sm toUpper" ng-disabled="!vm.soaIsLoading && vm.batchTable.length > 0"
+                                    ng-model="vm.soaNumber" ng-change="vm.defaultSOA()">
+                                <div class="button-group-append">
+                                    <button type="button" class="btn" ng-click="vm.getBatchInfoSoaNumber()" ng-disabled="!vm.variables.period || vm.batchTable.length > 0">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label>
+                                <strong>SOA Date:</strong>
+                            </label>
+                            <input type="date" class="form-control form-control-sm" ng-model="vm.variables.soaDate" required>
+                        </div>
+                        <div class="col-md-3">
+                            <br>
+                            <button type="button" class="btn btn-warning" ng-click="vm.redoSearch()">
+                                <i class="fa fa-repeat fa-fw"></i>Redo Searching</button>
+                            <button type="button" class="btn btn-danger" ng-click="vm.clearBatch()" ng-if="vm.variables.nonBatch != 1">
+                                <i class="fa fa-times fa-fw"></i>Clear Batch</button>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>
+                                <strong>Date Transmitted to Operation:</strong>
+                            </label>
+                            <input type="date" class="form-control form-control-sm" ng-model="vm.variables.TransmittedDate" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label>
+                                <strong>Date Signed by Supervisor:</strong>
+                            </label>
+                            <input type="date" class="form-control form-control-sm" ng-model="vm.variables.SupervisorDate" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label>
+                                <strong>Date Signed by Manager:</strong>
+                            </label>
+                            <input type="date" class="form-control form-control-sm" ng-model="vm.variables.ManagerDate" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label>
+                                <strong>Date Received by Data Controller:</strong>
+                            </label>
+                            <input type="date" class="form-control form-control-sm" ng-model="vm.variables.DataControllerDate" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label>
+                                <strong>Date Received by Billing Clerk:</strong>
+                            </label>
+                            <input type="date" class="form-control form-control-sm" ng-model="vm.variables.BillingClerkDate" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label>
+                                <strong>Date Received by DMPI Account:</strong>
+                            </label>
+                            <input type="date" class="form-control form-control-sm" ng-model="vm.variables.DMPIReceivedDate" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label>
+                                <strong>Transmittal Number:</strong>
+                            </label>
+                            <span class="badge badge-danger badge-pill badge-sm" ng-if="vm.transmittalExist">Already Transmitted</span>
+                            <div class="autocomplete">
+                                <input type="text" class="form-control form-control-sm toUpper" ng-model="vm.variables.TransmittalNo" ng-change="vm.changeTransmittal()"
+                                    required>
+                                <div class="autocomplete-items" ng-if="vm.variables.TransmittalNo && vm.transmittals.length > 0">
+                                    <div ng-repeat="x in vm.transmittals" ng-click="vm.clickTransmittal(x)">{{x.TransmittalNo}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3" ng-if="vm.variables.nonBatch == 1">
+                            <label>
+                                <strong>Location:</strong>
+                            </label>
+                            <div class="group-input">
+                                <input type="text" class="form-control form-control-sm" ng-model="vm.variables.location" required disabled placeholder="Location">
+                                <div class="button-group-append">
+                                    <button type="button" class="btn" ng-click="vm.searchLocation()">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row bottom-margin">
+                        <div class="col-md-12">
+                            <span class="lb-dar">Data and Comparison</span>
+                            <div class="dmpi-dar-upload">
+                                <div class="width-100">
+                                    <h5>
+                                        <span class="badge badge-info badge-pill">Selected batch data</span>
+                                    </h5>
+                                </div>
+                                <div class="preview-uploaded-dar width-100">
+                                    <div class=" table-responsive">
+                                        <table class="table table-sm table-upload-dar">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">BNo</th>
+                                                    <th scope="col">Date</th>
+                                                    <th scope="col">Day Type</th>
+                                                    <th scope="col">Location</th>
+                                                    <th scope="col">ST</th>
+                                                    <th scope="col">OT</th>
+                                                    <th scope="col">ND</th>
+                                                    <th scope="col">NDOT</th>
+                                                    <th scope="col">Batched By</th>
+                                                    <th scope="col">Encoded By</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="x in vm.batchTable">
+                                                    <td>{{x.BNo}}</td>
+                                                    <td>{{x.xDate}}</td>
+                                                    <td>{{x.DayType}}</td>
+                                                    <td>{{x.Location}}</td>
+                                                    <td>{{x.THW_ST}}</td>
+                                                    <td>{{x.THW_OT}}</td>
+                                                    <td>{{x.THW_ND}}</td>
+                                                    <td>{{x.THW_NDOT}}</td>
+                                                    <td>{{x.BatchedBy}}</td>
+                                                    <td>{{x.EncodedBy}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row bottom-margin">
+                        <div class="col-md-6">
+                            <div class="row bottom-margin">
+                                <div class="col-md-12">
+                                    <label>
+                                        <strong>Prepared By:</strong>
+                                    </label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control form-control-sm" ng-model="vm.variables.preparedBy" required disabled>
+                                        <input type="text" class="form-control form-control-sm" ng-model="vm.variables.preparedByPosition" required disabled>
+                                        <div class="button-group-append">
+                                            <button type="button" class="btn btn-outline-success" ng-click="vm.searchSignatory(1)">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row bottom-margin">
+                                <div class="col-md-12">
+                                    <label>
+                                        <strong>Confirmed By:</strong>
+                                    </label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control form-control-sm" ng-model="vm.variables.confirmedBy" required disabled>
+                                        <input type="text" class="form-control form-control-sm" ng-model="vm.variables.confirmedByPosition" required disabled>
+                                        <div class="button-group-append">
+                                            <button type="button" class="btn btn-outline-success" ng-click="vm.searchSignatory(2)">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row bottom-margin">
+                                <div class="col-md-12">
+                                    <label>
+                                        <strong>Approved By:
+                                        </strong>
+                                    </label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control form-control-sm" ng-model="vm.variables.approvedBy" required disabled>
+                                        <input type="text" class="form-control form-control-sm" ng-model="vm.variables.approvedByPosition" required disabled>
+                                        <div class="button-group-append">
+                                            <button type="button" class="btn btn-outline-success" ng-click="vm.searchSignatory(3)">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6" ng-if="vm.variables.id">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <textarea class="form-control bottom-margin" rows="6" ng-model="vm.variables.Remarks" placeholder="Add Remarks Here"></textarea>
+                                </div>
+                                <div class="col-md-12 text-right">
+                                    <button type="button" class="btn btn-success" ng-click="vm.saveRemarks()">
+                                        <i class="fa fa-save fa-fw"></i>Save Remarks</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row bottom-margin" style="border:1px solid red;padding:10px;">
+                        <div class="col-md-3">
+                            <b>Choose Detail Type: </b>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="radio" id="uploadNiDar" ng-model="vm.saveChoice" ng-value="1">
+                            <label for="uploadNiDar">
+                                <b>Upload DAR</b>
+                            </label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="radio" id="supervisorEntry" ng-model="vm.saveChoice" ng-value="2">
+                            <label for="supervisorEntry">
+                                <b>Manual Entry Supervisor</b>
+                            </label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="radio" id="PlantingIncentives" ng-model="vm.saveChoice" ng-value="3">
+                            <label for="PlantingIncentives">
+                                <b>Planting Incentives</b>
+                            </label>
+                        </div>
+                    </div>
+                    <div ng-if="vm.saveChoice == 2">
+                        <div class="dmpi-dar-upload">
+                            <div class="row bottom-margin">
+                                <div class="col-md-12">
+                                    <div style="height: 250px;" ui-grid="vm.supervisorGrid" ui-grid-selection ui-grid-resize-columns ui-grid-pinning></div>
+                                </div>
+                            </div>
+                            <div class="row bottom-margin">
+                                <div class="col-md-3 col-md-offset-6 text-right">
+                                    <label>
+                                        <strong>Overall Total:</strong>
+                                    </label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control form-control-sm toUpper" ng-model="vm.OverAllTotal" disabled>
+                                </div>
+                            </div>
+                            <div class="row bottom-margin">
+                                <div class="col-md-3">
+                                    <label>
+                                        <strong>Activity:</strong>
+                                    </label>
+                                    <input type="text" class="form-control form-control-sm toUpper" ng-model="vm.supervisorDetails.activity">
+                                </div>
+                                <div class="col-md-3">
+                                    <label>
+                                        <strong>Supervisor Name:</strong>
+                                    </label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control form-control-sm" ng-model="vm.supervisorDetails.Name" disabled>
+                                        <div class="button-group-append">
+                                            <button type="button" class="btn btn-outline-primary" ng-click="vm.searchEmployee()">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>
+                                        <strong>GL Account:</strong>
+                                    </label>
+                                    <input type="text" class="form-control form-control-sm toUpper" ng-model="vm.supervisorDetails.gl">
+                                </div>
+                                <div class="col-md-3">
+                                    <label>
+                                        <strong>Cost Center:</strong>
+                                    </label>
+                                    <input type="text" class="form-control form-control-sm toUpper" ng-model="vm.supervisorDetails.cc">
+                                </div>
+                            </div>
+                            <div class="row bottom-margin">
+                                <div class="col-md-3">
+                                    <label>
+                                        <strong>Actual Hrs Worked:</strong>
+                                    </label>
+                                    <input type="text" class="form-control form-control-sm toUpper" ng-model="vm.supervisorDetails.rdst">
+                                </div>
+                                <div class="col-md-3">
+                                    <label>
+                                        <strong>Leave w/out Pay (Hrs):</strong>
+                                    </label>
+                                    <input type="text" class="form-control form-control-sm toUpper" ng-model="vm.supervisorDetails.leaveNoPayHrs">
+                                </div>
+                                <div class="col-md-3">
+                                    <label>
+                                        <strong>ND Hours Worked:</strong>
+                                    </label>
+                                    <input type="text" class="form-control form-control-sm toUpper" ng-model="vm.supervisorDetails.rdnd">
+                                </div>
+                                <div class="col-md-3">
+                                    <label>
+                                        <strong>Fixed Quincena:</strong>
+                                    </label>
+                                    <input type="text" ng-change="vm.calculateSupervisorDetails()" class="form-control form-control-sm toUpper" ng-model="vm.supervisorDetails.c_totalst">
+                                </div>
+                            </div>
+                            <div class="row bottom-margin">
+                                <div class="col-md-3 col-md-offset-3">
+                                    <label>
+                                        <strong>Total ND:</strong>
+                                    </label>
+                                    <input type="text" ng-change="vm.calculateSupervisorDetails()" class="form-control form-control-sm toUpper" ng-model="vm.supervisorDetails.c_totalnd">
+                                </div>
+                                <div class="col-md-3">
+                                    <label>
+                                        <strong>Total Leave w/out Pay:</strong>
+                                    </label>
+                                    <input type="text" ng-change="vm.calculateSupervisorDetails()" class="form-control form-control-sm toUpper" ng-model="vm.supervisorDetails.TotalLeave">
+                                </div>
+                                <div class="col-md-3">
+                                    <label>
+                                        <strong>Total Billing:</strong>
+                                    </label>
+                                    <input type="text" class="form-control form-control-sm toUpper" ng-model="vm.supervisorDetails.c_totalAmt">
+                                </div>
+                            </div>
+                            <div class="row bottom-margin">
+                                <div class="col-md-12 text-right">
+                                    <button type="button" ng-click="vm.supervisorDetails = {}" class="btn btn-primary">
+                                        <i class="fa fa-eraser"></i> Clear Supervisor Detail</button>
+                                    <button type="button" ng-click="vm.deleteSupervisor()" class="btn btn-danger">
+                                        <i class="fa fa-trash"></i> Delete Supervisor Detail</button>
+                                    <button type="button" ng-click="vm.saveDetailsSupervisor()" class="btn btn-success">
+                                        <i class="fa fa-save"></i> Save Supervisor Detail</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="vm.saveChoice == 3">
+                        <div class="dmpi-dar-upload">
+                            <div class="row bottom-margin">
+                                <div class="col-md-12">
+                                    <div style="height: 250px;" ui-grid="vm.incentiveGrid" ui-grid-selection ui-grid-resize-columns ui-grid-pinning></div>
+                                </div>
+                            </div>
+                            <div class="row bottom-margin">
+                                <div class="col-md-3 col-md-offset-6 text-right">
+                                    <label>
+                                        <strong>Overall Total:</strong>
+                                    </label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control form-control-sm toUpper" ng-model="vm.OverAllTotalIncentive" disabled>
+                                </div>
+                            </div>
+                            <div class="row bottom-margin">
+                                <div class="col-md-3">
+                                    <label>
+                                        <strong>Activity:</strong>
+                                    </label>
+                                    <input type="text" class="form-control form-control-sm" ng-model="vm.incentiveDetails.activity">
+                                </div>
+                                <div class="col-md-3">
+                                    <label>
+                                        <strong>GL Account:</strong>
+                                    </label>
+                                    <input type="text" class="form-control form-control-sm" ng-model="vm.incentiveDetails.gl">
+                                </div>
+                                <div class="col-md-3">
+                                    <label>
+                                        <strong>Cost Center:</strong>
+                                    </label>
+                                    <input type="text" class="form-control form-control-sm" ng-model="vm.incentiveDetails.cc">
+                                </div>
+                                <div class="col-md-3">
+                                    <label>
+                                        <strong>Incentive Amount:</strong>
+                                    </label>
+                                    <input type="text" class="form-control form-control-sm text-right text-primary" ng-model="vm.incentiveDetails.c_totalAmt">
+                                </div>
+                            </div>
+                            <div class="row bottom-margin">
+                                <div class="col-md-12 text-right">
+                                    <button type="button" ng-click="vm.incentiveDetails = {}" class="btn btn-primary">
+                                        <i class="fa fa-eraser"></i> Clear Incentive Detail</button>
+                                    <button type="button" ng-click="vm.deleteIncentive()" class="btn btn-danger">
+                                        <i class="fa fa-trash"></i> Delete Incentive Detail</button>
+                                    <button type="button" ng-click="vm.saveDetailsIncentive()" class="btn btn-success">
+                                        <i class="fa fa-save"></i> Save Incentive Detail</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="vm.saveChoice == 1">
+                        <div class="row bottom-margin">
+                            <div class="col-md-6">
+                                <label>
+                                    <strong>File:</strong>
+                                </label>
+                                <div class="file-upload" ng-class="{active: vm.excelFile.name}">
+                                    <div class="file-select">
+                                        <div class="file-select-button">Select File</div>
+                                        <div class="file-select-name" ng-if="vm.excelFile.name">
+                                            {{ vm.excelFile.name }}
+                                        </div>
+                                        <div class="file-select-name" ng-if="!vm.excelFile.name">
+                                            No file choosen...
+                                        </div>
+                                        <input id="file-input" type="file" file-model="vm.excelFile" ng-disabled="!vm.variables.location && vm.variables.nonBatch != 1"
+                                            custom-on-change handler="vm.checkExcel()" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <br>
+                                <!-- <button type="button" class="btn btn-outline-success" ng-click="vm.checkExcel()">
+                                    Check Excel</button> -->
+                                <button type="button" class="btn btn-outline-danger" ng-click="vm.removeFile()">
+                                    <i class="fa fa-minus-square-o"></i> remove selected file</button>
+                            </div>
+                        </div>
+                        <div class="row bottom-margin">
+                            <div class="col-md-12">
+                                <span class="lb-dar">Data and Comparison</span>
+                                <div class="dmpi-dar-upload">
+                                    <div>
+                                        <h5>
+                                            <span class="badge badge-info badge-pill">Uploaded DMPI DAR details</span>
+                                        </h5>
+                                    </div>
+                                    <div class="preview-uploaded-dar">
+                                        <div class=" table-responsive">
+                                            <table id="dtl" class="table table-sm table-upload-dar dmpi-dar-uploaded">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" class="no-border"></th>
+                                                        <th scope="col" class="no-border"></th>
+                                                        <th scope="col" class="no-border"></th>
+                                                        <th scope="col" class="no-border"></th>
+                                                        <th scope="col" class="no-border"></th>
+                                                        <th scope="col" class="no-border"></th>
+                                                        <th scope="col" class="no-border"></th>
+                                                        <th scope="col" class="no-border"></th>
+                                                        <th scope="col" class="no-border"></th>
+                                                        <th scope="col" class="bg-bl-tr">RD</th>
+                                                        <th scope="col" class="no-border"></th>
+                                                        <th scope="col" class="no-border"></th>
+                                                        <th scope="col" class="no-border"></th>
+                                                        <th scope="col" class="bg-bl-tr">SHOL</th>
+                                                        <th scope="col" class="no-border"></th>
+                                                        <th scope="col" class="no-border"></th>
+                                                        <th scope="col" class="no-border"></th>
+                                                        <th scope="col" class="bg-bl-tr">RHOL</th>
+                                                        <th scope="col" class="no-border"></th>
+                                                        <th scope="col" class="no-border"></th>
+                                                        <th scope="col" class="no-border"></th>
+                                                        <th scope="col" class="bg-bl-tr">RT</th>
+                                                        <th scope="col" class="no-border"></th>
+                                                        <th scope="col" class="no-border"></th>
+                                                        <th scope="col" class="no-border"></th>
+                                                        <th scope="col" class="bg-bl-tr">SHRD</th>
+                                                        <th scope="col" class="no-border"></th>
+                                                        <th scope="col" class="no-border"></th>
+                                                        <th scope="col" class="no-border"></th>
+                                                        <th scope="col" class="bg-bl-tr">RHRD</th>
+                                                        <th scope="col" class="no-border"></th>
+                                                        <th scope="col" class="no-border"></th>
+                                                        <th scope="col" class="no-border"></th>
+                                                        <th scope="col" class="no-border"></th>
+                                                        <th scope="col" class="bg-bl-tr">Total</th>
+                                                        <th scope="col" class="no-border"></th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">Activity</th>
+                                                        <th scope="col">Field</th>
+                                                        <th scope="col">Accomplished</th>
+                                                        <th scope="col">GL</th>
+                                                        <th scope="col">CC</th>
+                                                        <th scope="col">CCC</th>
+                                                        <th scope="col">IOA</th>
+                                                        <th scope="col">IOC</th>
+                                                        <th scope="col">ST</th>
+                                                        <th scope="col">OT</th>
+                                                        <th scope="col">ND</th>
+                                                        <th scope="col">NDOT</th>
+                                                        <th scope="col">ST</th>
+                                                        <th scope="col">OT</th>
+                                                        <th scope="col">ND</th>
+                                                        <th scope="col">NDOT</th>
+                                                        <th scope="col">ST</th>
+                                                        <th scope="col">OT</th>
+                                                        <th scope="col">ND</th>
+                                                        <th scope="col">NDOT</th>
+                                                        <th scope="col">ST</th>
+                                                        <th scope="col">OT</th>
+                                                        <th scope="col">ND</th>
+                                                        <th scope="col">NDOT</th>
+                                                        <th scope="col">ST</th>
+                                                        <th scope="col">OT</th>
+                                                        <th scope="col">ND</th>
+                                                        <th scope="col">NDOT</th>
+                                                        <th scope="col">ST</th>
+                                                        <th scope="col">OT</th>
+                                                        <th scope="col">ND</th>
+                                                        <th scope="col">NDOT</th>
+                                                        <th scope="col">V%</th>
+                                                        <th scope="col">ST</th>
+                                                        <th scope="col">OT</th>
+                                                        <th scope="col">ND</th>
+                                                        <th scope="col">NDOT</th>
+                                                        <th scope="col">VAT</th>
+                                                        <th scope="col">Total Amt</th>
+                                                        <th scope="col">HC</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="x in vm.details">
+                                                        <td>{{x.No}}</td>
+                                                        <td>{{x.activity}}</td>
+                                                        <td>{{x.field}}</td>
+                                                        <td>{{x.accomplished}}</td>
+                                                        <td>{{x.gl}}</td>
+                                                        <td>{{x.cc}}</td>
+                                                        <td>{{x.ccc}}</td>
+                                                        <td>{{x.ioa}}</td>
+                                                        <td>{{x.ioc}}</td>
+                                                        <td>{{x.rdst | number:2}}</td>
+                                                        <td>{{x.rdot | number:2}}</td>
+                                                        <td>{{x.rdnd | number:2}}</td>
+                                                        <td>{{x.rdndot | number:2}}</td>
+                                                        <td>{{x.sholst | number:2}}</td>
+                                                        <td>{{x.sholot | number:2}}</td>
+                                                        <td>{{x.sholnd | number:2}}</td>
+                                                        <td>{{x.sholndot | number:2}}</td>
+                                                        <td>{{x.rholst | number:2}}</td>
+                                                        <td>{{x.rholot | number:2}}</td>
+                                                        <td>{{x.rholnd | number:2}}</td>
+                                                        <td>{{x.rholndot | number:2}}</td>
+                                                        <td>{{x.rtst | number:2}}</td>
+                                                        <td>{{x.rtot | number:2}}</td>
+                                                        <td>{{x.rtnd | number:2}}</td>
+                                                        <td>{{x.rtndot | number:2}}</td>
+                                                        <td>{{x.shrdst | number:2}}</td>
+                                                        <td>{{x.shrdot | number:2}}</td>
+                                                        <td>{{x.shrdnd | number:2}}</td>
+                                                        <td>{{x.shrdndot | number:2}}</td>
+                                                        <td>{{x.rhrdst | number:2}}</td>
+                                                        <td>{{x.rhrdot | number:2}}</td>
+                                                        <td>{{x.rhrdnd | number:2}}</td>
+                                                        <td>{{x.rhrdndot | number:2}}</td>
+                                                        <td>{{x.vat_rate }}</td>
+                                                        <td>{{x.totalst | number:2}}</td>
+                                                        <td>{{x.totalot | number:2}}</td>
+                                                        <td>{{x.totalnd | number:2}}</td>
+                                                        <td>{{x.totalndot | number:2}}</td>
+                                                        <td>{{x.vat | number:2}}</td>
+                                                        <td>{{x.totalAmt | number:2}}</td>
+                                                        <td>{{x.headCount}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h5>
+                                            <span class="badge badge-info badge-pill">Uploaded DMPI DAR rates</span>
+                                        </h5>
+                                    </div>
+                                    <div class="preview-uploaded-dar rate-table">
+                                        <div class=" table-responsive">
+                                            <table id="rate" class="table table-sm table-upload-dar">
+                                                <thead>
+                                                    <tr>
+                                                        <th>activity</th>
+                                                        <th>GL</th>
+                                                        <th>CC</th>
+                                                        <th>rd-st</th>
+                                                        <th>rd-ot</th>
+                                                        <th>rd-nd</th>
+                                                        <th>rd-ndot</th>
+                                                        <th>shol-st</th>
+                                                        <th>shol-ot</th>
+                                                        <th>shol-nd</th>
+                                                        <th>shol-ndot</th>
+                                                        <th>rhol-st</th>
+                                                        <th>rhol-ot</th>
+                                                        <th>rhol-nd</th>
+                                                        <th>rhol-ndot</th>
+                                                        <th>rt-st</th>
+                                                        <th>rt-ot</th>
+                                                        <th>rt-nd</th>
+                                                        <th>rt-ndot</th>
+                                                        <th>shrd-st</th>
+                                                        <th>shrd-ot</th>
+                                                        <th>shrd-nd</th>
+                                                        <th>shrd-ndot</th>
+                                                        <th>rhrd-st</th>
+                                                        <th>rhrd-ot</th>
+                                                        <th>rhrd-nd</th>
+                                                        <th>rhrd-ndot</th>
+                                                        <th>status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="x in vm.rates">
+                                                        <td ng-class="{'danger-mode': x.matchID == 0}">{{x.activity_fr_mg}}</td>
+                                                        <td>{{x.gl_fr_mg}}</td>
+                                                        <td>{{x.costcenter__}}</td>
+                                                        <td>{{x.rd_st | number:2 }}</td>
+                                                        <td>{{x.rd_ot | number:2 }}</td>
+                                                        <td>{{x.rd_nd | number:2 }}</td>
+                                                        <td>{{x.rd_ndot | number:2 }}</td>
+                                                        <td>{{x.shol_st | number:2 }}</td>
+                                                        <td>{{x.shol_ot | number:2 }}</td>
+                                                        <td>{{x.shol_nd | number:2 }}</td>
+                                                        <td>{{x.shol_ndot | number:2 }}</td>
+                                                        <td>{{x.rhol_st | number:2 }}</td>
+                                                        <td>{{x.rhol_ot | number:2 }}</td>
+                                                        <td>{{x.rhol_nd | number:2 }}</td>
+                                                        <td>{{x.rhol_ndot | number:2 }}</td>
+                                                        <td>{{x.rt_st | number:2 }}</td>
+                                                        <td>{{x.rt_ot | number:2 }}</td>
+                                                        <td>{{x.rt_nd | number:2 }}</td>
+                                                        <td>{{x.rt_ndot | number:2 }}</td>
+                                                        <td>{{x.shrd_st | number:2 }}</td>
+                                                        <td>{{x.shrd_ot | number:2 }}</td>
+                                                        <td>{{x.shrd_nd | number:2 }}</td>
+                                                        <td>{{x.shrd_ndot | number:2 }}</td>
+                                                        <td>{{x.rhrd_st | number:2 }}</td>
+                                                        <td>{{x.rhrd_ot | number:2 }}</td>
+                                                        <td>{{x.rhrd_nd | number:2 }}</td>
+                                                        <td>{{x.rhrd_ndot | number:2 }}</td>
+                                                        <td>{{x.fetchStatus }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row bottom-margin">
+                        <div class="col-md-6">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fa fa-save"></i> Save</button>
+                            <button type="button" class="btn btn-primary" ng-disabled="vm.variables.status !== 'active'" ng-click="vm.updateStatus('submitted')">
+                                <i class="fa fa-save"></i> Submit</button>
+                            <!-- <button type="button" class="btn btn-primary" ng-disabled="vm.variables.status !== 'submitted'" ng-click="vm.updateStatus('confirmed')">
+                                <i class="fa fa-save"></i> Confirm</button>
+                            <button type="button" class="btn btn-primary" ng-disabled="vm.variables.status !== 'confirmed'" ng-click="vm.updateStatus('transmitted')">
+                                <i class="fa fa-save"></i> Transmit</button> -->
+                            <button type="button" class="btn btn-warning" ng-disabled="vm.variables.status === 'active'" ng-click="vm.reactivate()">
+                                <i class="fa fa-repeat"></i> Reactivate</button>
+                            <button type="button" class="btn btn-danger" ng-if="vm.variables.id" ng-click="vm.delete()">
+                                <i class="fa fa-trash"></i> Delete</button>
+                        </div>
+                        <div class="col-md-6 flex flex-right">
+                            <button type="button" class="btn btn-success" ng-click="vm.clearFunction()">
+                                <i class="fa fa-mail-reply"></i> Clear</button>&nbsp;&nbsp;
+                                <span class="f22p">Total: {{vm.variables.totalAmount}}</span>
+                        </div>
+                    </div>
+                    <div class="row bottom-margin">
+                        <div class="col-md-12">
+                             <button type="button" class="btn btn-outline-info btn-sm" ng-disabled="!vm.variables.id" ng-click="vm.showLogs(vm.variables.id)">
+                                <i class="fa fa-print"></i>
+                                <strong>Show Log History</strong>
+                            </button>
+                            <button type="button" class="btn btn-outline-info btn-sm" ng-disabled="!vm.variables.id" ng-click="vm.print('pdf')">
+                                <i class="fa fa-print"></i>
+                                <strong>Print PDF</strong>
+                            </button>
+                            <button type="button" class="btn btn-outline-info btn-sm" ng-disabled="!vm.variables.id" ng-click="vm.print('excel')">
+                                <i class="fa fa-file-excel-o"></i>
+                                <strong>Export To Excel</strong>
+                            </button>
+                            <button type="button" class="btn btn-outline-info btn-sm" ng-click="vm.printTransmittal()">
+                                <i class="fa fa-print"></i>
+                                <strong>Print Transmittal</strong>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="vm.variables.id && vm.role == 1">
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-outline-success btn-sm" ng-click="vm.redirectTransmittal(vm.variables.id)">
+                                <i class="fa fa-send"></i>
+                                <strong>Redirect To Printed Transmittal</strong>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

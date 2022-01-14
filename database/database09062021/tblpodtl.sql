@@ -1,0 +1,118 @@
+-- phpMyAdmin SQL Dump
+-- version 4.8.3
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Sep 06, 2021 at 05:43 PM
+-- Server version: 10.1.36-MariaDB
+-- PHP Version: 7.2.11
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `gscbilling`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblpodtl`
+--
+
+CREATE TABLE `tblpodtl` (
+  `PODtlid` bigint(20) NOT NULL,
+  `LineNum` varchar(500) NOT NULL,
+  `MatCode` varchar(500) NOT NULL,
+  `Quantity` double NOT NULL,
+  `Uom` varchar(500) NOT NULL,
+  `UnitPrice` double NOT NULL,
+  `Amt` double NOT NULL,
+  `DelDate` date NOT NULL,
+  `ItemDesc` varchar(500) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `POhdrlink_id` bigint(20) NOT NULL,
+  `ItemScope` varchar(5000) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tblpodtl`
+--
+
+INSERT INTO `tblpodtl` (`PODtlid`, `LineNum`, `MatCode`, `Quantity`, `Uom`, `UnitPrice`, `Amt`, `DelDate`, `ItemDesc`, `created_at`, `updated_at`, `POhdrlink_id`, `ItemScope`) VALUES
+(1, '', '', 0, '', 0, 2270000, '2019-01-21', 'Repair of Camp LFL Sup Houses 200, 3, 178, 187, 185, 161,  and Camp 14 Sup Houses 161, 165, 157, 134, 133, 39', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, ''),
+(2, '', '', 0, '', 0, 5827279.82, '2019-04-01', 'RENOVATION OF CHEMICAL STORAGE AREA', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 2, ''),
+(3, '', '', 0, '', 0, 344992.26, '2019-07-15', 'CONVERSION OF OLD ANALYTICAL LAB TO MOL. BIO LAB', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 3, ''),
+(4, '', '', 0, '', 0, 788158, '2019-08-27', 'GENERAL REPAIR AND REPAINTING OF CAWAYANON HOUSE #5', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 4, ''),
+(5, '', '', 0, '', 0, 391774.78, '2019-09-19', 'GENERAL REPAIR AND IMPROVEMENT OF SLAUGHTER HOUSE', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 5, ''),
+(6, '', '', 0, '', 0, 524577.7, '2019-11-11', 'IMPROVEMENT OF PMH EXCLUSIVE WATER TANK SYSTEM', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 6, ''),
+(7, '', '', 0, '', 0, 93079.05, '2019-11-11', 'CONSTRUCTION OF WAITING SHED AT CAMP JMC', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 7, ''),
+(8, '', '', 0, '', 0, 1190000, '2019-12-14', 'CONVERSION OF ST. C PHILLIPS DAYCARE INTO ST QUARTER', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 8, ''),
+(9, '', '', 0, '', 0, 180030.07, '2020-01-01', 'CLUBHOUSE RENOVATION', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 9, ''),
+(10, '', '', 0, '', 0, 0, '0000-00-00', 'FENCE/HOUSING', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 10, ''),
+(11, '', '', 0, '', 0, 0, '0000-00-00', 'ADMIN OFFICE', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 11, ''),
+(12, '', '', 0, '', 0, 2100000, '2020-02-19', 'CR FOR SIMPLEX HOUSES (25 JMC & 10 LFL)', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 12, ''),
+(13, '', '', 0, '', 0, 436457.61, '2020-03-19', 'RESURFACING OF CAMP PHILLIPS BASKETBALL COURT', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 13, ''),
+(14, '', '', 0, '', 0, 66044.96, '2020-03-31', 'SEPTIC VAULT FOR PMH', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 14, ''),
+(15, '', '', 0, '', 0, 523623.81, '0000-00-00', 'BUNGALOW FACADE IMPROVEMENT PROPET', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 15, ''),
+(16, '', '', 0, '', 0, 60798.78, '2020-04-21', 'CAWAYANON GOLFCOURSE CR IMPROVEMENT', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 16, ''),
+(17, '', '', 0, '', 0, 111781.71, '2020-04-20', 'CLUBHOUSE KITCHEN IMPROVEMENT', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 17, ''),
+(18, '', '', 0, '', 0, 593000, '0000-00-00', 'GENERAL REPAIR AND REPAINTING OF BOWLING ALLEY', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 18, ''),
+(19, '', '', 0, '', 0, 44756.15, '0000-00-00', 'CONSTRUCTION OF SEPTIC TANK FOR JMCPH', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 19, ''),
+(20, '', '', 0, '', 0, 0, '0000-00-00', 'GC CART EXTENSION', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 20, ''),
+(21, '', '', 0, '', 0, 26000, '0000-00-00', 'REPAIR OF LEAKING ROOD AT OLD PACKHOUSE WAREHOUSE', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 21, ''),
+(22, '', '', 0, '', 0, 782000, '0000-00-00', 'ESTOLOGA PROJECT (SINGLE DETACHED)', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 22, ''),
+(23, '', '', 0, '', 0, 1271000, '0000-00-00', 'ESTOLOGA PROJECT (TWO STOREY)', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 23, ''),
+(24, '', '', 0, '', 0, 169000, '0000-00-00', 'INSTALLATION OF EAVES CEILING AND INSIDE CEILING MOULDING AT FEEDLOT SLAUGHTER HOUSE', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 24, ''),
+(25, '', '', 0, '', 0, 23400, '0000-00-00', 'REPLACEMENT OF JMCPH CANTEEN DOOR', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 25, ''),
+(26, '', '', 0, '', 0, 99974.5, '0000-00-00', 'FABRICATE & REPLACE BASKETBALL COURT RING ', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 26, ''),
+(27, '', '', 0, '', 0, 250000, '0000-00-00', 'REPAIR NARRA BACHELORS DORMITORY', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 27, ''),
+(28, '', '', 0, '', 0, 492235.07, '0000-00-00', 'ROOFING REPAIR OLD RESIDENTIAL HOUSE (ESTOLOGA)', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 28, ''),
+(29, '', '', 0, '', 0, 100000, '0000-00-00', 'FABRICATION OF TANK TOWER', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 29, ''),
+(30, '', '', 0, '', 0, 1450000, '0000-00-00', '12UNITS HOUSE REPAIR- CAMP JMC', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 30, ''),
+(31, '', '', 0, '', 0, 0, '0000-00-00', 'DM GSC OFFICE', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 31, ''),
+(32, '', '', 0, '', 0, 0, '2021-03-10', 'PATPAT OFFICE', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 32, ''),
+(33, '', '', 0, '', 0, 294186.89, '2021-03-06', ' 2 UNITS  JMC HSE REPAIR 91 &175', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 33, ''),
+(34, '', '', 0, '', 0, 78165.54, '2021-05-20', 'FFPH CONCRETING OF SIMUL -LAB', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 34, ''),
+(35, '', '', 0, '', 0, 0, '2021-05-01', 'GSC ADMIN (NEW GATE)', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 35, ''),
+(36, '', '', 0, '', 0, 0, '2021-05-23', 'GSC ADMIN (GUARDHOUSE)', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 36, ''),
+(37, '', '', 0, '', 0, 0, '2021-06-10', 'GSC ADMIN (PATHWAY)', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 37, ''),
+(38, '', '', 0, '', 0, 315000, '2021-06-07', 'REPAINTING OF BUNGALOW (EXTENSION)', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 38, ''),
+(39, '', '', 0, '', 0, 106790.4, '2021-07-02', 'INSTALLATION OF MONOBLOCL TABLE DIVIDER', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 39, ''),
+(40, '', '', 0, '', 0, 0, '2021-07-10', 'DM FREEZING (PALLETS REPAIR)', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 40, ''),
+(41, '', '', 0, '', 0, 0, '2021-07-25', 'GSC ADMIN OFFICE (CABINET MAKING)', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 41, ''),
+(42, '', '', 0, '', 0, 0, '2021-07-29', 'GSC ADMIN OFFICE (NEW OFFICE)', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 42, '');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `tblpodtl`
+--
+ALTER TABLE `tblpodtl`
+  ADD PRIMARY KEY (`PODtlid`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `tblpodtl`
+--
+ALTER TABLE `tblpodtl`
+  MODIFY `PODtlid` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

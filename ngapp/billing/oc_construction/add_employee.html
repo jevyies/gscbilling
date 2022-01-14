@@ -1,0 +1,194 @@
+<div class="modal-content">
+    <div class="modal-title-div">
+        <strong class="modal-title-name">Add Employee</strong>
+        <button class="modal-exit" ng-click="modal.close()">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+    <form ng-submit="modal.save()">
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="group-input">
+                        <input type="text" class="form-control form-control-sm" ng-model="modal.variables.Activity" ng-change="modal.compute()" required disabled placeholder="Activity">
+                        <div class="button-group-append">
+                            <button type="button" class="btn" ng-click="modal.searchActivity('CONSTRUCTION')">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control form-control-sm" ng-model="modal.variables.MHRS" required placeholder="MHRS">
+                </div>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control form-control-sm" ng-model="modal.variables.HC" required placeholder="Headcount">
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-3">
+                    <span class="badge badge-info badge-pill">Regular Day</span>
+                </div>
+                <div class="col-sm-2">
+                    <label for="rd_st">ST</label>
+                    <input type="text" name="rd_st" class="form-control form-control-sm" ng-model="modal.variables.rd_st" ng-change="modal.compute()" only-numbers>
+                </div>
+                <div class="col-sm-2">
+                    <label for="rd_ot">OT</label>
+                    <input type="text" name="rd_ot" class="form-control form-control-sm" ng-model="modal.variables.rd_ot" ng-change="modal.compute()" only-numbers>
+                </div>
+                <div class="col-sm-2">
+                    <label for="rd_nd">ND</label>
+                    <input type="text" name="rd_nd" class="form-control form-control-sm" ng-model="modal.variables.rd_nd" ng-change="modal.compute()" only-numbers>
+                </div>
+                <div class="col-sm-2">
+                    <label for="rd_ndot">NDOT</label>
+                    <input type="text" name="rd_ndot" class="form-control form-control-sm" ng-model="modal.variables.rd_ndot" ng-change="modal.compute()" only-numbers>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-3">
+                    <span class="badge badge-info badge-pill">Special Holiday</span>
+                </div>
+                <div class="col-sm-2">
+                    <label for="shol_st">ST</label>
+                    <input type="text" name="shol_st" class="form-control form-control-sm" ng-model="modal.variables.shol_st" ng-change="modal.compute()" only-numbers>
+                </div>
+                <div class="col-sm-2">
+                    <label for="shol_ot">OT</label>
+                    <input type="text" name="shol_ot" class="form-control form-control-sm" ng-model="modal.variables.shol_ot" ng-change="modal.compute()" only-numbers>
+                </div>
+                <div class="col-sm-2">
+                    <label for="shol_nd">ND</label>
+                    <input type="text" name="shol_nd" class="form-control form-control-sm" ng-model="modal.variables.shol_nd" ng-change="modal.compute()" only-numbers>
+                </div>
+                <div class="col-sm-2">
+                    <label for="shol_ndot">NDOT</label>
+                    <input type="text" name="shol_ndot" class="form-control form-control-sm" ng-model="modal.variables.shol_ndot" ng-change="modal.compute()" only-numbers>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-3">
+                    <span class="badge badge-info badge-pill">Special Holiday on Rest Day</span>
+                </div>
+                <div class="col-sm-2">
+                    <label for="rd_st">ST</label>
+                    <input type="text" name="shrd_st" class="form-control form-control-sm" ng-model="modal.variables.shrd_st" ng-change="modal.compute()" only-numbers>
+                </div>
+                <div class="col-sm-2">
+                    <label for="rd_ot">OT</label>
+                    <input type="text" name="shrd_ot" class="form-control form-control-sm" ng-model="modal.variables.shrd_ot" ng-change="modal.compute()" only-numbers>
+                </div>
+                <div class="col-sm-2">
+                    <label for="fname">ND</label>
+                    <input type="text" name="shrd_nd" class="form-control form-control-sm" ng-model="modal.variables.shrd_nd" ng-change="modal.compute()" only-numbers>
+                </div>
+                <div class="col-sm-2">
+                    <label for="fname">NDOT</label>
+                    <input type="text" name="shrd_ndot" class="form-control form-control-sm" ng-model="modal.variables.shrd_ndot" ng-change="modal.compute()" only-numbers>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-3">
+                    <span class="badge badge-info badge-pill">Regular Holiday</span>
+                </div>
+                <div class="col-sm-2">
+                    <label for="rhol_st">ST</label>
+                    <input type="text" name="rhol_st" class="form-control form-control-sm" ng-model="modal.variables.rhol_st" ng-change="modal.compute()" only-numbers>
+                </div>
+                <div class="col-sm-2">
+                    <label for="rhol_ot">OT</label>
+                    <input type="text" name="rhol_ot" class="form-control form-control-sm" ng-model="modal.variables.rhol_ot" ng-change="modal.compute()" only-numbers>
+                </div>
+                <div class="col-sm-2">
+                    <label for="rhol_nd">ND</label>
+                    <input type="text" name="rhol_nd" class="form-control form-control-sm" ng-model="modal.variables.rhol_nd" ng-change="modal.compute()" only-numbers>
+                </div>
+                <div class="col-sm-2">
+                    <label for="rhol_ndot">NDOT</label>
+                    <input type="text" name="rhol_ndot" class="form-control form-control-sm" ng-model="modal.variables.rhol_ndot" ng-change="modal.compute()" only-numbers>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-3">
+                    <span class="badge badge-info badge-pill">Regular Holiday on Rest Day</span>
+                </div>
+                <div class="col-sm-2">
+                    <label for="rd_st">ST</label>
+                    <input type="text" name="rhrd_st" class="form-control form-control-sm" ng-model="modal.variables.rhrd_st" ng-change="modal.compute()" only-numbers>
+                </div>
+                <div class="col-sm-2">
+                    <label for="rd_ot">OT</label>
+                    <input type="text" name="rhrd_ot" class="form-control form-control-sm" ng-model="modal.variables.rhrd_ot" ng-change="modal.compute()" only-numbers>
+                </div>
+                <div class="col-sm-2">
+                    <label for="fname">ND</label>
+                    <input type="text" name="rhrd_nd" class="form-control form-control-sm" ng-model="modal.variables.rhrd_nd" ng-change="modal.compute()" only-numbers>
+                </div>
+                <div class="col-sm-2">
+                    <label for="fname">NDOT</label>
+                    <input type="text" name="rhrd_ndot" class="form-control form-control-sm" ng-model="modal.variables.rhrd_ndot" ng-change="modal.compute()" only-numbers>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-3">
+                    <span class="badge badge-info badge-pill">2x Regular Holiday</span>
+                </div>
+                <div class="col-sm-2">
+                    <label for="rd_st">ST</label>
+                    <input type="text" name="rhrd_st" class="form-control form-control-sm" ng-model="modal.variables.rhol_st2x" ng-change="modal.compute()" only-numbers>
+                </div>
+                <div class="col-sm-2">
+                    <label for="rd_ot">OT</label>
+                    <input type="text" name="rhrd_ot" class="form-control form-control-sm" ng-model="modal.variables.rhol_ot2x" ng-change="modal.compute()" only-numbers>
+                </div>
+                <div class="col-sm-2">
+                    <label for="fname">ND</label>
+                    <input type="text" name="rhrd_nd" class="form-control form-control-sm" ng-model="modal.variables.rhol_nd2x" ng-change="modal.compute()" only-numbers>
+                </div>
+                <div class="col-sm-2">
+                    <label for="fname">NDOT</label>
+                    <input type="text" name="rhrd_ndot" class="form-control form-control-sm" ng-model="modal.variables.rhol_ndot2x" ng-change="modal.compute()" only-numbers>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-3">
+                    <span class="badge badge-info badge-pill">2x Regular Holiday on Rest Day</span>
+                </div>
+                <div class="col-sm-2">
+                    <label for="rd_st">ST</label>
+                    <input type="text" name="rhrd_st" class="form-control form-control-sm" ng-model="modal.variables.rholrd_st2x" ng-change="modal.compute()" only-numbers>
+                </div>
+                <div class="col-sm-2">
+                    <label for="rd_ot">OT</label>
+                    <input type="text" name="rhrd_ot" class="form-control form-control-sm" ng-model="modal.variables.rholrd_ot2x" ng-change="modal.compute()" only-numbers>
+                </div>
+                <div class="col-sm-2">
+                    <label for="fname">ND</label>
+                    <input type="text" name="rhrd_nd" class="form-control form-control-sm" ng-model="modal.variables.rholrd_nd2x" ng-change="modal.compute()" only-numbers>
+                </div>
+                <div class="col-sm-2">
+                    <label for="fname">NDOT</label>
+                    <input type="text" name="rhrd_ndot" class="form-control form-control-sm" ng-model="modal.variables.rholrd_ndot2x" ng-change="modal.compute()" only-numbers>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="text-right">
+                <button ng-if="modal.variables.TOSDTL" type="button" class="btn btn-danger" ng-click="modal.delete()">
+                    <i class="fa fa-trash fa-fw"></i>Delete</button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-save fa-fw"></i>Save</button>
+                <button type="button" class="btn btn-clear" ng-click="modal.close()">
+                    <i class="fa fa-times fa-fw"></i>Close</button>
+            </div>
+        </div>
+    </form>
+</div>

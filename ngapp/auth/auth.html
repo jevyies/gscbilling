@@ -1,0 +1,31 @@
+<div class="modal-content" my-draggable>
+        <div class="modal-title-div">
+                <strong class="modal-title-name">Authentication!</strong>
+                <button class="modal-exit" ng-click="modal.close()">
+                    <span class="fa fa-times"></span>
+                </button>
+            </div>
+    <div class="modal-body">
+        <br>
+        <div>
+            <p class="text-primary">This is for security wall, please supply the following information.</p>
+        </div>
+        <form ng-submit="modal.submit()" class="row">
+            <div class="col-md-12">
+                <div class="md-form">
+                    <input type="text" class="form-control" ng-model="modal.variables.Username" id="Username" autofocus />
+                    <label ng-class="{active: modal.variables.Username}" for="Username">Enter Authorized Username:
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="md-form">
+                    <input type="password" class="form-control" ng-model="modal.variables.Password" id="Password" autofocus />
+                    <label ng-class="{active: modal.variables.Password}" for="Password">Enter Authorized Password:
+                    </label>
+                </div>
+            </div>
+            <button type="submit" hidden>Submit</button>
+        </form>
+    </div>
+</div>

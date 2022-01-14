@@ -1,0 +1,43 @@
+<div class="modal-content">
+    <div class="modal-title-div">
+        <strong class="modal-title-name">Add New Signatory</strong>
+        <button class="modal-exit" ng-click="modal.close()">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+    <form ng-submit="modal.save()">
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-3">
+                    <label for="fname">First Name</label>
+                    <input type="text" ng-model="modal.variables.fname" class="form-control form-control-sm" required autofocus>
+                </div>
+                <div class="col-sm-3">
+                    <label for="mname">Middle Name</label>
+                    <input type="text" ng-model="modal.variables.mname" class="form-control form-control-sm">
+                </div>
+                <div class="col-sm-3">
+                    <label for="lname">Last Name</label>
+                    <input type="text" class="form-control form-control-sm" ng-model="modal.variables.lname" required >
+                </div>
+                <div class="col-sm-3">
+                    <label for="ename">Extension Name</label>
+                    <input type="text" ng-model="modal.variables.ename" class="form-control form-control-sm">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <label for="position">Position</label>
+                    <input type="text" ng-model="modal.variables.position" class="form-control form-control-sm">
+                </div>
+            </div>
+            <br>
+        </div>
+        <div class="modal-footer text-right">
+            <button type="submit" class="btn btn-primary">
+                <i class="fa fa-save"></i> Save</button>
+            <button type="button" class="btn btn-default" ng-click="modal.close()">
+                <i class="fa fa-times"></i> Close</button>
+        </div>
+    </form>
+</div>

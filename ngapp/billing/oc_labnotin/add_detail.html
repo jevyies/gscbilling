@@ -1,0 +1,65 @@
+<div class="modal-content">
+    <div class="modal-title-div">
+        <strong class="modal-title-name">Add Detail</strong>
+        <button class="modal-exit" ng-click="modal.close()">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+    <form ng-submit="modal.save()">
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-4">
+                    <input type="text" class="form-control form-control-sm" ng-model="modal.variables.Activity" required placeholder="Activity">
+                </div>
+                <div class="col-sm-4">
+                    <input type="date" class="form-control form-control-sm" ng-model="modal.variables.date" required placeholder="Date Performed">
+                </div>
+                <div class="col-sm-4">
+                    <div class="group-input">
+                        <input type="text" class="form-control form-control-sm" ng-model="modal.variables.gl" required disabled placeholder="GL Account">
+                        <div class="button-group-append">
+                            <button type="button" class="btn" ng-click="modal.searchGLList()">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="group-input">
+                        <input type="text" class="form-control form-control-sm" ng-model="modal.variables.cc" required placeholder="Cost Center">
+                        <div class="button-group-append">
+                            <button type="button" class="btn" ng-click="modal.searchCCList()">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control form-control-sm" ng-model="modal.variables.hrs" required placeholder="Accomplishment Hours" ng-change="modal.compute()">
+                </div>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control form-control-sm" ng-model="modal.variables.rate_hr" required placeholder="Rate per Hour" only-numbers-wo-negative ng-change="modal.compute()">
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-sm-4 col-md-offset-8">
+                    <input type="text" class="form-control form-control-sm text-right" ng-model="modal.variables.amount_billed" required placeholder="Amount Billed" only-numbers-wo-negative disabled>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="text-right">
+                <button ng-if="modal.variables.TODDTL" type="button" ng-click="modal.delete()" class="btn btn-danger">
+                    <i class="fa fa-save fa-fw"></i>Delete</button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-save fa-fw"></i>Save</button>
+                <button type="button" class="btn btn-clear" ng-click="modal.close()">
+                    <i class="fa fa-times fa-fw"></i>Close</button>
+            </div>
+        </div>
+    </form>
+</div>

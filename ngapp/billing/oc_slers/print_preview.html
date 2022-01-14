@@ -1,0 +1,63 @@
+<div class="modal-content">
+    <div class="modal-title-div">
+        <strong class="modal-title-name">SLERS PRINT PREVIEW</strong>
+        <button class="modal-exit" ng-click="modal.close()">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <!-- <div class="row">
+            <div class="col-md-8"> -->
+        <div class="row" style="padding:20px;">
+            <div class="col-md-12" style="border: 1px solid black;height:730px;padding:10px;">
+                <div class="row">
+                    <div class="col-md-2">
+                        <label><b>To:</b></label>
+                    </div>
+                    <div class="col-md-10">
+                        <div text-angular="text-angular" class="ta-editor2" ng-model="modal.variables.letter_to" ta-disabled="disabled" ta-toolbar="[[]]"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label><b>Thru:</b></label>
+                    </div>
+                    <div class="col-md-10">
+                        <div text-angular="text-angular" class="ta-editor2" ng-model="modal.variables.letter_thru" ta-disabled="disabled" ta-toolbar="[[]]"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label><b>Body:</b></label>
+                    </div>
+                    <div class="col-md-10">
+                        <div text-angular="text-angular" class="ta-editor3" ng-model="modal.variables.body" ta-disabled="disabled" ta-toolbar="[[]]"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label><b>2nd Body:</b></label>
+                    </div>
+                    <div class="col-md-10">
+                        <div text-angular="text-angular" class="ta-editor3" ng-model="modal.variables.body2" ta-disabled="disabled" ta-toolbar="[[]]"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- </div>
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-12"></div>
+                </div>
+            </div> -->
+        <!-- </div> -->
+    </div>
+    <div class="modal-footer">
+        <div class="text-right">
+            <button type="button" class="btn btn-clear" ng-click="modal.close()">
+                <i class="fa fa-times fa-fw"></i>Close</button>
+            <button type="button" class="btn btn-warning" ng-click="modal.generate()">
+                <i class="fa fa-print fa-fw"></i>Generate Report</button>
+        </div>
+    </div>
+</div>
