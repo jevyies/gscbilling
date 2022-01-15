@@ -538,7 +538,7 @@ function DMPIDARCtrl($scope, $ocLazyLoad, $injector, $q, filter) {
             var columns = [
                 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
                 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AV', 'AW', 'AX', 'AY', 'AZ',
-                'AA', 'BB', 'BC', 'BD', 'BE', 'BF', 'BG', 'BH', 'BI', 'BJ', 'BK', 'BL', 'BM',
+                'BA', 'BB', 'BC', 'BD', 'BE', 'BF', 'BG', 'BH', 'BI', 'BJ', 'BK', 'BL', 'BM',
             ]
             for (x = 11; x < range; x++) {
                 var data = {};
@@ -938,12 +938,6 @@ function DMPIDARCtrl($scope, $ocLazyLoad, $injector, $q, filter) {
                     (data.rholndot * rate.rhol_ndot) +
                     (data.rhrdndot * rate.rhrd_ndot) +
                     (data.rtndot * rate.rt_ndot) 
-                console.log(data.rdndot, rate.rd_ndot);
-                console.log(data.sholndot, rate.shol_ndot);
-                console.log(data.shrdndot, rate.shrd_ndot);
-                console.log(data.rholndot, rate.rhol_ndot);
-                console.log(data.rhrdndot, rate.rhrd_ndot);
-                console.log(data.rtndot, rate.rt_ndot);
                 data.c_totalAmt = data.c_totalst + data.c_totalot + data.c_totalnd + data.c_totalndot;
                 partialData.push(data);
                 partialRate.push(rate);
@@ -1595,7 +1589,6 @@ function DMPIDARHeaderCtrl($scope, $ocLazyLoad, $injector, data, $uibModalInstan
     };
 
     modal.searching = function () {
-        console.log(modal.variables.month);
         modal.variables.pmy = modal.variables.month.getFullYear() + "" + DMPIDARSvc.pad(modal.variables.month.getMonth() + 1, 2);
         var data = {};
         if (modal.searchOptions == 1) {
