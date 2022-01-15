@@ -855,7 +855,6 @@ function DMPIDARCtrl($scope, $ocLazyLoad, $injector, $q, filter) {
                     }
                     if (column === 'AW') {
                         rate.rt_ndot = vm.rowObject[cell] ? vm.rowObject[cell].v : 0;
-                        console.log(rate.rt_ndot)
                     }
                     
                     if (column === 'AX') {
@@ -911,6 +910,7 @@ function DMPIDARCtrl($scope, $ocLazyLoad, $injector, $q, filter) {
                 rate.gl_fr_mg = angular.copy(data.gl);
                 rate.costcenter__ = angular.copy(data.cc);
                 rate.No = angular.copy(data.No);
+                console.log(rate.rt_ndot)
                 data.c_totalst =
                     (data.rdst * rate.rd_st) +
                     (data.sholst * rate.shol_st) +
