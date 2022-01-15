@@ -440,6 +440,16 @@ Class Login_Model extends CI_Model {
         // foreach($query as $q){
         //     $this->db->where('id', $q->id)->update('dmpi_dar_dtls', ['c_totalAmt' => $q->totalAmt]);
         // }
+        $query = $this->db->select('id, shol_st, shol_ot, shol_nd, shol_ndot')->from('rate_masters')->get()->result();
+        foreach($query as $rec){
+            $this->db->where('id', $rec->id)->update('rate_masters', 
+            [
+                'rt_st' => $rec->shol_st,
+                'rt_ot' => $rec->shol_ot,
+                'rt_nd' => $rec->shol_nd,
+                'rt_ndot' => $rec->shol_ndot,
+            ]);
+        }
         return true;
     }
 }
