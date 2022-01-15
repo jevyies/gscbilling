@@ -61,11 +61,6 @@ Class DMPI_OC_Model extends CI_Model {
                     rdnd AS rd_nd,
                     rdndot AS rd_ndot,
 
-                    rtst AS rt_st,
-                    rtot AS rt_ot,
-                    rtnd AS rt_nd,
-                    rtndot AS rt_ndot,
-
                     sholst AS shol_st,
                     sholot AS shol_ot,
                     sholnd AS shol_nd,
@@ -101,9 +96,9 @@ Class DMPI_OC_Model extends CI_Model {
     public function get_transmittal_summary($No, $type){
         $Amount = 'SELECT SUM(totalAmt) FROM dmpi_dar_dtls b WHERE a.id = b.hdr_id GROUP BY b.hdr_id';
         $ST = 'SELECT SUM(IFNULL(rdst, 0) + IFNULL(sholst, 0) + IFNULL(shrdst, 0) + IFNULL(rholst, 0) + IFNULL(rhrdst, 0)) FROM dmpi_dar_dtls b WHERE a.id = b.hdr_id GROUP BY b.hdr_id';
-        $OT = 'SELECT SUM(IFNULL(rdot, 0) + IFNULL(sholot, 0) + IFNULL(shrdot, 0) + IFNULL(rholot, 0) + IFNULL(rhrdot, 0)) FROM dmpi_dar_dtls b WHERE a.id = b.hdr_id GROUP BY b.hdr_id';
-        $ND = 'SELECT SUM(IFNULL(rdnd, 0) + IFNULL(sholnd, 0) + IFNULL(shrdnd, 0) + IFNULL(rholnd, 0) + IFNULL(rhrdnd, 0)) FROM dmpi_dar_dtls b WHERE a.id = b.hdr_id GROUP BY b.hdr_id';
-        $NDOT = 'SELECT SUM(IFNULL(rdndot, 0) + IFNULL(sholndot, 0) + IFNULL(shrdndot, 0) + IFNULL(rholndot, 0) + IFNULL(rhrdndot, 0)) FROM dmpi_dar_dtls b WHERE a.id = b.hdr_id GROUP BY b.hdr_id';
+        $OT = 'SELECT SUM(rdot + sholot + shrdot + rholot + rhrdot) FROM dmpi_dar_dtls b WHERE a.id = b.hdr_id GROUP BY b.hdr_id';
+        $ND = 'SELECT SUM(rdnd + sholnd + shrdnd + rholnd + rhrdnd) FROM dmpi_dar_dtls b WHERE a.id = b.hdr_id GROUP BY b.hdr_id';
+        $NDOT = 'SELECT SUM(rdndot + sholndot + shrdndot + rholndot + rhrdndot) FROM dmpi_dar_dtls b WHERE a.id = b.hdr_id GROUP BY b.hdr_id';
         $HC = 'SELECT SUM(headCount) FROM dmpi_dar_dtls b WHERE a.id = b.hdr_id GROUP BY b.hdr_id';
         $Location = 
         "CASE
@@ -232,10 +227,10 @@ Class DMPI_OC_Model extends CI_Model {
         }
     }
     public function get_dar_report($from, $to, $type){
-        $st = 'SELECT SUM(dtl.rdst)+SUM(dtl.sholst)+SUM(dtl.shrdst)+SUM(dtl.rholst)+SUM(dtl.rhrdst)+SUM(dtl.rtst) FROM dmpi_dar_dtls dtl WHERE dtl.hdr_id = hdr.id';
-        $ot = 'SELECT SUM(dtl.rdot)+SUM(dtl.sholot)+SUM(dtl.shrdot)+SUM(dtl.rholot)+SUM(dtl.rhrdot)+SUM(dtl.rtot) FROM dmpi_dar_dtls dtl WHERE dtl.hdr_id= hdr.id';
-        $nd = 'SELECT SUM(dtl.rdnd)+SUM(dtl.sholnd)+SUM(dtl.shrdnd)+SUM(dtl.rholnd)+SUM(dtl.rhrdnd)+SUM(dtl.rtnd) FROM dmpi_dar_dtls dtl WHERE dtl.hdr_id= hdr.id';
-        $ndot = 'SELECT SUM(dtl.rdndot)+SUM(dtl.sholndot)+SUM(dtl.shrdndot)+SUM(dtl.rholndot)+SUM(dtl.rhrdndot)+SUM(dtl.rtndot) FROM dmpi_dar_dtls dtl WHERE dtl.hdr_id= hdr.id';
+        $st = 'SELECT SUM(dtl.rdst)+SUM(dtl.sholst)+SUM(dtl.shrdst)+SUM(dtl.rholst)+SUM(dtl.rhrdst) FROM dmpi_dar_dtls dtl WHERE dtl.hdr_id = hdr.id';
+        $ot = 'SELECT SUM(dtl.rdot)+SUM(dtl.sholot)+SUM(dtl.shrdot)+SUM(dtl.rholot)+SUM(dtl.rhrdot) FROM dmpi_dar_dtls dtl WHERE dtl.hdr_id= hdr.id';
+        $nd = 'SELECT SUM(dtl.rdnd)+SUM(dtl.sholnd)+SUM(dtl.shrdnd)+SUM(dtl.rholnd)+SUM(dtl.rhrdnd) FROM dmpi_dar_dtls dtl WHERE dtl.hdr_id= hdr.id';
+        $ndot = 'SELECT SUM(dtl.rdndot)+SUM(dtl.sholndot)+SUM(dtl.shrdndot)+SUM(dtl.rholndot)+SUM(dtl.rhrdndot) FROM dmpi_dar_dtls dtl WHERE dtl.hdr_id= hdr.id';
         $total_amt = 'SELECT SUM(dtl.c_totalAmt) FROM dmpi_dar_dtls dtl WHERE dtl.hdr_id= hdr.id';
         $this->db
         ->select("hdr.id, hdr.soaNumber, (".$st.") AS ST, (".$ot.") AS OT, (".$nd.") AS ND, (".$ndot.") AS ND_OT, (".$total_amt.") AS TOTAL_AMT")
@@ -603,10 +598,10 @@ Class DMPI_OC_Model extends CI_Model {
         $amount = 'SELECT SUM(dtl.c_totalAmt) FROM dmpi_dar_dtls dtl WHERE dtl.hdr_id=hdr.id GROUP BY dtl.hdr_id';
         $location = 'SELECT `Location` FROM 201filedb.tblbatch d, dmpi_dar_batches e WHERE e.DARID = hdr.id AND e.BID = d.BID LIMIT 1';
         $last_activity = 'SELECT `Activity` FROM dmpi_dar_dtls b WHERE hdr.id = b.hdr_id ORDER BY b.id LIMIT 1';
-        $st = "SELECT SUM(st.rdst) + SUM(st.sholst) + SUM(st.shrdst) + SUM(st.rholst) + SUM(st.rhrdst) + SUM(st.rtst) FROM dmpi_dar_dtls st WHERE st.hdr_id=hdr.id GROUP BY st.hdr_id";
-        $ot = "SELECT SUM(ot.rdot) + SUM(ot.sholot) + SUM(ot.shrdot) + SUM(ot.rholot) + SUM(ot.rhrdot) + SUM(ot.rtot) FROM dmpi_dar_dtls ot WHERE ot.hdr_id=hdr.id GROUP BY ot.hdr_id";
-        $nd = "SELECT SUM(nd.rdnd) + SUM(nd.sholnd) + SUM(nd.shrdnd) + SUM(nd.rholnd) + SUM(nd.rhrdnd) + SUM(nd.rtnd) FROM dmpi_dar_dtls nd WHERE nd.hdr_id=hdr.id GROUP BY nd.hdr_id";
-        $ndot = "SELECT SUM(ndot.rdndot) + SUM(ndot.sholndot) + SUM(ndot.shrdndot) + SUM(ndot.rholndot) + SUM(ndot.rhrdndot) + SUM(ndot.rtndot) FROM dmpi_dar_dtls ndot WHERE ndot.hdr_id=hdr.id GROUP BY ndot.hdr_id";
+        $st = "SELECT SUM(st.rdst) + SUM(st.sholst) + SUM(st.shrdst) + SUM(st.rholst) + SUM(st.rhrdst) FROM dmpi_dar_dtls st WHERE st.hdr_id=hdr.id GROUP BY st.hdr_id";
+        $ot = "SELECT SUM(ot.rdot) + SUM(ot.sholot) + SUM(ot.shrdot) + SUM(ot.rholot) + SUM(ot.rhrdot) FROM dmpi_dar_dtls ot WHERE ot.hdr_id=hdr.id GROUP BY ot.hdr_id";
+        $nd = "SELECT SUM(nd.rdnd) + SUM(nd.sholnd) + SUM(nd.shrdnd) + SUM(nd.rholnd) + SUM(nd.rhrdnd) FROM dmpi_dar_dtls nd WHERE nd.hdr_id=hdr.id GROUP BY nd.hdr_id";
+        $ndot = "SELECT SUM(ndot.rdndot) + SUM(ndot.sholndot) + SUM(ndot.shrdndot) + SUM(ndot.rholndot) + SUM(ndot.rhrdndot) FROM dmpi_dar_dtls ndot WHERE ndot.hdr_id=hdr.id GROUP BY ndot.hdr_id";
         $hc = "SELECT SUM(ndot.headCount) FROM dmpi_dar_dtls ndot WHERE ndot.hdr_id=hdr.id GROUP BY ndot.hdr_id";
         $dar_query = 'SELECT soaDate, soaNumber, TransmittedDate, SupervisorDate, ManagerDate, DataControllerDate, BillingClerkDate, DMPIReceivedDate, TransmittalNo, nonBatch, ('.$amount.') as total_amount, ('.$location.') as location, ('.$last_activity.') as activity, ('.$st.') as st, ('.$ot.') as ot, ('.$nd.') as nd, ('.$ndot.') as ndot, ('.$hc.') as hc,
         DATEDIFF(TransmittedDate, soaDate) AS TDDate,
@@ -797,12 +792,6 @@ Class DMPI_OC_Model extends CI_Model {
                         b.rdot,
                         b.rdnd,
                         b.rdndot,
-            
-                        b.rtst,
-                        b.rtot,
-                        b.rtnd,
-                        b.rtndot,
-                        
                         b.sholst,
                         b.sholot,
                         b.sholnd,
@@ -823,10 +812,6 @@ Class DMPI_OC_Model extends CI_Model {
                         c.rd_ot,
                         c.rd_nd,
                         c.rd_ndot,
-                        c.rt_st,
-                        c.rt_ot,
-                        c.rt_nd,
-                        c.rt_ndot,
                         c.shol_st,
                         c.shol_ot,
                         c.shol_nd,
@@ -875,12 +860,6 @@ Class DMPI_OC_Model extends CI_Model {
                         b.rdot,
                         b.rdnd,
                         b.rdndot,
-
-                        b.rtst,
-                        b.rtot,
-                        b.rtnd,
-                        b.rtndot,
-
                         b.sholst,
                         b.sholot,
                         b.sholnd,
@@ -908,16 +887,10 @@ Class DMPI_OC_Model extends CI_Model {
                         a.TransmittalNo, 
                         a.id AS headerID, 
                         ('.$Location.') AS Location,
-
                         rdst AS rd_st,
                         rdot AS rd_ot,
                         rdnd AS rd_nd,
                         rdndot AS rd_ndot,
-
-                        rtst AS rt_st,
-                        rtot AS rt_ot,
-                        rtnd AS rt_nd,
-                        rtndot AS rt_ndot,
     
                         sholst AS shol_st,
                         sholot AS shol_ot,
@@ -960,10 +933,6 @@ Class DMPI_OC_Model extends CI_Model {
                     0 as rdot,
                     0 as rdnd,
                     0 as rdndot,
-                    0 as rtst,
-                    0 as rtot,
-                    0 as rtnd,
-                    0 as rtndot,
                     0 as sholst,
                     0 as sholot,
                     0 as sholnd,
@@ -984,10 +953,6 @@ Class DMPI_OC_Model extends CI_Model {
                     0 as  rd_ot,
                     0 as  rd_nd,
                     0 as  rd_ndot,
-                    0 as  rt_st,
-                    0 as  rt_ot,
-                    0 as  rt_nd,
-                    0 as  rt_ndot,
                     0 as  shol_st,
                     0 as  shol_ot,
                     0 as  shol_nd,
@@ -1036,10 +1001,6 @@ Class DMPI_OC_Model extends CI_Model {
                     0 as rdot,
                     0 as rdnd,
                     0 as rdndot,
-                    0 as rtst,
-                    0 as rtot,
-                    0 as rtnd,
-                    0 as rtndot,
                     0 as sholst,
                     0 as sholot,
                     0 as sholnd,
@@ -1060,10 +1021,6 @@ Class DMPI_OC_Model extends CI_Model {
                     0 as  rd_ot,
                     0 as  rd_nd,
                     0 as  rd_ndot,
-                    0 as  rt_st,
-                    0 as  rt_ot,
-                    0 as  rt_nd,
-                    0 as  rt_ndot,
                     0 as  shol_st,
                     0 as  shol_ot,
                     0 as  shol_nd,
@@ -1111,10 +1068,6 @@ Class DMPI_OC_Model extends CI_Model {
                     0 as rdot,
                     0 as rdnd,
                     0 as rdndot,
-                    0 as rtst,
-                    0 as rtot,
-                    0 as rtnd,
-                    0 as rtndot,
                     0 as sholst,
                     0 as sholot,
                     0 as sholnd,
@@ -1135,10 +1088,6 @@ Class DMPI_OC_Model extends CI_Model {
                     0 as  rd_ot,
                     0 as  rd_nd,
                     0 as  rd_ndot,
-                    0 as  rt_st,
-                    0 as  rt_ot,
-                    0 as  rt_nd,
-                    0 as  rt_ndot,
                     0 as  shol_st,
                     0 as  shol_ot,
                     0 as  shol_nd,
@@ -1186,10 +1135,6 @@ Class DMPI_OC_Model extends CI_Model {
                     0 as rdot,
                     0 as rdnd,
                     0 as rdndot,
-                    0 as rtst,
-                    0 as rtot,
-                    0 as rtnd,
-                    0 as rtndot,
                     0 as sholst,
                     0 as sholot,
                     0 as sholnd,
@@ -1210,10 +1155,6 @@ Class DMPI_OC_Model extends CI_Model {
                     0 as  rd_ot,
                     0 as  rd_nd,
                     0 as  rd_ndot,
-                    0 as  rt_st,
-                    0 as  rt_ot,
-                    0 as  rt_nd,
-                    0 as  rt_ndot,
                     0 as  shol_st,
                     0 as  shol_ot,
                     0 as  shol_nd,
@@ -1358,11 +1299,6 @@ Class DMPI_OC_Model extends CI_Model {
                     rdot AS rd_ot,
                     rdnd AS rd_nd,
                     rdndot AS rd_ndot,
-                    
-                    rtst AS rt_st,
-                    rtot AS rt_ot,
-                    rtnd AS rt_nd,
-                    rtndot AS rt_ndot,
 
                     sholst AS shol_st,
                     sholot AS shol_ot,
@@ -1396,11 +1332,6 @@ Class DMPI_OC_Model extends CI_Model {
                     rdot AS rd_ot,
                     rdnd AS rd_nd,
                     rdndot AS rd_ndot,
-
-                    rtst AS rt_st,
-                    rtot AS rt_ot,
-                    rtnd AS rt_nd,
-                    rtndot AS rt_ndot,
 
                     sholst AS shol_st,
                     sholot AS shol_ot,
