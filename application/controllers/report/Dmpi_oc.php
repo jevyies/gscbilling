@@ -76,23 +76,22 @@ class DMPI_OC extends REST_Controller
                     'copy' => $this->get('copy'),
                     'preview' => $this->get('preview') ? 0 : 1
                 );
-                var_dump($records);
-                // if($this->get('long')){
-                //     $html = $this->load->view('Transmittal_Summary_Long', $records, true);
-                // }else{
-                //     $html = $this->load->view('Transmittal_Summary', $records, true);
-                // }
-                // $mpdf = new \Mpdf\Mpdf([
-                //     'default_font_size' => 9,
-                //     'default_font' => 'tahoma',
-                // ]); 
-                // $mpdf->useFixedNormalLineHeight = false;
-                // $mpdf->useFixedTextBaseline = false;
-                // $mpdf->adjustFontDescLineheight = 0.5;
-                // $mpdf->packTableData = true;
-                // $mpdf->shrink_tables_to_fit = 1;
-                // $mpdf->WriteHTML($html);
-                // $mpdf->Output();
+                if($this->get('long')){
+                    $html = $this->load->view('Transmittal_Summary_Long', $records, true);
+                }else{
+                    $html = $this->load->view('Transmittal_Summary', $records, true);
+                }
+                $mpdf = new \Mpdf\Mpdf([
+                    'default_font_size' => 9,
+                    'default_font' => 'tahoma',
+                ]); 
+                $mpdf->useFixedNormalLineHeight = false;
+                $mpdf->useFixedTextBaseline = false;
+                $mpdf->adjustFontDescLineheight = 0.5;
+                $mpdf->packTableData = true;
+                $mpdf->shrink_tables_to_fit = 1;
+                $mpdf->WriteHTML($html);
+                $mpdf->Output();
                 
             }
         }else{
