@@ -100,7 +100,7 @@ Class DMPI_OC_Model extends CI_Model {
     }
     public function get_transmittal_summary($No, $type){
         $Amount = 'SELECT SUM(totalAmt) FROM dmpi_dar_dtls b WHERE a.id = b.hdr_id GROUP BY b.hdr_id';
-        $ST = 'SELECT SUM(IFNULL(rdst, 0) + IFNULL(sholst, 0) + IFNULL(shrdst, 0) + IFNULL(rholst, 0) + IFNULL(rhrdst, 0)) + IFNULL(rtst, 0)) FROM dmpi_dar_dtls b WHERE a.id = b.hdr_id GROUP BY b.hdr_id';
+        $ST = 'SELECT SUM(IFNULL(rdst, 0) + IFNULL(sholst, 0) + IFNULL(shrdst, 0) + IFNULL(rholst, 0) + IFNULL(rhrdst, 0) + IFNULL(rtst, 0)) FROM dmpi_dar_dtls b WHERE a.id = b.hdr_id GROUP BY b.hdr_id';
         $OT = 'SELECT SUM(rdot + sholot + shrdot + rholot + rhrdot + rtot) FROM dmpi_dar_dtls b WHERE a.id = b.hdr_id GROUP BY b.hdr_id';
         $ND = 'SELECT SUM(rdnd + sholnd + shrdnd + rholnd + rhrdnd + rtnd) FROM dmpi_dar_dtls b WHERE a.id = b.hdr_id GROUP BY b.hdr_id';
         $NDOT = 'SELECT SUM(rdndot + sholndot + shrdndot + rholndot + rhrdndot + rtndot) FROM dmpi_dar_dtls b WHERE a.id = b.hdr_id GROUP BY b.hdr_id';
