@@ -938,6 +938,12 @@ function DMPIDARCtrl($scope, $ocLazyLoad, $injector, $q, filter) {
                     (data.rholndot * rate.rhol_ndot) +
                     (data.rhrdndot * rate.rhrd_ndot) +
                     (data.rtndot * rate.rt_ndot) 
+                console.log(data.rdndot, rate.rd_ndot);
+                console.log(data.sholndot, rate.shol_ndot);
+                console.log(data.shrdndot, rate.shrd_ndot);
+                console.log(data.rholndot, rate.rhol_ndot);
+                console.log(data.rhrdndot, rate.rhrd_ndot);
+                console.log(data.rtndot, rate.rt_ndot);
                 data.c_totalAmt = data.c_totalst + data.c_totalot + data.c_totalnd + data.c_totalndot;
                 partialData.push(data);
                 partialRate.push(rate);
