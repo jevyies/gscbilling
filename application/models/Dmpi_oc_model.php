@@ -101,9 +101,9 @@ Class DMPI_OC_Model extends CI_Model {
     public function get_transmittal_summary($No, $type){
         $Amount = 'SELECT SUM(totalAmt) FROM dmpi_dar_dtls b WHERE a.id = b.hdr_id GROUP BY b.hdr_id';
         $ST = 'SELECT SUM(IFNULL(rdst, 0) + IFNULL(sholst, 0) + IFNULL(shrdst, 0) + IFNULL(rholst, 0) + IFNULL(rhrdst, 0) + IFNULL(rtst, 0)) FROM dmpi_dar_dtls b WHERE a.id = b.hdr_id GROUP BY b.hdr_id';
-        $OT = 'SELECT SUM(rdot + sholot + shrdot + rholot + rhrdot + rtot) FROM dmpi_dar_dtls b WHERE a.id = b.hdr_id GROUP BY b.hdr_id';
-        $ND = 'SELECT SUM(rdnd + sholnd + shrdnd + rholnd + rhrdnd + rtnd) FROM dmpi_dar_dtls b WHERE a.id = b.hdr_id GROUP BY b.hdr_id';
-        $NDOT = 'SELECT SUM(rdndot + sholndot + shrdndot + rholndot + rhrdndot + rtndot) FROM dmpi_dar_dtls b WHERE a.id = b.hdr_id GROUP BY b.hdr_id';
+        $OT = 'SELECT SUM(IFNULL(rdot, 0) + IFNULL(sholot, 0) + IFNULL(shrdot, 0) + IFNULL(rholot, 0) + IFNULL(rhrdot, 0) + IFNULL(rtot, 0)) FROM dmpi_dar_dtls b WHERE a.id = b.hdr_id GROUP BY b.hdr_id';
+        $ND = 'SELECT SUM(IFNULL(rdnd, 0) + IFNULL(sholnd, 0) + IFNULL(shrdnd, 0) + IFNULL(rholnd, 0) + IFNULL(rhrdnd, 0) + IFNULL(rtnd, 0)) FROM dmpi_dar_dtls b WHERE a.id = b.hdr_id GROUP BY b.hdr_id';
+        $NDOT = 'SELECT SUM(IFNULL(rdndot, 0) + IFNULL(sholndot, 0) + IFNULL(shrdndot, 0) + IFNULL(rholndot, 0) + IFNULL(rhrdndot, 0) + IFNULL(rtndot, 0)) FROM dmpi_dar_dtls b WHERE a.id = b.hdr_id GROUP BY b.hdr_id';
         $HC = 'SELECT SUM(headCount) FROM dmpi_dar_dtls b WHERE a.id = b.hdr_id GROUP BY b.hdr_id';
         $Location = 
         "CASE
