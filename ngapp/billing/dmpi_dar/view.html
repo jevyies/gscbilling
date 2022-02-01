@@ -761,30 +761,30 @@
                                                         <td ng-class="{'danger-mode': x.matchID == 0}">{{x.activity_fr_mg}}</td>
                                                         <td>{{x.gl_fr_mg}}</td>
                                                         <td>{{x.costcenter__}}</td>
-                                                        <td>{{x.rd_st | number:2 }}</td>
-                                                        <td>{{x.rd_ot | number:2 }}</td>
-                                                        <td>{{x.rd_nd | number:2 }}</td>
-                                                        <td>{{x.rd_ndot | number:2 }}</td>
-                                                        <td>{{x.shol_st | number:2 }}</td>
-                                                        <td>{{x.shol_ot | number:2 }}</td>
-                                                        <td>{{x.shol_nd | number:2 }}</td>
-                                                        <td>{{x.shol_ndot | number:2 }}</td>
-                                                        <td>{{x.rhol_st | number:2 }}</td>
-                                                        <td>{{x.rhol_ot | number:2 }}</td>
-                                                        <td>{{x.rhol_nd | number:2 }}</td>
-                                                        <td>{{x.rhol_ndot | number:2 }}</td>
-                                                        <td>{{x.rt_st | number:2 }}</td>
-                                                        <td>{{x.rt_ot | number:2 }}</td>
-                                                        <td>{{x.rt_nd | number:2 }}</td>
-                                                        <td>{{x.rt_ndot | number:2 }}</td>
-                                                        <td>{{x.shrd_st | number:2 }}</td>
-                                                        <td>{{x.shrd_ot | number:2 }}</td>
-                                                        <td>{{x.shrd_nd | number:2 }}</td>
-                                                        <td>{{x.shrd_ndot | number:2 }}</td>
-                                                        <td>{{x.rhrd_st | number:2 }}</td>
-                                                        <td>{{x.rhrd_ot | number:2 }}</td>
-                                                        <td>{{x.rhrd_nd | number:2 }}</td>
-                                                        <td>{{x.rhrd_ndot | number:2 }}</td>
+                                                        <td ng-class="{'warning-mode': x.notMatched.rdstm}" title={{x.notMatched.rdstm}}>{{x.rd_st | number:2 }}</td>
+                                                        <td ng-class="{'warning-mode': x.notMatched.rdotm}" title={{x.notMatched.rdotm}}>{{x.rd_ot | number:2 }}</td>
+                                                        <td ng-class="{'warning-mode': x.notMatched.rdndm}" title={{x.notMatched.rdndm}}>{{x.rd_nd | number:2 }}</td>
+                                                        <td ng-class="{'warning-mode': x.notMatched.rdndotm}" title={{x.notMatched.rdndotm}}>{{x.rd_ndot | number:2 }}</td>
+                                                        <td ng-class="{'warning-mode': x.notMatched.sholstm}" title={{x.notMatched.sholstm}}>{{x.shol_st | number:2 }}</td>
+                                                        <td ng-class="{'warning-mode': x.notMatched.sholotm}" title={{x.notMatched.sholotm}}>{{x.shol_ot | number:2 }}</td>
+                                                        <td ng-class="{'warning-mode': x.notMatched.sholndm}" title={{x.notMatched.sholndm}}>{{x.shol_nd | number:2 }}</td>
+                                                        <td ng-class="{'warning-mode': x.notMatched.sholndotm}" title={{x.notMatched.sholndotm}}>{{x.shol_ndot | number:2 }}</td>
+                                                        <td ng-class="{'warning-mode': x.notMatched.rholstm}" title={{x.notMatched.rholstm}}>{{x.rhol_st | number:2 }}</td>
+                                                        <td ng-class="{'warning-mode': x.notMatched.rholotm}" title={{x.notMatched.rholotm}}>{{x.rhol_ot | number:2 }}</td>
+                                                        <td ng-class="{'warning-mode': x.notMatched.rholndm}" title={{x.notMatched.rholndm}}>{{x.rhol_nd | number:2 }}</td>
+                                                        <td ng-class="{'warning-mode': x.notMatched.rholndotm}" title={{x.notMatched.rholndotm}}>{{x.rhol_ndot | number:2 }}</td>
+                                                        <td ng-class="{'warning-mode': x.notMatched.rtstm}" title={{x.notMatched.rtstm}}>{{x.rt_st | number:2 }}</td>
+                                                        <td ng-class="{'warning-mode': x.notMatched.rtotm}" title={{x.notMatched.rtotm}}>{{x.rt_ot | number:2 }}</td>
+                                                        <td ng-class="{'warning-mode': x.notMatched.rtndm}" title={{x.notMatched.rtndm}}>{{x.rt_nd | number:2 }}</td>
+                                                        <td ng-class="{'warning-mode': x.notMatched.rtndotm}" title={{x.notMatched.rtndotm}}>{{x.rt_ndot | number:2 }}</td>
+                                                        <td ng-class="{'warning-mode': x.notMatched.shrdstm}" title={{x.notMatched.shrdstm}}>{{x.shrd_st | number:2 }}</td>
+                                                        <td ng-class="{'warning-mode': x.notMatched.shrdotm}" title={{x.notMatched.shrdotm}}>{{x.shrd_ot | number:2 }}</td>
+                                                        <td ng-class="{'warning-mode': x.notMatched.shrdndm}" title={{x.notMatched.shrdndm}}>{{x.shrd_nd | number:2 }}</td>
+                                                        <td ng-class="{'warning-mode': x.notMatched.shrdndotm}" title={{x.notMatched.shrdndotm}}>{{x.shrd_ndot | number:2 }}</td>
+                                                        <td ng-class="{'warning-mode': x.notMatched.rhrdstm}" title={{x.notMatched.rhrdstm}}>{{x.rhrd_st | number:2 }}</td>
+                                                        <td ng-class="{'warning-mode': x.notMatched.rhrdotm}" title={{x.notMatched.rhrdotm}}>{{x.rhrd_ot | number:2 }}</td>
+                                                        <td ng-class="{'warning-mode': x.notMatched.rhrdndm}" title={{x.notMatched.rhrdndm}}>{{x.rhrd_nd | number:2 }}</td>
+                                                        <td ng-class="{'warning-mode': x.notMatched.rhrdndotm}" title={{x.notMatched.rhrdndotm}}>{{x.rhrd_ndot | number:2 }}</td>
                                                         <td>{{x.fetchStatus }}</td>
                                                     </tr>
                                                 </tbody>

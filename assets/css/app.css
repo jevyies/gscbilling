@@ -1768,6 +1768,11 @@ table.table-upload-dar th, table.table-upload-dar td {
     font-weight: 600;
 }
 
+.warning-mode {
+    background: #97a013 !important;
+    color: black;
+}
+
 .btn-bordered {
     height: 32px;
     border: 1px solid rgba(0, 0, 0, 0.6);

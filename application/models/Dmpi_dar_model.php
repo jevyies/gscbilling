@@ -150,88 +150,86 @@ Class Dmpi_Dar_Model extends CI_Model {
                 ->get();
             if($query->result()){
                 $match = true;
+                $notMatched = [];
                 foreach($query->result() as $rec){
-                    // var_dump('1', round($rec->rd_st, 2) != round($record['rd_st'], 2));
-                    // var_dump('2', round($rec->rd_ot, 2) != round($record['rd_ot'], 2));
-                    // var_dump('3', round($rec->rd_nd, 2) != round($record['rd_nd'], 2));
-                    // var_dump('4', round($rec->rd_ndot, 2) != round($record['rd_ndot'], 2));
-
-                    // var_dump('5', round($rec->shol_st, 2) != round($record['shol_st'], 2));
-                    // var_dump('6', round($rec->shol_ot, 2) != round($record['shol_ot'], 2));
-                    // var_dump('7', round($rec->shol_nd, 2) != round($record['shol_nd'], 2));
-                    // var_dump('8', round($rec->shol_ndot, 2) != round($record['shol_ndot'], 2));
-
-                    // var_dump('9', round($rec->shrd_st, 2) != round($record['shrd_st'], 2));
-                    // var_dump('10', round($rec->shrd_ot, 2) != round($record['shrd_ot'], 2));
-                    // var_dump('11', round($rec->shrd_nd, 2) != round($record['shrd_nd'], 2));
-                    // var_dump('12', round($rec->shrd_ndot, 2) != round($record['shrd_ndot'], 2));
-
-                    // var_dump('13', round($rec->rhol_st, 2) != round($record['rhol_st'], 2));
-                    // var_dump('14', round($rec->rhol_ot, 2) != round($record['rhol_ot'], 2));
-                    // var_dump('15', round($rec->rhol_nd, 2) != round($record['rhol_nd'], 2));
-                    // var_dump('16', round($rec->rhol_ndot, 2) != round($record['rhol_ndot'], 2));
-
-                    // var_dump('17', round($rec->rhrd_st, 2) != round($record['rhrd_st'], 2));
-                    // var_dump('18', round($rec->rhrd_ot, 2) != round($record['rhrd_ot'], 2));
-                    // var_dump('19', round($rec->rhrd_nd, 2) != round($record['rhrd_nd'], 2));
-                    // var_dump('20', round($rec->rhrd_ndot, 2) != round($record['rhrd_ndot'], 2));
-                    if(
-                        round($rec->rd_st, 2) != round($record['rd_st'], 2) 
-                        and 
-                        round($rec->rd_ot, 2) != round($record['rd_ot'], 2)
-                        and 
-                        round($rec->rd_nd, 2) != round($record['rd_nd'], 2)
-                        and 
-                        round($rec->rd_ndot, 2) != round($record['rd_ndot'], 2)
-                        and 
-                        round($rec->shol_st, 2) != round($record['shol_st'], 2)
-                        and 
-                        round($rec->shol_ot, 2) != round($record['shol_ot'], 2)
-                        and 
-                        round($rec->shol_nd, 2) != round($record['shol_nd'], 2)
-                        and 
-                        round($rec->shol_ndot, 2) != round($record['shol_ndot'], 2)
-                        and 
-                        round($rec->shrd_st, 2) != round($record['shrd_st'], 2)
-                        and 
-                        round($rec->shrd_ot, 2) != round($record['shrd_ot'], 2)
-                        and 
-                        round($rec->shrd_nd, 2) != round($record['shrd_nd'], 2)
-                        and 
-                        round($rec->shrd_ndot, 2) != round($record['shrd_ndot'], 2)
-                        and 
-                        round($rec->rhol_st, 2) != round($record['rhol_st'], 2)
-                        and 
-                        round($rec->rhol_ot, 2) != round($record['rhol_ot'], 2)
-                        and 
-                        round($rec->rhol_nd, 2) != round($record['rhol_nd'], 2)
-                        and 
-                        round($rec->rhol_ndot, 2) != round($record['rhol_ndot'], 2)
-                        and 
-                        round($rec->rhrd_st, 2) != round($record['rhrd_st'], 2)
-                        and 
-                        round($rec->rhrd_ot, 2) != round($record['rhrd_ot'], 2)
-                        and 
-                        round($rec->rhrd_nd, 2) != round($record['rhrd_nd'], 2)
-                        and 
-                        round($rec->rhrd_ndot, 2) != round($record['rhrd_ndot'], 2)
-                        and
-                        round($rec->rt_st, 2) != round($record['rt_st'], 2)
-                        and 
-                        round($rec->rt_ot, 2) != round($record['rt_ot'], 2)
-                        and 
-                        round($rec->rt_nd, 2) != round($record['rt_nd'], 2)
-                        and 
-                        round($rec->rt_ndot, 2) != round($record['rt_ndot'], 2)
-                        )
-                    {
-                        $match = false;
+                    if(round($rec->rd_st, 2) != round($record['rd_st'], 2)){
+                        $notMatched['rdstm'] = 'Must be '.round($rec->rd_st, 2);
+                    }
+                    if(round($rec->rd_ot, 2) != round($record['rd_ot'], 2)){
+                        $notMatched['rdotm'] = 'Must be '.round($rec->rd_ot, 2);
+                    }
+                    if(round($rec->rd_nd, 2) != round($record['rd_nd'], 2)){
+                        $notMatched['rdndm'] = 'Must be '.round($rec->rd_nd, 2);
+                    }
+                    if(round($rec->rd_ndot, 2) != round($record['rd_ndot'], 2)){
+                        $notMatched['rdndotm'] = 'Must be '.round($rec->rd_ndot, 2);
+                    }
+                    if(round($rec->shol_st, 2) != round($record['shol_st'], 2)){
+                        $notMatched['sholstm'] = 'Must be '.round($rec->shol_st, 2);
+                    }
+                    if(round($rec->shol_ot, 2) != round($record['shol_ot'], 2)){
+                        $notMatched['sholotm'] = 'Must be '.round($rec->shol_ot, 2);
+                    }
+                    if(round($rec->shol_nd, 2) != round($record['shol_nd'], 2)){
+                        $notMatched['sholndm'] = 'Must be '.round($rec->shol_nd, 2);
+                    }
+                    if(round($rec->shol_ndot, 2) != round($record['shol_ndot'], 2)){
+                        $notMatched['sholndotm'] = 'Must be '.round($rec->shol_ndot, 2);
+                    }
+                    if(round($rec->shrd_st, 2) != round($record['shrd_st'], 2)){
+                        $notMatched['shrdstm'] = 'Must be '.round($rec->shrd_st, 2);
+                    }
+                    if(round($rec->shrd_ot, 2) != round($record['shrd_ot'], 2)){
+                        $notMatched['shrdotm'] = 'Must be '.round($rec->shrd_ot, 2);
+                    }
+                    if(round($rec->shrd_nd, 2) != round($record['shrd_nd'], 2)){
+                        $notMatched['shrdndm'] = 'Must be '.round($rec->shrd_nd, 2);
+                    }
+                    if(round($rec->shrd_ndot, 2) != round($record['shrd_ndot'], 2)){
+                        $notMatched['shrdndotm'] = 'Must be '.round($rec->shrd_ndot, 2);
+                    }
+                    if(round($rec->rhol_st, 2) != round($record['rhol_st'], 2)){
+                        $notMatched['rholstm'] = 'Must be '.round($rec->rhol_st, 2);
+                    }
+                    if(round($rec->rhol_ot, 2) != round($record['rhol_ot'], 2)){
+                        $notMatched['rholotm'] = 'Must be '.round($rec->rhol_ot, 2);
+                    }
+                    if(round($rec->rhol_nd, 2) != round($record['rhol_nd'], 2)){
+                        $notMatched['rholndm'] = 'Must be '.round($rec->rhol_nd, 2);
+                    }
+                    if(round($rec->rhol_ndot, 2) != round($record['rhol_ndot'], 2)){
+                        $notMatched['rholndotm'] = 'Must be '.round($rec->rhol_ndot, 2);
+                    }
+                    if(round($rec->rhrd_st, 2) != round($record['rhrd_st'], 2)){
+                        $notMatched['rhrdstm'] = 'Must be '.round($rec->rhrd_st, 2);
+                    }
+                    if(round($rec->rhrd_ot, 2) != round($record['rhrd_ot'], 2)){
+                        $notMatched['rhrdotm'] = 'Must be '.round($rec->rhrd_ot, 2);
+                    }
+                    if(round($rec->rhrd_nd, 2) != round($record['rhrd_nd'], 2)){
+                        $notMatched['rhrdndm'] = 'Must be '.round($rec->rhrd_nd, 2);
+                    }
+                    if(round($rec->rhrd_ndot, 2) != round($record['rhrd_ndot'], 2)){
+                        $notMatched['rhrdndotm'] = 'Must be '.round($rec->rhrd_ndot, 2);
+                    }
+                    if(round($rec->rt_st, 2) != round($record['rt_st'], 2)){
+                        $notMatched['rtstm'] = 'Must be '.round($rec->rt_st, 2);
+                    }
+                    if(round($rec->rt_ot, 2) != round($record['rt_ot'], 2)){
+                        $notMatched['rtotm'] = 'Must be '.round($rec->rt_ot, 2);
+                    }
+                    if(round($rec->rt_nd, 2) != round($record['rt_nd'], 2)){
+                        $notMatched['rtndm'] = 'Must be '.round($rec->rt_nd, 2);
+                    }
+                    if(round($rec->rt_ndot, 2) != round($record['rt_ndot'], 2)){
+                        $notMatched['rtndotm'] = 'Must be '.round($rec->rt_ndot, 2);
                     }
                 }
                 if($match){
                     $record['matched'] = true;
                     $record['matchID'] = $query->row()->id;
                     $record['fetchStatus'] = 'fetched';
+                    $record['notMatched'] = $notMatched;
                 }else{
                     $record['matched'] = false;
                     $record['matchID'] = 0;
