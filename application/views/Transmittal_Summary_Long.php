@@ -62,7 +62,7 @@ if($day <= 15){
 				margin-bottom: 1.5cm;
 				margin-left: 1cm;
 				margin-right: 1cm;
-				odd-footer-name: html_myFooter;
+				/* odd-footer-name: html_myFooter; */
 			}
 			
 			h1.bigsection {

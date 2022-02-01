@@ -105,8 +105,8 @@ if($diff > 0){
                         <th rowspan="2">FIELD</th>
                         <th rowspan="2">HAS/TONS</th>
                         <th colspan="5">ACCOUNT TO CHARGE</th>
-                        <th colspan="20">HOURS RENDERED</th>
-                        <th colspan="20">RATES</th>
+                        <th colspan="24">HOURS RENDERED</th>
+                        <th colspan="24">RATES</th>
                         <th colspan="4">AMOUNT</th>
                         <th rowspan="2">TOTAL</th>
 

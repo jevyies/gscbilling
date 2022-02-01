@@ -60,7 +60,7 @@
 				margin-bottom: 1cm;
 				margin-left: 0.5cm;
 				margin-right: 0.5cm;
-				odd-footer-name: html_myFooter;
+				/* odd-footer-name: html_myFooter; */
 			}
 			
 			h1.bigsection {

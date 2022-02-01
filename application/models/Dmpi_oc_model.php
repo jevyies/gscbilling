@@ -671,7 +671,7 @@ Class DMPI_OC_Model extends CI_Model {
     public function monthly_report($searchBy, $from, $to, $type){
 
         $from = date('Y-m-01', strtotime($from));
-        $to = date("Y-m-t", strtotime($to));
+        $to = date("Y-m-10", strtotime($to));
         // DAR Query
         $amount1 = 'SELECT SUM(dtl.c_totalAmt) FROM dmpi_dar_dtls dtl WHERE dtl.hdr_id= a.id GROUP BY dtl.hdr_id';
         $dar_query = 'SELECT a.DMPIReceivedDate, soaDate, soaNumber, ('.$amount1.') AS TotalAmt, DATEDIFF(DMPIReceivedDate, TransmittedDate) AS billing_period, SupervisorDate, ManagerDate, DATEDIFF(DMPIReceivedDate, TransmittedDate) AS total_processing, date_finalize
@@ -737,7 +737,7 @@ Class DMPI_OC_Model extends CI_Model {
         $TransmittalNo = 'SELECT b.TransmittalNo FROM dmpi_sar_transmittal b WHERE b.id = a.transmittal_id LIMIT 1';
         $sar_query = 'SELECT a.id AS HdrID, ('.$TransmittalNo.') AS TransmittalNo, 0 as detailType, "SAR" as ClientType
         FROM dmpi_sars a
-        WHERE a.periodCoveredFrom BETWEEN "'.$from.'" AND "'.$to.'"
+        WHERE a.docDate BETWEEN "'.$from.'" AND "'.$to.'"
         AND a.status = "transmitted"
         ';
 
@@ -793,6 +793,9 @@ Class DMPI_OC_Model extends CI_Model {
                         b.field, 
                         b.gl, 
                         b.cc,
+                        b.ccc,
+                        b.ioa,
+                        b.ioc,
                         b.rdst,
                         b.rdot,
                         b.rdnd,
@@ -823,10 +826,12 @@ Class DMPI_OC_Model extends CI_Model {
                         c.rd_ot,
                         c.rd_nd,
                         c.rd_ndot,
+
                         c.rt_st,
                         c.rt_ot,
                         c.rt_nd,
                         c.rt_ndot,
+                        
                         c.shol_st,
                         c.shol_ot,
                         c.shol_nd,
@@ -871,6 +876,9 @@ Class DMPI_OC_Model extends CI_Model {
                         b.field, 
                         b.gl, 
                         b.cc,
+                        b.ccc,
+                        b.ioa,
+                        b.ioc,
                         b.rdst,
                         b.rdot,
                         b.rdnd,
@@ -956,6 +964,9 @@ Class DMPI_OC_Model extends CI_Model {
                     "" as field, 
                     b.gl, 
                     b.costCenter as cc,
+                    "" as ccc,
+                    "" as ioa,
+                    "" as ioc,
                     0 as rdst,
                     0 as rdot,
                     0 as rdnd,
@@ -1008,14 +1019,13 @@ Class DMPI_OC_Model extends CI_Model {
                     0 as  c_totalot,
                     0 as  c_totalnd,
                     0 as  c_totalndot,
-                    0 as  c_totalAmt,
+                    b.amount as  c_totalAmt,
                     0 as  headCount,
-                    a.soaNumber,
-                    a.soaDate,
+                    a.controlNo as soaNumber,
+                    a.docDate as soaDate,
                     ('.$TransmittalNo.') as TransmittalNo, 
                     a.id AS headerID, a.Location')
                     ->from('dmpi_sars a, dmpi_sar_dtls b')
-                    ->join('rate_masters c', 'c.id = b.rate_id', 'left')
                     ->where('a.id = b.hdr_id')
                     ->where('a.id', $record->HdrID)
                     ->order_by('a.id', 'asc')
@@ -1032,6 +1042,9 @@ Class DMPI_OC_Model extends CI_Model {
                     "" as field, 
                     b.GL as gl, 
                     b.CostCenter as cc,
+                    "" as ccc,
+                    "" as ioa,
+                    "" as ioc,
                     0 as rdst,
                     0 as rdot,
                     0 as rdnd,
@@ -1107,6 +1120,9 @@ Class DMPI_OC_Model extends CI_Model {
                     "" as field, 
                     b.GL as gl, 
                     b.CC as cc,
+                    "" as ccc,
+                    "" as ioa,
+                    "" as ioc,
                     0 as rdst,
                     0 as rdot,
                     0 as rdnd,
@@ -1182,6 +1198,9 @@ Class DMPI_OC_Model extends CI_Model {
                     "" as field, 
                     b.gl, 
                     b.cc,
+                    "" as ccc,
+                    "" as ioa,
+                    "" as ioc,
                     0 as rdst,
                     0 as rdot,
                     0 as rdnd,
