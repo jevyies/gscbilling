@@ -1,6 +1,6 @@
 <?php 
     header('Content-type: application/excel');
-    $filename = 'shabu-'. date('mdY') .'.xls';
+    $filename = 'Year To Date Collection - '. date('mdY') .'.xls';
 	header('Content-Disposition: attachment; filename='.$filename);
 ?>
 <html xmlns:x="urn:schemas-microsoft-com:office:excel">
