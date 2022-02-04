@@ -145,7 +145,7 @@
                     <tr>
                         <td>Total:</td>
                         <td class="text-right"><?php echo $No; ?></td>
-                        <td colspan="6"></td>
+                        <td colspan="7"></td>
                         <td class="text-right"><?php echo $TotalFuelLiters ? $TotalFuelLiters : '-'; ?></td>
                         <td class="text-right"><?php echo $TotalLabor ? number_format((float)$TotalLabor, 2, '.', ',') : '-'; ?></td>
                         <td class="text-right"><?php echo $TotalExtraRun ? number_format((float)$TotalExtraRun, 2, '.', ',') : '-'; ?></td>
