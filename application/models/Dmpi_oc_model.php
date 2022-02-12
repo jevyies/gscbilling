@@ -471,6 +471,8 @@ Class DMPI_OC_Model extends CI_Model {
             foreach(@$collect_query1 as $record){
                 array_push($head_base_collection, $record);
             }
+
+            
             //SAR QUERY 
             $total_query1 = $this->db->select("SUM(b.amount) AS total")->from('dmpi_sar_dtls b, dmpi_sars a')->where('a.id = b.hdr_id')->where("a.periodCoveredFrom BETWEEN '".$start_between."' AND '".$end_between."'")->get()->result();
             $volumebase += $total_query1[0]->total;

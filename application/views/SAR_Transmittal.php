@@ -51,7 +51,7 @@ foreach($records as $record){
             margin-bottom: 1.5cm;
             margin-left: .5cm;
             margin-right: .5cm;
-            odd-footer-name: html_myFooter;
+            /* odd-footer-name: html_myFooter; */
         }
         
         h1.bigsection {
