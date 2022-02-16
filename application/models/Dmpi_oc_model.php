@@ -471,6 +471,129 @@ Class DMPI_OC_Model extends CI_Model {
             foreach(@$collect_query1 as $record){
                 array_push($head_base_collection, $record);
             }
+
+            // BCC ------------------------------------------------
+            $total_query1 = $this->db->select("SUM((b.total + ((a.admin_percentage/b.total) * 100)) AS total")->from('tbloc_bccdtl b, tbloc_bcchdr a')->where('a.TOCSHDR = b.hdr_id')->where('a.period',$month.'1')->get()->result();
+            $headbase += $total_query1[0]->total;
+
+            $collect_query1 = $this->db
+            ->select('SUM(c.Amount) AS collection, b.ORNo, b.PayDate')
+            ->from('tbloc_bcchdr a, payment_dtl b, other_client_payment_link c')
+            ->where('a.TOCSHDR = c.HdrID')
+            ->where('c.PDTLID = b.PDTLID')
+            ->where('a.period',$month.'1')
+            ->where('c.client','BCC')
+            ->group_by('b.ORNo')
+            ->get()
+            ->result();
+            foreach(@$collect_query1 as $record){
+                array_push($head_base_collection, $record);
+            }
+
+            // SLERS ------------------------------------------------
+            $total_query1 = $this->db->select("SUM((b.total + ((a.admin_percentage/b.total) * 100)) AS total")->from('tbloc_slersdtl b, tbloc_slershdr a')->where('a.TOCSHDR = b.hdr_id')->where('a.period',$month.'1')->get()->result();
+            $headbase += $total_query1[0]->total;
+
+            $collect_query1 = $this->db
+            ->select('SUM(c.Amount) AS collection, b.ORNo, b.PayDate')
+            ->from('tbloc_slershdr a, payment_dtl b, other_client_payment_link c')
+            ->where('a.TOCSHDR = c.HdrID')
+            ->where('c.PDTLID = b.PDTLID')
+            ->where('a.period',$month.'1')
+            ->where('c.client','SLERS')
+            ->group_by('b.ORNo')
+            ->get()
+            ->result();
+            foreach(@$collect_query1 as $record){
+                array_push($head_base_collection, $record);
+            }
+
+            // CLUBHOUSE ------------------------------------------------
+            $total_query1 = $this->db->select("SUM((b.total + ((a.admin_percentage/b.total) * 100)) AS total")->from('tbloc_cbdtl b, tbloc_cbhdr a')->where('a.TOCSHDR = b.hdr_id')->where('a.period',$month.'1')->get()->result();
+            $headbase += $total_query1[0]->total;
+
+            $collect_query1 = $this->db
+            ->select('SUM(c.Amount) AS collection, b.ORNo, b.PayDate')
+            ->from('tbloc_cbhdr a, payment_dtl b, other_client_payment_link c')
+            ->where('a.TOCSHDR = c.HdrID')
+            ->where('c.PDTLID = b.PDTLID')
+            ->where('a.period',$month.'1')
+            ->where('c.client','CLUBHOUSE')
+            ->group_by('b.ORNo')
+            ->get()
+            ->result();
+            foreach(@$collect_query1 as $record){
+                array_push($head_base_collection, $record);
+            }
+
+            // LABNOTIN ------------------------------------------------
+            $total_query1 = $this->db->select("SUM((b.amount_billed + ((a.admin_percentage/b.amount_billed) * 100)) AS total")->from('tbloc_labnotindtl b, tbloc_labnotinhdr a')->where('a.TOCLHDR = b.hdr_id')->where('a.period',$month.'1')->get()->result();
+            $headbase += $total_query1[0]->total;
+
+            $collect_query1 = $this->db
+            ->select('SUM(c.Amount) AS collection, b.ORNo, b.PayDate')
+            ->from('tbloc_labnotinhdr a, payment_dtl b, other_client_payment_link c')
+            ->where('a.TOCLHDR = c.HdrID')
+            ->where('c.PDTLID = b.PDTLID')
+            ->where('a.period',$month.'1')
+            ->where('c.client','LABNOTIN')
+            ->group_by('b.ORNo')
+            ->get()
+            ->result();
+            foreach(@$collect_query1 as $record){
+                array_push($head_base_collection, $record);
+            }
+
+            // DEARBC ------------------------------------------------
+            $total_query1 = $this->db->select("SUM((b.total + ((a.admin_percentage/b.total) * 100)) AS total")->from('tbloc_dearbcdtl b, tbloc_dearbchdr a')->where('a.TOCDHDR = b.hdr_id')->where('a.period',$month.'1')->get()->result();
+            $headbase += $total_query1[0]->total;
+
+            $collect_query1 = $this->db
+            ->select('SUM(c.Amount) AS collection, b.ORNo, b.PayDate')
+            ->from('tbloc_dearbchdr a, payment_dtl b, other_client_payment_link c')
+            ->where('a.TOCDHDR = c.HdrID')
+            ->where('c.PDTLID = b.PDTLID')
+            ->where('a.period',$month.'1')
+            ->where('c.client','DEARBC')
+            ->group_by('b.ORNo')
+            ->get()
+            ->result();
+            foreach(@$collect_query1 as $record){
+                array_push($head_base_collection, $record);
+            }
+
+            // ALLOWANCE ------------------------------------------------
+            $total_query1 = $this->db->select("SUM(TotalAmount) AS total")->from('v_totalamountallowance')->where('Period',$month.'-1')->get()->result();
+            $headbase += $total_query1[0]->total;
+
+            $collect_query1 = $this->db
+            ->select('SUM(a.TotalAmount - a.Balance) AS collection, b.orNumber as ORNo, b.check_date as PayDate')
+            ->from('v_totalamountallowance a, tblallowancepayment b')
+            ->where('a.SOANo = b.SOANo')
+            ->where('a.Period',$month.'-1')
+            ->group_by('b.orNumber')
+            ->get()
+            ->result();
+            foreach(@$collect_query1 as $record){
+                array_push($head_base_collection, $record);
+            }
+
+            // INCENTIVES ------------------------------------------------
+            $total_query1 = $this->db->select("SUM(TotalAmount) AS total")->from('v_totalamountincentives')->where('SOADate BETWEEN "'.$start_between.'" AND "'.$end_between.'"')->get()->result();
+            $headbase += $total_query1[0]->total;
+
+            $collect_query1 = $this->db
+            ->select('SUM(a.TotalAmount - a.Balance) AS collection, b.orNumber as ORNo, b.check_date as PayDate')
+            ->from('v_totalamountincentives a, tblincentivespayment b')
+            ->where('a.SOANo = b.SOANo')
+            ->where('a.SOADate BETWEEN "'.$start_between.'" AND "'.$end_between.'"')
+            ->group_by('b.orNumber')
+            ->get()
+            ->result();
+            foreach(@$collect_query1 as $record){
+                array_push($head_base_collection, $record);
+            }
+
             //SAR QUERY 
             $total_query1 = $this->db->select("SUM(b.amount) AS total")->from('dmpi_sar_dtls b, dmpi_sars a')->where('a.id = b.hdr_id')->where("a.periodCoveredFrom BETWEEN '".$start_between."' AND '".$end_between."'")->get()->result();
             $volumebase += $total_query1[0]->total;
@@ -488,6 +611,7 @@ Class DMPI_OC_Model extends CI_Model {
             // DAR QUERY
             $total_query2 = $this->db->select("SUM(b.c_totalAmt) AS total")->from('dmpi_dar_dtls b, dmpi_dar_hdrs a')->where('a.id = b.hdr_id')->where('pmy',$month)->where('period', '2')->get()->result();
             $headbase += $total_query2[0]->total;
+
             $collect_query2 = $this->db
             ->select('SUM(c.Amount) AS collection, b.ORNo, b.PayDate')
             ->from('dmpi_dar_hdrs a, payment_dtl b, dar_payment_link c')
@@ -501,6 +625,129 @@ Class DMPI_OC_Model extends CI_Model {
             foreach(@$collect_query2 as $record){
                 array_push($head_base_collection, $record);
             }
+
+            // BCC ------------------------------------------------
+            $total_query1 = $this->db->select("SUM((b.total + ((a.admin_percentage/b.total) * 100)) AS total")->from('tbloc_bccdtl b, tbloc_bcchdr a')->where('a.TOCSHDR = b.hdr_id')->where('a.period',$month.'2')->get()->result();
+            $headbase += $total_query1[0]->total;
+
+            $collect_query1 = $this->db
+            ->select('SUM(c.Amount) AS collection, b.ORNo, b.PayDate')
+            ->from('tbloc_bcchdr a, payment_dtl b, other_client_payment_link c')
+            ->where('a.TOCSHDR = c.HdrID')
+            ->where('c.PDTLID = b.PDTLID')
+            ->where('a.period',$month.'2')
+            ->where('c.client','BCC')
+            ->group_by('b.ORNo')
+            ->get()
+            ->result();
+            foreach(@$collect_query1 as $record){
+                array_push($head_base_collection, $record);
+            }
+
+            // SLERS ------------------------------------------------
+            $total_query1 = $this->db->select("SUM((b.total + ((a.admin_percentage/b.total) * 100)) AS total")->from('tbloc_slersdtl b, tbloc_slershdr a')->where('a.TOCSHDR = b.hdr_id')->where('a.period',$month.'2')->get()->result();
+            $headbase += $total_query1[0]->total;
+
+            $collect_query1 = $this->db
+            ->select('SUM(c.Amount) AS collection, b.ORNo, b.PayDate')
+            ->from('tbloc_slershdr a, payment_dtl b, other_client_payment_link c')
+            ->where('a.TOCSHDR = c.HdrID')
+            ->where('c.PDTLID = b.PDTLID')
+            ->where('a.period',$month.'2')
+            ->where('c.client','SLERS')
+            ->group_by('b.ORNo')
+            ->get()
+            ->result();
+            foreach(@$collect_query1 as $record){
+                array_push($head_base_collection, $record);
+            }
+
+            // CLUBHOUSE ------------------------------------------------
+            $total_query1 = $this->db->select("SUM((b.total + ((a.admin_percentage/b.total) * 100)) AS total")->from('tbloc_cbdtl b, tbloc_cbhdr a')->where('a.TOCSHDR = b.hdr_id')->where('a.period',$month.'2')->get()->result();
+            $headbase += $total_query1[0]->total;
+
+            $collect_query1 = $this->db
+            ->select('SUM(c.Amount) AS collection, b.ORNo, b.PayDate')
+            ->from('tbloc_cbhdr a, payment_dtl b, other_client_payment_link c')
+            ->where('a.TOCSHDR = c.HdrID')
+            ->where('c.PDTLID = b.PDTLID')
+            ->where('a.period',$month.'2')
+            ->where('c.client','CLUBHOUSE')
+            ->group_by('b.ORNo')
+            ->get()
+            ->result();
+            foreach(@$collect_query1 as $record){
+                array_push($head_base_collection, $record);
+            }
+
+            // LABNOTIN ------------------------------------------------
+            $total_query1 = $this->db->select("SUM((b.amount_billed + ((a.admin_percentage/b.amount_billed) * 100)) AS total")->from('tbloc_labnotindtl b, tbloc_labnotinhdr a')->where('a.TOCLHDR = b.hdr_id')->where('a.period',$month.'2')->get()->result();
+            $headbase += $total_query1[0]->total;
+
+            $collect_query1 = $this->db
+            ->select('SUM(c.Amount) AS collection, b.ORNo, b.PayDate')
+            ->from('tbloc_labnotinhdr a, payment_dtl b, other_client_payment_link c')
+            ->where('a.TOCLHDR = c.HdrID')
+            ->where('c.PDTLID = b.PDTLID')
+            ->where('a.period',$month.'2')
+            ->where('c.client','LABNOTIN')
+            ->group_by('b.ORNo')
+            ->get()
+            ->result();
+            foreach(@$collect_query1 as $record){
+                array_push($head_base_collection, $record);
+            }
+
+            // DEARBC ------------------------------------------------
+            $total_query1 = $this->db->select("SUM((b.total + ((a.admin_percentage/b.total) * 100)) AS total")->from('tbloc_dearbcdtl b, tbloc_dearbchdr a')->where('a.TOCDHDR = b.hdr_id')->where('a.period',$month.'2')->get()->result();
+            $headbase += $total_query1[0]->total;
+
+            $collect_query1 = $this->db
+            ->select('SUM(c.Amount) AS collection, b.ORNo, b.PayDate')
+            ->from('tbloc_dearbchdr a, payment_dtl b, other_client_payment_link c')
+            ->where('a.TOCDHDR = c.HdrID')
+            ->where('c.PDTLID = b.PDTLID')
+            ->where('a.period',$month.'2')
+            ->where('c.client','DEARBC')
+            ->group_by('b.ORNo')
+            ->get()
+            ->result();
+            foreach(@$collect_query1 as $record){
+                array_push($head_base_collection, $record);
+            }
+
+            // ALLOWANCE ------------------------------------------------
+            $total_query1 = $this->db->select("SUM(TotalAmount) AS total")->from('v_totalamountallowance')->where('Period',$month.'-2')->get()->result();
+            $headbase += $total_query1[0]->total;
+
+            $collect_query1 = $this->db
+            ->select('SUM(a.TotalAmount - a.Balance) AS collection, b.orNumber as ORNo, b.check_date as PayDate')
+            ->from('v_totalamountallowance a, tblallowancepayment b')
+            ->where('a.SOANo = b.SOANo')
+            ->where('a.Period',$month.'-2')
+            ->group_by('b.orNumber')
+            ->get()
+            ->result();
+            foreach(@$collect_query1 as $record){
+                array_push($head_base_collection, $record);
+            }
+
+            // INCENTIVES ------------------------------------------------
+            $total_query1 = $this->db->select("SUM(TotalAmount) AS total")->from('v_totalamountincentives')->where('SOADate BETWEEN "'.$start_between.'" AND "'.$end_between.'"')->get()->result();
+            $headbase += $total_query1[0]->total;
+
+            $collect_query1 = $this->db
+            ->select('SUM(a.TotalAmount - a.Balance) AS collection, b.orNumber as ORNo, b.check_date as PayDate')
+            ->from('v_totalamountincentives a, tblincentivespayment b')
+            ->where('a.SOANo = b.SOANo')
+            ->where('a.SOADate BETWEEN "'.$start_between.'" AND "'.$end_between.'"')
+            ->group_by('b.orNumber')
+            ->get()
+            ->result();
+            foreach(@$collect_query1 as $record){
+                array_push($head_base_collection, $record);
+            }
+
             // SAR QUERY 
             $total_query1 = $this->db->select("SUM(b.amount) AS total")->from('dmpi_sar_dtls b, dmpi_sars a')->where('a.id = b.hdr_id')->where("a.periodCoveredFrom BETWEEN '".$start_between."' AND '".$end_between."'")->get()->result();
             $volumebase += $total_query1[0]->total;
