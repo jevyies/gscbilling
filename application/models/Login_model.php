@@ -450,6 +450,13 @@ Class Login_Model extends CI_Model {
         //         'rt_ndot' => $rec->shol_ndot,
         //     ]);
         // }
+        // $query = $this->db->select('*')->from('dar_payment_link')->get()->result();
+        // foreach($query as $rec){
+        //     $query1 = $this->db->select('PDTLID')->from('payment_dtl')->where('PDTLID', $rec->PDTLID)->get()->result();
+        //     if(!$query1){
+        //         $this->db->where('dpl_id', $record->dpl_id)->delete('dar_payment_link');
+        //     }
+        // }
         return true;
     }
 }
