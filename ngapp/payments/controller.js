@@ -209,7 +209,7 @@ function PaymentCtrl($scope, $ocLazyLoad, $injector) {
 		if (!vm.variables.PHDRID) {
 			return AppSvc.showSwal('Confirmation', 'Save Header First', 'warning');
 		}
-		var data = { variables: vm.variables };
+		var data = { variables: vm.variables, payment: vm.payments.length > 0 ? vm.payments[0] : null };
 		if (row) {
 			action = true;
 			row.index = vm.payments.indexOf(row);
@@ -319,11 +319,13 @@ function PaymentCtrl($scope, $ocLazyLoad, $injector) {
 		}
         var ORNo = '';
         var CardNo = '';
+        var PayDate = new Date();
         if(vm.payments.length > 0){
             ORNo = vm.payments[0].ORNo;
             CardNo = vm.payments[0].CardNo;
+            PayDate = new Date(vm.payments[0].PayDate);
         }
-		var data = { variables: vm.variables, ORNo: ORNo, CardNo: CardNo };
+		var data = { variables: vm.variables, ORNo: ORNo, CardNo: CardNo, PayDate: PayDate };
 		var options = {
 			data: data,
 			animation: true,
@@ -541,6 +543,12 @@ function PaymentDetailsCtrl($scope, $ocLazyLoad, $injector, data, $uibModalInsta
 		modal.updates = false;
 		modal.variables.HDRID = data.variables.PHDRID;
 		modal.variables.PayDate = new Date();
+		modal.variables.Mode = 'CHECK';
+		if(data.payment){
+			modal.variables.PayDate = new Date(data.payment.PayDate);
+			modal.variables.ORNo = data.payment.ORNo;
+			modal.variables.CardNo = data.payment.CardNo;
+		}
 	}
 
 	modal.save = function () {
@@ -569,13 +577,14 @@ function PaymentUploadCtrl($scope, $ocLazyLoad, $injector, data, $uibModalInstan
 	var modal = this;
 	modal.variables = {};
 	modal.variables.HDRID = data.variables.PHDRID;
-	modal.variables.PayDate = new Date();
     modal.variables.ORNo = data.ORNo;
     modal.variables.CardNo = data.CardNo;
 	modal.rowObject = [];
 	modal.list = [];
 	modal.uploaded = [];
 	modal.modes = [{ name: 'CASH' }, { name: 'CHECK' }, { name: 'CREDIT' }, { name: 'BANK DEPOSIT' }];
+	modal.variables.Mode = 'CHECK'
+	modal.variables.PayDate = data.PayDate;
 	$ocLazyLoad.load([PAYURL + 'service.js?v=' + VERSION]).then(function (d) {
 		PaymentSvc = $injector.get('PaymentSvc');
 	});
@@ -724,6 +733,7 @@ function PaymentUploadCtrl($scope, $ocLazyLoad, $injector, data, $uibModalInstan
 				'No'
 			).then(function (data) {
 				if (data) {
+					LOADING.classList.add('open');
 					PaymentSvc.save(update).then(function (response) {
 						if (response.success) {
 							$uibModalInstance.close({ update: update, rows: response.rows });
@@ -731,6 +741,7 @@ function PaymentUploadCtrl($scope, $ocLazyLoad, $injector, data, $uibModalInstan
 						} else {
 							AppSvc.showSwal('Confirmation', 'Nothing to Update. Saving failed', 'warning');
 						}
+						LOADING.classList.remove('open');
 					});
 				}
 			});
@@ -738,6 +749,7 @@ function PaymentUploadCtrl($scope, $ocLazyLoad, $injector, data, $uibModalInstan
 			AppSvc.confirmation('Confirmation', 'Are you sure you want to update the payment?', 'Yes', 'No').then(
 				function (data) {
 					if (data) {
+						LOADING.classList.add('open');
 						PaymentSvc.save(update).then(function (response) {
 							if (response.success) {
 								$uibModalInstance.close({ update: update, rows: response.rows });
@@ -745,6 +757,7 @@ function PaymentUploadCtrl($scope, $ocLazyLoad, $injector, data, $uibModalInstan
 							} else {
 								AppSvc.showSwal('Confirmation', 'Nothing to Update. Saving failed', 'warning');
 							}
+							LOADING.classList.remove('open');
 						});
 					}
 				}

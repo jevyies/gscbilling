@@ -55,7 +55,7 @@ header('Content-Disposition: attachment; filename='.$filename);
 			}
 		</style>
 		<body>
-        <table style="margin-bottom:10px;">
+        <table style="margin-bottom:10px;" width="100%">
             <thead>
                 <tr>
                     <th>DOC DATE</th>
@@ -68,14 +68,25 @@ header('Content-Disposition: attachment; filename='.$filename);
             </thead>
             <tbody>
                 <?php foreach($records as $record): ?>
-                    <tr>
+					<?php if($record->CT > 1): ?>
+                    <tr style="background-color:red;">
                         <td><?php echo date("d-M-Y", strtotime($record->DocDate)); ?></td>
                         <td><?php echo $record->SOA_Number; ?></td>
-                        <td style=""><?php echo number_format($record->Amount, 2, '.', ','); ?></td>
+                        <td style=""><?php echo number_format($record->SAmount, 2, '.', ','); ?></td>
                         <td><?php echo number_format($record->CAmount, 2, '.', ','); ?></td>
-                        <td><?php echo number_format($record->Amount - $record->CAmount, 2, '.', ','); ?></td>
+                        <td><?php echo number_format($record->SAmount - $record->CAmount, 2, '.', ','); ?></td>
                         <td><?php echo $record->DARID > 0 ? 'Retrieved' : 'Not in the system or status is not yet transmitted'; ?></td>
                     </tr>
+					<?php else: ?>
+						<tr>
+							<td><?php echo date("d-M-Y", strtotime($record->DocDate)); ?></td>
+							<td><?php echo $record->SOA_Number; ?></td>
+							<td style=""><?php echo number_format($record->SAmount, 2, '.', ','); ?></td>
+							<td><?php echo number_format($record->CAmount, 2, '.', ','); ?></td>
+							<td><?php echo number_format($record->SAmount - $record->CAmount, 2, '.', ','); ?></td>
+							<td><?php echo $record->DARID > 0 ? 'Retrieved' : 'Not in the system or status is not yet transmitted'; ?></td>
+						</tr>
+					<?php endif; ?>
                 <?php endforeach; ?>
             </tbody>
         </table>
