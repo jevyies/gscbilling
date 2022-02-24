@@ -9,7 +9,7 @@ Class Payment_Model extends CI_Model {
     public function get_uploaded_report(){
         $sess = $this->session->userdata('gscbilling_session');
         $amount = 'SELECT SUM(b.totalAmt) FROM dmpi_dar_dtls b WHERE a.DARID = b.hdr_id GROUP BY b.hdr_id';
-        $query = $this->db->where('UploadedBy', 17)->from('payment_uploads a')->select('COUNT(*) As CT, DARID, SUM(Amount) AS SAmount, DocDate, SOA_Number, ('.$amount.') AS CAmount')->group_by('DARID')->get()->result();
+        $query = $this->db->where('UploadedBy', $sess['id'])->from('payment_uploads a')->select('COUNT(*) As CT, DARID, SUM(Amount) AS SAmount, DocDate, SOA_Number, ('.$amount.') AS CAmount')->group_by('SOA_Number')->get()->result();
         return $query ? $query : false;
     }
     public function get_payment_details($id){
