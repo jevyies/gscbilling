@@ -482,8 +482,6 @@ function PerClientCtrl($scope, $ocLazyLoad, $injector, data, $uibModalInstance) 
 function AnnualReportCtrl($scope, $ocLazyLoad, $injector, data, $uibModalInstance) {
     var modal = this;
     modal.variables = {};
-    modal.variables.from = new Date();
-    modal.variables.to = new Date();
     $ocLazyLoad.load([
         REPURL + 'dmpi_oc_reports/service.js?v=' + VERSION,
     ]).then(function (d) {

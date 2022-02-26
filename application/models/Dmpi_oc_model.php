@@ -830,19 +830,68 @@ Class DMPI_OC_Model extends CI_Model {
         return $result_array ? json_decode(json_encode($result_array)) : false;
     }
     public function annual_report($from, $to, $type){
-        // $amount = 'SELECT SUM(dtl.amount) FROM dmpi_sar_dtls dtl WHERE dtl.hdr_id= hdr.id';
-        // $batch = 'SELECT batch.xDate FROM 201filedb.tblbatch batch WHERE hdr.soaNumber = batch.BNo';
-        // $this->db
-        // ->select('hdr.soaNumber, hdr.created_at, hdr.preparedBy, hdr.adminConfirmedDate, hdr.adminConfirmedBy, hdr.adminTransmittedDate, hdr.`status`, ('.$amount.') AS amount, ('.$batch.') AS xDate')
-        // ->from('dmpi_sars hdr')
-        // ->where("hdr.soaDate BETWEEN '".$from."' AND '".$to."'");
-        // if($type == 1){
-        //     $this->db->limit(1);
-        // }
-        // $this->db->order_by('hdr.soaDate', 'asc');
-        // $query = $this->db->get();
-        // return $query->result() ? $query->result() : false;
-        return true;
+        $result_array = [];
+        $start = strtotime($from);
+        $end = strtotime($to);
+        $db2 = $this->load->database('otherdb', TRUE);
+        while($start <= $end)
+        {
+            $array = [
+                'HeadCount' => 0,
+                'Gross' => 0,
+                'Net' => 0,
+                'Billing' => 0,
+            ];
+            $array['Date'] = date('F', $start).' 1-15';
+            $dmpi_start = date('Ym', $start);
+            $dmpi_period = 1;
+            $payroll_month = date('Ym', $start);
+            $query_start = date('Y-m-1', $start);
+            $query_end = date('Y-m-15', $start);
+            
+            $Payroll = $db2->query(
+                "SELECT COUNT(EmpIDLink) AS HeadCount, SUM(GrossPay) AS Gross, SUM(NetPay) AS Net FROM paysliphdr WHERE PayMonthYear = '".$payroll_month."' AND Period = '".$dmpi_period."' GROUP BY PayMonthYear, Period"
+            )->row();
+            $array['HeadCount'] = $Payroll->HeadCount;
+            $array['Gross'] = $Payroll->Gross;
+            $array['Net'] = $Payroll->Net;
+
+            $Billing = $this->db->query("
+                SELECT SUM(total) AS Billing FROM 
+                (
+                    (SELECT SUM(b.totalAmt) AS total FROM dmpi_dar_hdrs a, dmpi_dar_dtls b WHERE a.id = b.hdr_id AND a.pmy = '".$dmpi_start."' AND a.period = '".$dmpi_period."')
+                    UNION ALL
+                    (SELECT SUM(b.amount) AS total FROM dmpi_sars a, dmpi_sar_dtls b WHERE a.id = b.hdr_id AND soaDate BETWEEN '".$query_start."' AND '".$query_end."')
+                ) AS TotalDMPI
+            ")->row();
+            $array['Billing'] = $Billing->Billing;
+
+            array_push($result_array, $array);
+
+            $array['Date'] = date('F', $start).' 16-'.date('t', $start);
+            $dmpi_period = 2;
+            $query_start = date('Y-m-16', $start);
+            $query_end = date('Y-m-t', $start);
+            $Payroll = $db2->query(
+                "SELECT COUNT(EmpIDLink) AS HeadCount, SUM(GrossPay) AS Gross, SUM(NetPay) AS Net FROM paysliphdr WHERE PayMonthYear = '".$payroll_month."' AND Period = '".$dmpi_period."' GROUP BY PayMonthYear, Period"
+            )->row();
+            $array['HeadCount'] = $Payroll->HeadCount;
+            $array['Gross'] = $Payroll->Gross;
+            $array['Net'] = $Payroll->Net;
+
+            $Billing = $this->db->query("
+                SELECT SUM(total) AS Billing FROM 
+                (
+                    (SELECT SUM(b.totalAmt) AS total FROM dmpi_dar_hdrs a, dmpi_dar_dtls b WHERE a.id = b.hdr_id AND a.pmy = '".$dmpi_start."' AND a.period = '".$dmpi_period."')
+                    UNION ALL
+                    (SELECT SUM(b.amount) AS total FROM dmpi_sars a, dmpi_sar_dtls b WHERE a.id = b.hdr_id AND soaDate BETWEEN '".$query_start."' AND '".$query_end."')
+                ) AS TotalDMPI
+            ")->row();
+            $array['Billing'] = $Billing->Billing;
+            array_push($result_array, $array);
+            $start = strtotime("+1 month", $start);
+        }
+        return $result_array ? json_decode(json_encode($result_array)) : false;
     }
     public function weekly_report($searchBy, $from, $to, $pmy, $period, $type){
 
