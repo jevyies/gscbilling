@@ -473,7 +473,7 @@ Class DMPI_OC_Model extends CI_Model {
             }
 
             // BCC ------------------------------------------------
-            $total_query1 = $this->db->select("SUM((b.total + ((a.admin_percentage/b.total) * 100)) AS total")->from('tbloc_bccdtl b, tbloc_bcchdr a')->where('a.TOCSHDR = b.hdr_id')->where('a.period',$month.'1')->get()->result();
+            $total_query1 = $this->db->select("SUM(b.total + ((a.admin_percentage/b.total) * 100)) AS total")->from('tbloc_bccdtl b, tbloc_bcchdr a')->where('a.TOCSHDR = b.hdr_id')->where('a.period',$month.'1')->get()->result();
             $headbase += $total_query1[0]->total;
 
             $collect_query1 = $this->db
@@ -491,7 +491,7 @@ Class DMPI_OC_Model extends CI_Model {
             }
 
             // SLERS ------------------------------------------------
-            $total_query1 = $this->db->select("SUM((b.total + ((a.admin_percentage/b.total) * 100)) AS total")->from('tbloc_slersdtl b, tbloc_slershdr a')->where('a.TOCSHDR = b.hdr_id')->where('a.period',$month.'1')->get()->result();
+            $total_query1 = $this->db->select("SUM(b.total + ((a.admin_percentage/b.total) * 100)) AS total")->from('tbloc_slersdtl b, tbloc_slershdr a')->where('a.TOCSHDR = b.hdr_id')->where('a.period',$month.'1')->get()->result();
             $headbase += $total_query1[0]->total;
 
             $collect_query1 = $this->db
@@ -509,7 +509,7 @@ Class DMPI_OC_Model extends CI_Model {
             }
 
             // CLUBHOUSE ------------------------------------------------
-            $total_query1 = $this->db->select("SUM((b.total + ((a.admin_percentage/b.total) * 100)) AS total")->from('tbloc_cbdtl b, tbloc_cbhdr a')->where('a.TOCSHDR = b.hdr_id')->where('a.period',$month.'1')->get()->result();
+            $total_query1 = $this->db->select("SUM(b.total + ((a.admin_percentage/b.total) * 100)) AS total")->from('tbloc_cbdtl b, tbloc_cbhdr a')->where('a.TOCSHDR = b.hdr_id')->where('a.period',$month.'1')->get()->result();
             $headbase += $total_query1[0]->total;
 
             $collect_query1 = $this->db
@@ -527,7 +527,7 @@ Class DMPI_OC_Model extends CI_Model {
             }
 
             // LABNOTIN ------------------------------------------------
-            $total_query1 = $this->db->select("SUM((b.amount_billed + ((a.admin_percentage/b.amount_billed) * 100)) AS total")->from('tbloc_labnotindtl b, tbloc_labnotinhdr a')->where('a.TOCLHDR = b.hdr_id')->where('a.period',$month.'1')->get()->result();
+            $total_query1 = $this->db->select("SUM(b.amount_billed + ((a.admin_percentage/b.amount_billed) * 100)) AS total")->from('tbloc_labnotindtl b, tbloc_labnotinhdr a')->where('a.TOCLHDR = b.hdr_id')->where('a.period',$month.'1')->get()->result();
             $headbase += $total_query1[0]->total;
 
             $collect_query1 = $this->db
@@ -545,7 +545,7 @@ Class DMPI_OC_Model extends CI_Model {
             }
 
             // DEARBC ------------------------------------------------
-            $total_query1 = $this->db->select("SUM((b.total + ((a.admin_percentage/b.total) * 100)) AS total")->from('tbloc_dearbcdtl b, tbloc_dearbchdr a')->where('a.TOCDHDR = b.hdr_id')->where('a.period',$month.'1')->get()->result();
+            $total_query1 = $this->db->select("SUM(b.total + ((a.admin_percentage/b.total) * 100)) AS total")->from('tbloc_dearbcdtl b, tbloc_dearbchdr a')->where('a.TOCDHDR = b.hdr_id')->where('a.period',$month.'1')->get()->result();
             $headbase += $total_query1[0]->total;
 
             $collect_query1 = $this->db
@@ -627,7 +627,7 @@ Class DMPI_OC_Model extends CI_Model {
             }
 
             // BCC ------------------------------------------------
-            $total_query1 = $this->db->select("SUM((b.total + ((a.admin_percentage/b.total) * 100)) AS total")->from('tbloc_bccdtl b, tbloc_bcchdr a')->where('a.TOCSHDR = b.hdr_id')->where('a.period',$month.'2')->get()->result();
+            $total_query1 = $this->db->select("SUM(b.total + ((a.admin_percentage/b.total) * 100)) AS total")->from('tbloc_bccdtl b, tbloc_bcchdr a')->where('a.TOCSHDR = b.hdr_id')->where('a.period',$month.'2')->get()->result();
             $headbase += $total_query1[0]->total;
 
             $collect_query1 = $this->db
@@ -645,7 +645,7 @@ Class DMPI_OC_Model extends CI_Model {
             }
 
             // SLERS ------------------------------------------------
-            $total_query1 = $this->db->select("SUM((b.total + ((a.admin_percentage/b.total) * 100)) AS total")->from('tbloc_slersdtl b, tbloc_slershdr a')->where('a.TOCSHDR = b.hdr_id')->where('a.period',$month.'2')->get()->result();
+            $total_query1 = $this->db->select("SUM(b.total + ((a.admin_percentage/b.total) * 100)) AS total")->from('tbloc_slersdtl b, tbloc_slershdr a')->where('a.TOCSHDR = b.hdr_id')->where('a.period',$month.'2')->get()->result();
             $headbase += $total_query1[0]->total;
 
             $collect_query1 = $this->db
@@ -663,7 +663,7 @@ Class DMPI_OC_Model extends CI_Model {
             }
 
             // CLUBHOUSE ------------------------------------------------
-            $total_query1 = $this->db->select("SUM((b.total + ((a.admin_percentage/b.total) * 100)) AS total")->from('tbloc_cbdtl b, tbloc_cbhdr a')->where('a.TOCSHDR = b.hdr_id')->where('a.period',$month.'2')->get()->result();
+            $total_query1 = $this->db->select("SUM(b.total + ((a.admin_percentage/b.total) * 100)) AS total")->from('tbloc_cbdtl b, tbloc_cbhdr a')->where('a.TOCSHDR = b.hdr_id')->where('a.period',$month.'2')->get()->result();
             $headbase += $total_query1[0]->total;
 
             $collect_query1 = $this->db
@@ -681,7 +681,7 @@ Class DMPI_OC_Model extends CI_Model {
             }
 
             // LABNOTIN ------------------------------------------------
-            $total_query1 = $this->db->select("SUM((b.amount_billed + ((a.admin_percentage/b.amount_billed) * 100)) AS total")->from('tbloc_labnotindtl b, tbloc_labnotinhdr a')->where('a.TOCLHDR = b.hdr_id')->where('a.period',$month.'2')->get()->result();
+            $total_query1 = $this->db->select("SUM(b.amount_billed + ((a.admin_percentage/b.amount_billed) * 100)) AS total")->from('tbloc_labnotindtl b, tbloc_labnotinhdr a')->where('a.TOCLHDR = b.hdr_id')->where('a.period',$month.'2')->get()->result();
             $headbase += $total_query1[0]->total;
 
             $collect_query1 = $this->db
@@ -699,7 +699,7 @@ Class DMPI_OC_Model extends CI_Model {
             }
 
             // DEARBC ------------------------------------------------
-            $total_query1 = $this->db->select("SUM((b.total + ((a.admin_percentage/b.total) * 100)) AS total")->from('tbloc_dearbcdtl b, tbloc_dearbchdr a')->where('a.TOCDHDR = b.hdr_id')->where('a.period',$month.'2')->get()->result();
+            $total_query1 = $this->db->select("SUM(b.total + ((a.admin_percentage/b.total) * 100)) AS total")->from('tbloc_dearbcdtl b, tbloc_dearbchdr a')->where('a.TOCDHDR = b.hdr_id')->where('a.period',$month.'2')->get()->result();
             $headbase += $total_query1[0]->total;
 
             $collect_query1 = $this->db
