@@ -316,127 +316,243 @@ Class DMPI_OC_Model extends CI_Model {
         }
         return $query ? $query : false;
     }
-    public function get_aging($from, $to, $type){
+    public function get_aging($data, $type){
+        $limit = $type == 1 ? ' LIMIT 1 ' : '';
+        // DAR QUERY
         $DARAmount = 'SELECT SUM(b.totalAmt) FROM dmpi_dar_dtls b WHERE b.hdr_id= a.id';
-        $DARCollectionDate = 'SELECT b.PayDate FROM payment_dtl b WHERE b.HDRID = a.PaymentHDRID ORDER BY PayDate DESC LIMIT 1';
+        $DARCollectionDate = 'SELECT b.PayDate FROM payment_dtl b, dar_payment_link c WHERE c.DARID = a.id AND b.PDTLID = c.PDTLID ORDER BY PayDate DESC LIMIT 1';
+        $DARORNo = 'SELECT b.ORNo FROM payment_dtl b, dar_payment_link c WHERE c.DARID = a.id AND b.PDTLID = c.PDTLID ORDER BY PayDate DESC LIMIT 1';
+        $DARCollection = 'SELECT SUM(c.Amount) FROM dar_payment_link c WHERE c.DARID = a.id GROUP BY c.DARID'; 
+        $DARQuery = "SELECT 'LABOR' AS Category, 
+        'DAR' AS ClientName, 
+        CONVERT(TransmittedDate USING utf8) AS DateTransmitted, 
+        CONVERT(soaNumber USING utf8) AS SOANo,
+        ($DARAmount) AS SOAAmount,
+        ($DARCollection) AS Collection,
+        ($DARCollectionDate) AS CollectionDate,
+        ($DARORNo) AS ORNo,
+        DATEDIFF('".$data['aging']."', TransmittedDate) AS Outstanding
+        FROM dmpi_dar_hdrs a
+        WHERE status = 'PRINTED TRANSMITTAL' AND TransmittedDate BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
 
+        // SAR QUERY
+        $SARAmount = 'SELECT SUM(b.amount) FROM dmpi_sar_dtls b WHERE b.hdr_id= a.id';
+        $SARCollectionDate = 'SELECT b.PayDate FROM payment_dtl b, sar_payment_link c WHERE c.SARID = a.id AND b.PDTLID = c.PDTLID ORDER BY PayDate DESC LIMIT 1';
+        $SARORNo = 'SELECT b.ORNo FROM payment_dtl b, sar_payment_link c WHERE c.SARID = a.id AND b.PDTLID = c.PDTLID ORDER BY PayDate DESC LIMIT 1';
+        $SARCollection = 'SELECT SUM(c.Amount) FROM sar_payment_link c WHERE c.SARID = a.id GROUP BY c.SARID'; 
+        $SARQuery = "SELECT 'LABOR' AS Category, 
+        'SAR' AS ClientName, 
+        CONVERT(d.date USING utf8) AS DateTransmitted, 
+        CONVERT(controlNo USING utf8) AS SOANo,
+        ($SARAmount) AS SOAAmount,
+        ($SARCollection) AS Collection,
+        ($SARCollectionDate) AS CollectionDate,
+        ($SARORNo) AS ORNo,
+        DATEDIFF('".$data['aging']."', d.date) AS Outstanding
+        FROM dmpi_sars a, dmpi_sar_transmittal d
+        WHERE status = 'transmitted' AND d.id = a.transmittal_id AND d.date BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
+
+        // GOLFCART QUERY
         $GolfCartSOA = 'SELECT b.series_no FROM golf_cart_soa_hdr b WHERE b.id = a.soaid_link LIMIT 1';
         $GolfCartCollection = 'SELECT SUM(b.amount) FROM golf_cart_payment b WHERE b.soa_link = a.soaid_link GROUP BY(b.soa_link)';
         $GolfCartCollectionDate = 'SELECT b.payment_date FROM golf_cart_payment b WHERE b.soa_link = a.soaid_link ORDER BY b.id DESC LIMIT 1';
+        $GolfCartORNo = 'SELECT b.or_ref_no FROM golf_cart_payment b WHERE b.soa_link = a.soaid_link ORDER BY b.id DESC LIMIT 1';
+        $GolfCartQuery = "SELECT 'TRUCKING' AS Category, 
+        'GolfCart' AS ClientName, 
+        CONVERT(trans_date USING utf8) AS DateTransmitted, 
+        ($GolfCartSOA) AS SOANo,
+        SUM(debit_amount) AS SOAAmount,
+        ($GolfCartCollection) AS Collection,
+        ($GolfCartCollection) AS CollectionDate,
+        ($GolfCartORNo) AS ORNo,
+        DATEDIFF('".$data['aging']."', trans_date) AS Outstanding
+        FROM golf_cart_ledger a
+        WHERE soaid_link > 0 AND trans_date BETWEEN '".$data['from']."' AND '".$data['to']."'
+        GROUP BY soaid_link$limit";
 
+        // JEEP QUERY
+        $JeepQuery = "SELECT 'TRUCKING' AS Category, 
+        'Jeep' AS ClientName, 
+        JVLDate AS DateTransmitted, 
+        OVLNo AS SOANo,
+        BillAmount AS SOAAmount,
+        CollectedAmount AS Collection,
+        CheckDate AS CollectionDate,
+        ORNo,
+        DATEDIFF('".$data['aging']."', JVLDate) AS Outstanding
+        FROM tbljeepvehicleloghdr a
+        WHERE JVLDate BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
+
+        // PHB Query
+        $PHBQuery = "SELECT 'TRUCKING' AS Category, 
+        'PHB' AS ClientName, 
+        PHBVLDate AS DateTransmitted, 
+        OVLNo AS SOANo,
+        BillAmount AS SOAAmount,
+        CollectedAmount AS Collection,
+        CheckDate AS CollectionDate,
+        CheckNumber AS ORNo,
+        DATEDIFF('".$data['aging']."', PHBVLDate) AS Outstanding
+        FROM tblphbvehicleloghdr a
+        WHERE PHBVLDate BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
+
+        // OVL QUERY
+        $OVLQuery = "SELECT 'TRUCKING' AS Category, 
+        'OVL' AS ClientName, 
+        OVLVLDate AS DateTransmitted, 
+        OVLNo AS SOANo,
+        BillAmount AS SOAAmount,
+        CollectedAmount AS Collection,
+        CheckDate AS CollectionDate,
+        CheckNumber AS ORNo,
+        DATEDIFF('".$data['aging']."', OVLVLDate) AS Outstanding
+        FROM tblovlvehicleloghdr a
+        WHERE OVLVLDate BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
+        
+        // LIFTRUCK QUERY
         $LiftruckSOA = 'SELECT b.series_no FROM liftruck_soa_hdr b WHERE b.id = a.soaid_link LIMIT 1';
         $LiftruckCollection = 'SELECT SUM(b.amount) FROM liftruck_payment b WHERE b.soa_link = a.soaid_link GROUP BY(b.soa_link)';
         $LiftruckCollectionDate = 'SELECT b.payment_date FROM liftruck_payment b WHERE b.soa_link = a.soaid_link ORDER BY b.id DESC LIMIT 1';
-
+        $LiftruckORNo = 'SELECT b.or_ref_no FROM liftruck_payment b WHERE b.soa_link = a.soaid_link ORDER BY b.id DESC LIMIT 1';
+        $LiftruckQuery = "SELECT 'TRUCKING' AS Category, 
+        'Liftruck' AS ClientName, 
+        date AS DateTransmitted, 
+        ($LiftruckSOA) AS SOANo,
+        SUM(amount) AS SOAAmount,
+        ($LiftruckCollection) AS Collection,
+        ($LiftruckCollectionDate) AS CollectionDate,
+        ($LiftruckORNo) AS ORNo,
+        DATEDIFF('".$data['aging']."', date) AS Outstanding
+        FROM liftruck_rental a
+        WHERE soaid_link > 0 AND date BETWEEN '".$data['from']."' AND '".$data['to']."'
+        GROUP BY soaid_link$limit";
+        
+        // WINGVAN QUERY
         $WingVanSOA = 'SELECT b.series_no FROM wingvan_soa_hdr b WHERE b.id = a.soaid_link LIMIT 1';
         $WingVanCollection = 'SELECT SUM(b.amount) FROM wingvan_payment b WHERE b.soa_link = a.soaid_link GROUP BY(b.soa_link)';
         $WingVanCollectionDate = 'SELECT b.payment_date FROM wingvan_payment b WHERE b.soa_link = a.soaid_link ORDER BY b.id DESC LIMIT 1';
+        $WingVanORNo = 'SELECT b.or_ref_no FROM wingvan_payment b WHERE b.soa_link = a.soaid_link ORDER BY b.id DESC LIMIT 1';
+        $WingVanQuery = "SELECT 'TRUCKING' AS Category, 
+        'WingVan' AS ClientName, 
+        date AS DateTransmitted, 
+        ($WingVanSOA) AS SOANo,
+        SUM(amount) AS SOAAmount,
+        ($WingVanCollection) AS Collection,
+        ($WingVanCollectionDate) AS CollectionDate,
+        ($WingVanORNo) AS ORNo,
+        DATEDIFF('".$data['aging']."', date) AS Outstanding
+        FROM wingvan_requisition a
+        WHERE soaid_link > 0 AND date BETWEEN '".$data['from']."' AND '".$data['to']."'
+        GROUP BY soaid_link$limit";
 
+        // VANRENTAL QUERY
         $VanRentalSOA = 'SELECT b.series_no FROM vanrental_soa_hdr b WHERE b.id = a.soa_id LIMIT 1';
+        $VanRentalQuery = "SELECT 'TRUCKING' AS Category, 
+        'Van Rental' AS ClientName, 
+        trans_date AS DateTransmitted, 
+        ($VanRentalSOA) AS SOANo,
+        SUM(bill) AS SOAAmount,
+        SUM(amount) AS Collection,
+        payment_date AS CollectionDate,
+        ORNo,
+        DATEDIFF('".$data['aging']."', trans_date) AS Outstanding
+        FROM vanrental_collection a
+        WHERE soa_id > 0 AND trans_date BETWEEN '".$data['from']."' AND '".$data['to']."'
+        GROUP BY soa_id$limit";
 
-        $query = $this->db->query(
-            "
-            (
-                SELECT 'DMPI BILLING' AS ClientName, 
-                CONVERT(TransmittedDate USING utf8) AS DateTransmitted, 
-                CONVERT(soaNumber USING utf8) AS SOANo,
-                ($DARAmount) AS SOAAmount,
-                CONVERT(PaidAmount USING utf8) AS Collection,
-                ($DARCollectionDate) AS CollectionDate,
-                DATEDIFF(NOW(), TransmittedDate) AS Outstanding
-                FROM dmpi_dar_hdrs a
-                WHERE status = 'PRINTED TRANSMITTAL' AND TransmittedDate BETWEEN '".$from."' AND '".$to."'
-            ) 
-            UNION 
-            (
-                SELECT 'DMPI TRUCKING' AS ClientName, 
-                CONVERT(trans_date USING utf8) AS DateTransmitted, 
-                ($GolfCartSOA) AS SOANo,
-                SUM(debit_amount) AS SOAAmount,
-                ($GolfCartCollection) AS Collection,
-                ($GolfCartCollection) AS CollectionDate,
-                DATEDIFF(NOW(), trans_date) AS Outstanding
-                FROM golf_cart_ledger a
-                WHERE soaid_link > 0 AND trans_date BETWEEN '".$from."' AND '".$to."'
-                GROUP BY soaid_link
-            )
-            UNION
-            (
-                SELECT 'DMPI TRUCKING' AS ClientName, 
-                JVLDate AS DateTransmitted, 
-                OVLNo AS SOANo,
-                BillAmount AS SOAAmount,
-                CollectedAmount AS Collection,
-                CheckDate AS CollectionDate,
-                DATEDIFF(NOW(), JVLDate) AS Outstanding
-                FROM tbljeepvehicleloghdr a
-                WHERE JVLDate BETWEEN '".$from."' AND '".$to."'
-            ) 
-            UNION
-            (
-                SELECT 'DMPI TRUCKING' AS ClientName, 
-                PHBVLDate AS DateTransmitted, 
-                OVLNo AS SOANo,
-                BillAmount AS SOAAmount,
-                CollectedAmount AS Collection,
-                CheckDate AS CollectionDate,
-                DATEDIFF(NOW(), PHBVLDate) AS Outstanding
-                FROM tblphbvehicleloghdr a
-                WHERE PHBVLDate BETWEEN '".$from."' AND '".$to."'
-            ) 
-            UNION
-            (
-                SELECT 'DMPI TRUCKING' AS ClientName, 
-                OVLVLDate AS DateTransmitted, 
-                OVLNo AS SOANo,
-                BillAmount AS SOAAmount,
-                CollectedAmount AS Collection,
-                CheckDate AS CollectionDate,
-                DATEDIFF(NOW(), OVLVLDate) AS Outstanding
-                FROM tblovlvehicleloghdr a
-                WHERE OVLVLDate BETWEEN '".$from."' AND '".$to."'
-            ) 
-            UNION
-            (
-                SELECT 'DMPI TRUCKING' AS ClientName, 
-                date AS DateTransmitted, 
-                ($LiftruckSOA) AS SOANo,
-                SUM(amount) AS SOAAmount,
-                ($LiftruckCollection) AS Collection,
-                ($LiftruckCollectionDate) AS CollectionDate,
-                DATEDIFF(NOW(), date) AS Outstanding
-                FROM liftruck_rental a
-                WHERE soaid_link > 0 AND date BETWEEN '".$from."' AND '".$to."'
-                GROUP BY soaid_link
-            ) 
-            UNION
-            (
-                SELECT 'DMPI TRUCKING' AS ClientName, 
-                date AS DateTransmitted, 
-                ($WingVanSOA) AS SOANo,
-                SUM(amount) AS SOAAmount,
-                ($WingVanCollection) AS Collection,
-                ($WingVanCollectionDate) AS CollectionDate,
-                DATEDIFF(NOW(), date) AS Outstanding
-                FROM wingvan_requisition a
-                WHERE soaid_link > 0 AND date BETWEEN '".$from."' AND '".$to."'
-                GROUP BY soaid_link
-            ) 
-            UNION
-            (
-                SELECT 'DMPI TRUCKING' AS ClientName, 
-                trans_date AS DateTransmitted, 
-                ($VanRentalSOA) AS SOANo,
-                SUM(bill) AS SOAAmount,
-                SUM(amount) AS Collection,
-                payment_date AS CollectionDate,
-                DATEDIFF(NOW(), trans_date) AS Outstanding
-                FROM vanrental_collection a
-                WHERE soa_id > 0 AND trans_date BETWEEN '".$from."' AND '".$to."'
-                GROUP BY soa_id
-            ) 
-            "
-        );
+        if($data['category'] == 'ALL'){
+            $query = $this->db->query("
+                ($DARQuery) UNION 
+                ($SARQuery) UNION 
+                ($GolfCartQuery) UNION 
+                ($JeepQuery) UNION 
+                ($PHBQuery) UNION 
+                ($OVLQuery) UNION 
+                ($LiftruckQuery) UNION 
+                ($WingVanQuery) UNION 
+                ($VanRentalQuery) 
+            ");
+        }else if($data['category'] == 'LABOR'){
+            if($data['client'] == 'ALL'){
+                $query = $this->db->query("
+                    ($DARQuery) UNION 
+                    ($SARQuery)
+                ");
+            }else if($data['client'] == 'CLIENT DAR'){
+                $query = $this->db->query($DARQuery);
+            }else if($data['client'] == 'CLIENT SAR'){
+                $query = $this->db->query($SARQuery);
+            }else if($data['client'] == 'BCC'){
+
+            }else if($data['client'] == 'DEARBC'){
+
+            }else if($data['client'] == 'SLERS'){
+
+            }else if($data['client'] == 'LABNOTIN'){
+
+            }else if($data['client'] == 'CLUBHOUSE'){
+
+            }else if($data['client'] == 'INCENTIVE'){
+
+            }else if($data['client'] == 'ALLOWANCE'){
+
+            }else{
+                return false;
+            }
+            
+        }else if($data['category'] == 'TRUCKING'){
+            if($data['client'] == 'ALL'){
+                $query = $this->db->query("
+                ($GolfCartQuery) UNION 
+                ($JeepQuery) UNION 
+                ($PHBQuery) UNION 
+                ($OVLQuery) UNION 
+                ($LiftruckQuery) UNION 
+                ($WingVanQuery) UNION 
+                ($VanRentalQuery) 
+            ");
+            }else if($data['client'] == 'GOLFCART'){
+                $query = $this->db->query($GolfCartQuery);
+            }else if($data['client'] == 'JEEP'){
+                $query = $this->db->query($JeepQuery);
+            }else if($data['client'] == 'PHB'){
+                $query = $this->db->query($PHBQuery);
+            }else if($data['client'] == 'LIFT TRUCK'){
+                $query = $this->db->query($LiftruckQuery);
+            }else if($data['client'] == 'OVL'){
+                $query = $this->db->query($OVLQuery);
+            }else if($data['client'] == 'OTHER UNITS'){
+                $query = $this->db->query($VanRentalQuery);
+            }else if($data['client'] == 'WINGVAN'){
+                $query = $this->db->query($WingVanQuery);
+            }else{
+                return false;
+            }
+        }else if($data['category'] == 'OTHER INCOME'){
+            if($data['client'] == 'ALL'){
+
+            }else if($data['client'] == 'PPE'){
+
+            }else if($data['client'] == 'FUEL'){
+
+            }else if($data['client'] == 'SUPPLIES'){
+
+            }else if($data['client'] == 'INCENTIVES'){
+
+            }else if($data['client'] == 'OTHERS'){
+
+            }else{
+                return false;
+            }
+        }else if($data['category'] == 'CARPENTRY'){
+            if($data['client'] == 'CONSTRUCTION'){
+
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
         return $query->result() ? $query->result() : false;
     }
     public function year_to_date_report($from, $to, $type){
@@ -850,7 +966,7 @@ Class DMPI_OC_Model extends CI_Model {
             $query_end = date('Y-m-15', $start);
             
             $Payroll = $db2->query(
-                "SELECT COUNT(EmpIDLink) AS HeadCount, SUM(GrossPay) AS Gross, SUM(NetPay) AS Net FROM paysliphdr WHERE PayMonthYear = '".$payroll_month."' AND Period = '".$dmpi_period."' GROUP BY PayMonthYear, Period"
+                "SELECT COUNT(EmpIDLink) AS HeadCount, SUM(GrossPay) AS Gross, SUM(NetPay) AS Net FROM tblpaysliphdr WHERE PayMonthYear = '".$payroll_month."' AND PayPeriod = '".$dmpi_period."' GROUP BY PayMonthYear, PayPeriod"
             )->row();
             $array['HeadCount'] = $Payroll->HeadCount;
             $array['Gross'] = $Payroll->Gross;
@@ -873,7 +989,7 @@ Class DMPI_OC_Model extends CI_Model {
             $query_start = date('Y-m-16', $start);
             $query_end = date('Y-m-t', $start);
             $Payroll = $db2->query(
-                "SELECT COUNT(EmpIDLink) AS HeadCount, SUM(GrossPay) AS Gross, SUM(NetPay) AS Net FROM paysliphdr WHERE PayMonthYear = '".$payroll_month."' AND Period = '".$dmpi_period."' GROUP BY PayMonthYear, Period"
+                "SELECT COUNT(EmpIDLink) AS HeadCount, SUM(GrossPay) AS Gross, SUM(NetPay) AS Net FROM tblpaysliphdr WHERE PayMonthYear = '".$payroll_month."' AND PayPeriod = '".$dmpi_period."' GROUP BY PayMonthYear, PayPeriod"
             )->row();
             $array['HeadCount'] = $Payroll->HeadCount;
             $array['Gross'] = $Payroll->Gross;

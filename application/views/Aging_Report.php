@@ -1,6 +1,6 @@
 <?php 
     header('Content-type: application/excel');
-    $filename = 'shabu-'. date('mdY') .'.xls';
+    $filename = 'Aging Report -'. date('mdY') .'.xls';
 	header('Content-Disposition: attachment; filename='.$filename);
 ?>
 <html xmlns:x="urn:schemas-microsoft-com:office:excel">
@@ -70,15 +70,17 @@
         <table width="100%" class="main_t">
             <thead>
                 <tr style="border:1px solid black;">
+                    <th style="padding:10px 5px;background-color:#7CFC00;width:70px;" rowspan="2">CATEGORY</th>
                     <th style="padding:10px 5px;background-color:#7CFC00;width:70px;" rowspan="2">Client Name</th>
                     <th style="padding:10px 5px;background-color:#7CFC00;width:100px;" rowspan="2">Date Transmitted to Client</th>
                     <th style="padding:10px 5px;background-color:#7CFC00;width:100px;" rowspan="2">SOA No.</th>
                     <th style="padding:10px 5px;background-color:#7CFC00;width:100px;" rowspan="2">SOA Amount</th>
-                    <th style="padding:10px 5px;background-color:#7CFC00;width:100px;" rowspan="2">ToDate Collection</th>
-                    <th style="padding:10px 5px;background-color:#7CFC00;width:100px;" rowspan="2">Latest Date Collection</th>
-                    <th style="padding:10px 5px;background-color:#7CFC00;width:100px;" rowspan="2">Amount Standing</th>
+                    <th style="padding:10px 5px;background-color:#7CFC00;width:100px;" rowspan="2">Collection</th>
+                    <th style="padding:10px 5px;background-color:#7CFC00;width:100px;" rowspan="2">Check No.</th>
+                    <th style="padding:10px 5px;background-color:#7CFC00;width:100px;" rowspan="2">Date Collected</th>
+                    <th style="padding:10px 5px;background-color:#7CFC00;width:100px;" rowspan="2">Current</th>
                     <th style="padding:10px 5px;background-color:#7CFC00;width:100px;" rowspan="2">Days Outstanding</th>
-                    <th style="padding:10px 5px;background-color:#7CFC00;width:100px;" rowspan="2">Status</th>
+                    <!-- <th style="padding:10px 5px;background-color:#7CFC00;width:100px;" rowspan="2">Status</th> -->
                     <th style="padding:10px 5px;background-color:#7CFC00;width:400px;" colspan="4">Past Due in Days</th>
                 </tr>
                 <tr style="border:1px solid black;">
@@ -92,32 +94,34 @@
                 <?php foreach($records as $record): ?>
                 <?php $outstanding = $record->SOAAmount - $record->Collection; ?>
                 <tr style="border:1px solid black;">
+                    <td><?php echo $record->Category; ?></td>
                     <td><?php echo $record->ClientName; ?></td>
-                    <td><?php echo $record->DateTransmitted; ?></td>
+                    <td style="text-align:right;"><?php echo date('m/d/Y', strtotime($record->DateTransmitted)); ?></td>
                     <td><?php echo $record->SOANo; ?></td>
                     <td style="text-align:right;"><?php echo number_format($record->SOAAmount, 2, '.', ','); ?></td>
                     <td style="text-align:right;"><?php echo number_format($record->Collection, 2, '.', ','); ?></td>
-                    <td><?php echo $record->CollectionDate; ?></td>
+                    <td style="text-align:center;"><?php echo $record->ORNo; ?></td>
+                    <td style="text-align:right;"><?php echo $record->CollectionDate ? date('m/d/Y', strtotime($record->CollectionDate)) : ''; ?></td>
                     <td style="text-align:right;"><?php echo $outstanding <= 0 ? number_format(0, 2, '.', ',') : number_format($outstanding, 2, '.', ','); ?></td>
                     <td style="text-align:center;"><?php echo $outstanding <= 0 ? '' : $record->Outstanding; ?></td>
-                    <td style="text-align:center;"><?php echo $outstanding <= 0 ? 'PAID' : 'UNPAID'; ?></td>
+                    <!-- <td style="text-align:center;"><?php //echo $outstanding <= 0 ? 'PAID' : 'UNPAID'; ?></td> -->
                     <?php if($record->Outstanding > 31 and $record->Outstanding <= 60): ?>
-                        <td style="text-align:right;"><?php echo number_format($outstanding, 2, '.', ','); ?></td>
+                        <td style="text-align:right;"><?php echo $outstanding <= 0 ? '' : number_format($outstanding, 2, '.', ','); ?></td>
                     <?php else: ?>
                         <td style="text-align:right;"></td>
                     <?php endif; ?>
                     <?php if($record->Outstanding > 61 and $record->Outstanding <= 90): ?>
-                        <td style="text-align:right;"><?php echo number_format($outstanding, 2, '.', ','); ?></td>
+                        <td style="text-align:right;"><?php echo $outstanding <= 0 ? '' : number_format($outstanding, 2, '.', ','); ?></td>
                     <?php else: ?>
                         <td style="text-align:right;"></td>
                     <?php endif; ?>
                     <?php if($record->Outstanding > 91 and $record->Outstanding <= 150): ?>
-                        <td style="text-align:right;"><?php echo number_format($outstanding, 2, '.', ','); ?></td>
+                        <td style="text-align:right;"><?php echo $outstanding <= 0 ? '' : number_format($outstanding, 2, '.', ','); ?></td>
                     <?php else: ?>
                         <td style="text-align:right;"></td>
                     <?php endif; ?>
                     <?php if($record->Outstanding > 150): ?>
-                        <td style="text-align:right;"><?php echo number_format($outstanding, 2, '.', ','); ?></td>
+                        <td style="text-align:right;"><?php echo $outstanding <= 0 ? '' : number_format($outstanding, 2, '.', ','); ?></td>
                     <?php else: ?>
                         <td style="text-align:right;"></td>
                     <?php endif; ?>

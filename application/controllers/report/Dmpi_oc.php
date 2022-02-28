@@ -289,13 +289,20 @@ class DMPI_OC extends REST_Controller
         }
     }
     public function aging_report_get(){
-        // $sess = $this->session->userdata('gscbilling_session');
+        $data = [
+            'from' => $this->get('from') ? $this->get('from') : '',
+            'to' => $this->get('to') ? $this->get('to') : '',
+            'aging' => $this->get('aging') ? $this->get('aging') : '',
+            'category' => $this->get('category') ? $this->get('category') : '',
+            'client' => $this->get('client') ? $this->get('client') : '',
+            'aging' => $this->get('aging') ? $this->get('aging') : '',
+        ];
         if($this->get('exists')){
-            $result = $this->dmpi_oc_model->get_aging($this->get('from'), $this->get('to'), 1);
+            $result = $this->dmpi_oc_model->get_aging($data, 1);
             $this->returns($result);
         }else{
             $records = array(
-                'records' => $this->dmpi_oc_model->get_aging($this->get('from'), $this->get('to'), 2),
+                'records' => $this->dmpi_oc_model->get_aging($data, 1),
                 'from' => $this->get('from'),
                 'to' => $this->get('to'),
             );

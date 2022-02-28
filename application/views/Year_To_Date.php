@@ -70,21 +70,21 @@
         <table width="100%" class="main_t">
             <thead>
                 <tr>
-                    <th style="padding:10px 0;" rowspan="2">Date</th>
-                    <th style="padding:10px 0;" colspan="2">BILLING</th>
-                    <th style="padding:10px 0;" colspan="2">COLLECTION</th>
-                    <th style="padding:10px 0;" rowspan="2">DATE</th>
-                    <th style="padding:10px 0;" rowspan="2">OR #</th>
-                    <th style="padding:10px 0;" colspan="2">UNCOLLECTED</th>
+                    <th style="padding:10px 0;width:110px;" rowspan="2">Date</th>
+                    <th style="padding:10px 0;width:220px;" colspan="2">BILLING</th>
+                    <th style="padding:10px 0;width:220px;" colspan="2">COLLECTION</th>
+                    <th style="padding:10px 0;width:90px;" rowspan="2">DATE</th>
+                    <th style="padding:10px 0;width:60px;" rowspan="2">OR #</th>
+                    <th style="padding:10px 0;width:220px;" colspan="2">UNCOLLECTED</th>
                     <th style="padding:10px 0;" >TO DATE</th>
                 </tr>
                 <tr>
-                    <th>HEAD BASE</th>
-                    <th>VOLUME BASE</th>
-                    <th>HEAD BASE</th>
-                    <th>VOLUME BASE</th>
-                    <th>HEAD BASE</th>
-                    <th>VOLUME BASE</th>
+                    <th style="width:110px;">HEAD BASE</th>
+                    <th style="width:110px;">VOLUME BASE</th>
+                    <th style="width:110px;">HEAD BASE</th>
+                    <th style="width:110px;">VOLUME BASE</th>
+                    <th style="width:110px;">HEAD BASE</th>
+                    <th style="width:110px;">VOLUME BASE</th>
                     <th>UNPAID</th>
                 </tr>
             </thead>
@@ -99,38 +99,38 @@
                     <?php $Total_Volume_Collection = 0; ?>
                     <?php $Total_Volume_Collection = 0; ?>
                     <?php if(count($record['hbc']) > 0): ?>
-                    <tr>
-                        <td style="border-bottom:none;" rowspan="<?php count($record['hbc']); ?>"></td>
-                        <td rowspan="<?php count($record['hbc']); ?>"></td>
-                        <td rowspan="<?php count($record['hbc']); ?>"></td>
                         <?php foreach($record['hbc'] as $collect): ?>
-                            <td style="text-align:right;"><?php echo number_format((float)$collect->collection, 2, '.', ','); ?></td>
-                            <td></td>
-                            <td style="text-align:center"><?php echo date('d-M-Y', strtotime($collect->PayDate)); ?></td>
-                            <td><?php echo $collect->ORNo; ?></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="text-align:right;"><?php echo number_format((float)$collect->collection, 2, '.', ','); ?></td>
+                                <td></td>
+                                <td style="text-align:center"><?php echo date('d-M-Y', strtotime($collect->PayDate)); ?></td>
+                                <td style="text-align:center"><?php echo $collect->ORNo; ?></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
                             <?php $Total_Headbase_Collection += $collect->collection; ?>
                         <?php endforeach; ?>
-                    </tr>
                     <?php endif; ?>
                     <?php if(count($record['vbc']) > 0): ?>
-                    <tr>
-                        <td style="border-bottom:none;" rowspan="<?php count($record['vbc']); ?>"></td>
-                        <td rowspan="<?php count($record['vbc']); ?>"></td>
-                        <td rowspan="<?php count($record['vbc']); ?>"></td>
-                        <td rowspan="<?php count($record['vbc']); ?>"></td>
                         <?php foreach($record['hbc'] as $collect): ?>
-                            <td style="text-align:right;"><?php echo number_format((float)$collect->collection, 2, '.', ','); ?></td>
-                            <td style="text-align:center"><?php echo date('d-M-Y', strtotime($collect->PayDate)); ?></td>
-                            <td><?php echo $collect->ORNo; ?></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="text-align:right;"><?php echo number_format((float)$collect->collection, 2, '.', ','); ?></td>
+                                <td style="text-align:center"><?php echo date('d-M-Y', strtotime($collect->PayDate)); ?></td>
+                                <td style="text-align:center"><?php echo $collect->ORNo; ?></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
                             <?php $Total_Volume_Collection += $collect->collection; ?>
                         <?php endforeach; ?>
-                    </tr>
                     <?php endif; ?>
                     <tr>
                         <td style="border-bottom:none;border-top:none;"></td>
