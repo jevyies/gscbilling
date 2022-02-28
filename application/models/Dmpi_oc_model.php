@@ -478,9 +478,9 @@ Class DMPI_OC_Model extends CI_Model {
                     ($DARQuery) UNION 
                     ($SARQuery)
                 ");
-            }else if($data['client'] == 'CLIENT DAR'){
+            }else if($data['client'] == 'DMPI DAR'){
                 $query = $this->db->query($DARQuery);
-            }else if($data['client'] == 'CLIENT SAR'){
+            }else if($data['client'] == 'DMPI SAR'){
                 $query = $this->db->query($SARQuery);
             }else if($data['client'] == 'BCC'){
 
