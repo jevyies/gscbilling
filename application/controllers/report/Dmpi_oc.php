@@ -302,7 +302,7 @@ class DMPI_OC extends REST_Controller
             $this->returns($result);
         }else{
             $records = array(
-                'records' => $this->dmpi_oc_model->get_aging($data, 1),
+                'records' => $this->dmpi_oc_model->get_aging($data, 2),
                 'from' => $this->get('from'),
                 'to' => $this->get('to'),
             );
