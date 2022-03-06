@@ -1,6 +1,6 @@
 <div class="modal-content">
     <div class="modal-title-div">
-        <strong class="modal-title-name">Year To Date Aging Report</strong>
+        <strong class="modal-title-name" style="display: inline;">Year To Date Aging Report(<select class="no-border-select" ng-model="modal.reportOption"><option>Details</option><option>Summary</option></select>)</strong>
         <button class="modal-exit" ng-click="modal.close()">
             <span class="fa fa-times"></span>
         </button>
@@ -32,7 +32,7 @@
                 </select>
             </div>
         </div>
-        <div class="row bottom-margin" ng-if="modal.variables.category !== 'ALL'">
+        <div class="row bottom-margin" ng-if="modal.variables.category !== 'ALL' && modal.reportOption === 'Details'">
             <div class="col-md-12">
                 <strong>Client</strong>
                 <select class="form-control" ng-model="modal.variables.client" ng-if="modal.variables.category === 'LABOR'">

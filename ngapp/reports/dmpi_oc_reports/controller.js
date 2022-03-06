@@ -350,6 +350,7 @@ function AgingReportCtrl($scope, $ocLazyLoad, $injector, data, $uibModalInstance
     modal.variables.to = new Date();
     modal.variables.aging = new Date();
     modal.variables.category = 'ALL';
+    modal.reportOption = 'Details';
     $ocLazyLoad.load([
         REPURL + 'dmpi_oc_reports/service.js?v=' + VERSION,
     ]).then(function (d) {
@@ -357,28 +358,56 @@ function AgingReportCtrl($scope, $ocLazyLoad, $injector, data, $uibModalInstance
     });
 
     modal.generate = function (type) {
-        var data = angular.copy(modal.variables);
-        data.from =  AppSvc.getDate(modal.variables.from);
-        data.to = AppSvc.getDate(modal.variables.to);
-        data.aging = AppSvc.getDate(modal.variables.aging);
-        data.exists = true;
-        AgingReportSvc.get(data).then(function (response) {
-            if (response.message) {
-                return AppSvc.showSwal('Error', 'Nothing to Display', 'error');
-            }
-            delete data.exists;
-            var query = '';
-            for(var key in data){
-                if(data[key]){
-                    query += key+'='+data[key]+'&';
+        if(modal.reportOption === 'Details'){
+            var data = angular.copy(modal.variables);
+            data.from =  AppSvc.getDate(modal.variables.from);
+            data.to = AppSvc.getDate(modal.variables.to);
+            data.aging = AppSvc.getDate(modal.variables.aging);
+            data.exists = true;
+            data.summary = false;
+            AgingReportSvc.get(data).then(function (response) {
+                if (response.message) {
+                    return AppSvc.showSwal('Error', 'Nothing to Display', 'error');
                 }
-            }
-            if (type === 'PDF') {
-                window.open('report/dmpi_oc/aging_report?'+query);
-            } else {
-                window.open('report/dmpi_oc/aging_report?excel=true'+query);
-            }
-        })
+                delete data.exists;
+                var query = '';
+                for(var key in data){
+                    if(data[key]){
+                        query += key+'='+data[key]+'&';
+                    }
+                }
+                if (type === 'PDF') {
+                    window.open('report/dmpi_oc/aging_report?'+query);
+                } else {
+                    window.open('report/dmpi_oc/aging_report?excel=true&'+query);
+                }
+            })
+        }else{
+            var data = angular.copy(modal.variables);
+            data.from =  AppSvc.getDate(modal.variables.from);
+            data.to = AppSvc.getDate(modal.variables.to);
+            data.aging = AppSvc.getDate(modal.variables.aging);
+            data.exists = true;
+            data.summary = true;
+            AgingReportSvc.get(data).then(function (response) {
+                if (response.message) {
+                    return AppSvc.showSwal('Error', 'Nothing to Display', 'error');
+                }
+                delete data.exists;
+                var query = '';
+                for(var key in data){
+                    if(data[key]){
+                        query += key+'='+data[key]+'&';
+                    }
+                }
+                if (type === 'PDF') {
+                    window.open('report/dmpi_oc/aging_report?'+query);
+                } else {
+                    window.open('report/dmpi_oc/aging_report?excel=true&'+query);
+                }
+            })
+        }
+        
     }
 
     modal.close = function () {

@@ -1869,3 +1869,7 @@ table.table-upload-dar th, table.table-upload-dar td {
     font-size:22px;
     font-weight: 600;
 }
+.no-border-select{
+    border: none;
+    outline: none;
+}

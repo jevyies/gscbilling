@@ -326,6 +326,7 @@ Class DMPI_OC_Model extends CI_Model {
         $DARQuery = "SELECT 'LABOR' AS Category, 
         'DAR' AS ClientName, 
         CONVERT(TransmittedDate USING utf8) AS DateTransmitted, 
+        CONVERT(soaDate USING utf8) AS SoaDate, 
         CONVERT(soaNumber USING utf8) AS SOANo,
         ($DARAmount) AS SOAAmount,
         ($DARCollection) AS Collection,
@@ -342,7 +343,8 @@ Class DMPI_OC_Model extends CI_Model {
         $SARCollection = 'SELECT SUM(c.Amount) FROM sar_payment_link c WHERE c.SARID = a.id GROUP BY c.SARID'; 
         $SARQuery = "SELECT 'LABOR' AS Category, 
         'SAR' AS ClientName, 
-        CONVERT(d.date USING utf8) AS DateTransmitted, 
+        CONVERT(d.date USING utf8) AS DateTransmitted,
+        CONVERT(soaDate USING utf8) AS SoaDate, 
         CONVERT(controlNo USING utf8) AS SOANo,
         ($SARAmount) AS SOAAmount,
         ($SARCollection) AS Collection,
@@ -360,6 +362,7 @@ Class DMPI_OC_Model extends CI_Model {
         $GolfCartQuery = "SELECT 'TRUCKING' AS Category, 
         'GolfCart' AS ClientName, 
         CONVERT(trans_date USING utf8) AS DateTransmitted, 
+        CONVERT(trans_date USING utf8) AS SoaDate, 
         ($GolfCartSOA) AS SOANo,
         SUM(debit_amount) AS SOAAmount,
         ($GolfCartCollection) AS Collection,
@@ -374,6 +377,7 @@ Class DMPI_OC_Model extends CI_Model {
         $JeepQuery = "SELECT 'TRUCKING' AS Category, 
         'Jeep' AS ClientName, 
         JVLDate AS DateTransmitted, 
+        JVLDate AS SoaDate, 
         OVLNo AS SOANo,
         BillAmount AS SOAAmount,
         CollectedAmount AS Collection,
@@ -387,6 +391,7 @@ Class DMPI_OC_Model extends CI_Model {
         $PHBQuery = "SELECT 'TRUCKING' AS Category, 
         'PHB' AS ClientName, 
         PHBVLDate AS DateTransmitted, 
+        PHBVLDate AS SoaDate, 
         OVLNo AS SOANo,
         BillAmount AS SOAAmount,
         CollectedAmount AS Collection,
@@ -400,6 +405,7 @@ Class DMPI_OC_Model extends CI_Model {
         $OVLQuery = "SELECT 'TRUCKING' AS Category, 
         'OVL' AS ClientName, 
         OVLVLDate AS DateTransmitted, 
+        OVLVLDate AS SoaDate, 
         OVLNo AS SOANo,
         BillAmount AS SOAAmount,
         CollectedAmount AS Collection,
@@ -417,6 +423,7 @@ Class DMPI_OC_Model extends CI_Model {
         $LiftruckQuery = "SELECT 'TRUCKING' AS Category, 
         'Liftruck' AS ClientName, 
         date AS DateTransmitted, 
+        date AS SoaDate, 
         ($LiftruckSOA) AS SOANo,
         SUM(amount) AS SOAAmount,
         ($LiftruckCollection) AS Collection,
@@ -435,6 +442,7 @@ Class DMPI_OC_Model extends CI_Model {
         $WingVanQuery = "SELECT 'TRUCKING' AS Category, 
         'WingVan' AS ClientName, 
         date AS DateTransmitted, 
+        date AS SoaDate, 
         ($WingVanSOA) AS SOANo,
         SUM(amount) AS SOAAmount,
         ($WingVanCollection) AS Collection,
@@ -450,6 +458,7 @@ Class DMPI_OC_Model extends CI_Model {
         $VanRentalQuery = "SELECT 'TRUCKING' AS Category, 
         'Van Rental' AS ClientName, 
         trans_date AS DateTransmitted, 
+        trans_date AS SoaDate, 
         ($VanRentalSOA) AS SOANo,
         SUM(bill) AS SOAAmount,
         SUM(amount) AS Collection,
@@ -550,6 +559,97 @@ Class DMPI_OC_Model extends CI_Model {
             }else{
                 return false;
             }
+        }else{
+            return false;
+        }
+        return $query->result() ? $query->result() : false;
+    }
+    public function get_aging_summary($data, $type){
+        $limit = $type == 1 ? ' LIMIT 1 ' : '';
+        // LABOR
+        $TotalLaborBilling = "SELECT SUM(TotalBilling) FROM(
+            SELECT SUM(b.totalAmt) AS TotalBilling FROM dmpi_dar_hdrs a, dmpi_dar_dtls b WHERE b.hdr_id= a.id AND status = 'PRINTED TRANSMITTAL' AND TransmittedDate BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(b.amount) AS TotalBilling FROM dmpi_sars a, dmpi_sar_dtls b, dmpi_sar_transmittal d WHERE b.hdr_id= a.id AND a.status = 'transmitted' AND d.id = a.transmittal_id AND d.date BETWEEN '".$data['from']."' AND '".$data['to']."'
+        ) tbl";
+        $TotalLaborCollection = "SELECT SUM(TotalCollection) FROM(
+            SELECT SUM(c.Amount) AS TotalCollection FROM dmpi_dar_hdrs a, dar_payment_link c WHERE c.DARID = a.id AND status = 'PRINTED TRANSMITTAL' AND TransmittedDate BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(c.Amount) AS TotalCollection FROM dmpi_sars a, sar_payment_link c, dmpi_sar_transmittal d WHERE c.SARID = a.id AND a.status = 'transmitted' AND d.id = a.transmittal_id AND d.date BETWEEN '".$data['from']."' AND '".$data['to']."'
+        ) tbl
+        ";
+        $AverageLaborOutstanding = "SELECT AVG(Outstanding) FROM(
+            SELECT AVG(DATEDIFF('".$data['aging']."', TransmittedDate)) AS Outstanding FROM dmpi_dar_hdrs a WHERE status = 'PRINTED TRANSMITTAL' AND TransmittedDate BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT AVG(DATEDIFF('".$data['aging']."', d.date)) AS Outstanding FROM dmpi_sars a, dmpi_sar_transmittal d WHERE a.status = 'transmitted' AND d.id = a.transmittal_id AND d.date BETWEEN '".$data['from']."' AND '".$data['to']."'
+        ) tbl
+        ";
+        $Labor = "SELECT 'DMPI' AS Category, ($TotalLaborBilling) AS TotalBilling, ($TotalLaborCollection) AS TotalCollection, ($AverageLaborOutstanding) AS Outstanding";
+
+        // TRUCKING
+        $TotalTruckingBilling = "SELECT SUM(TotalBilling) FROM(
+            SELECT SUM(debit_amount) AS TotalBilling FROM golf_cart_ledger a  WHERE soaid_link > 0 AND trans_date BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(BillAmount) AS TotalBilling FROM tbljeepvehicleloghdr a WHERE JVLDate BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(BillAmount) AS TotalBilling FROM tblphbvehicleloghdr a WHERE PHBVLDate BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(BillAmount) AS TotalBilling FROM tblovlvehicleloghdr a WHERE OVLVLDate BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(amount) AS TotalBilling FROM liftruck_rental a WHERE soaid_link > 0 AND date BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(amount) AS TotalBilling FROM wingvan_requisition a WHERE soaid_link > 0 AND date BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(bill) AS TotalBilling FROM vanrental_collection a WHERE soa_id > 0 AND trans_date BETWEEN '".$data['from']."' AND '".$data['to']."'
+        ) tbl";
+        $TotalTruckingCollection = "SELECT SUM(TotalCollection) FROM(
+            SELECT SUM(b.amount) AS TotalCollection FROM golf_cart_ledger a, golf_cart_payment b WHERE b.soa_link = a.soaid_link AND soaid_link > 0 AND trans_date BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(CollectedAmount) AS TotalCollection FROM tbljeepvehicleloghdr a WHERE JVLDate BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(CollectedAmount) AS TotalCollection FROM tblphbvehicleloghdr a WHERE PHBVLDate BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(CollectedAmount) AS TotalCollection FROM tblovlvehicleloghdr a WHERE OVLVLDate BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(b.amount) AS TotalCollection FROM liftruck_rental a, liftruck_payment b WHERE b.id = a.soaid_link AND a.soaid_link > 0 AND date BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(b.amount) AS TotalCollection FROM wingvan_requisition a, wingvan_payment b WHERE b.id = a.soaid_link AND a.soaid_link > 0 AND date BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(amount) AS TotalCollection FROM vanrental_collection a WHERE soa_id > 0 AND trans_date BETWEEN '".$data['from']."' AND '".$data['to']."'
+        ) tbl
+        ";
+        $AverageTruckingOutstanding = "SELECT AVG(Outstanding) FROM(
+            SELECT AVG(DATEDIFF('".$data['aging']."', trans_date)) AS Outstanding FROM golf_cart_ledger a  WHERE soaid_link > 0 AND trans_date BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT AVG(DATEDIFF('".$data['aging']."', JVLDate)) AS Outstanding FROM tbljeepvehicleloghdr a WHERE JVLDate BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT AVG(DATEDIFF('".$data['aging']."', PHBVLDate)) AS Outstanding FROM tblphbvehicleloghdr a WHERE PHBVLDate BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT AVG(DATEDIFF('".$data['aging']."', OVLVLDate)) AS Outstanding FROM tblovlvehicleloghdr a WHERE OVLVLDate BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT AVG(DATEDIFF('".$data['aging']."', date)) AS Outstanding FROM liftruck_rental a WHERE soaid_link > 0 AND date BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT AVG(DATEDIFF('".$data['aging']."', date)) AS Outstanding FROM wingvan_requisition a WHERE soaid_link > 0 AND date BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT AVG(DATEDIFF('".$data['aging']."', trans_date)) AS Outstanding FROM vanrental_collection a WHERE soa_id > 0 AND trans_date BETWEEN '".$data['from']."' AND '".$data['to']."'
+        ) tbl
+        ";
+        $Trucking = "SELECT 'Trucking' AS Category, ($TotalTruckingBilling) AS TotalBilling, ($TotalTruckingCollection) AS TotalCollection, ($AverageTruckingOutstanding) AS Outstanding";
+
+        // OVERALL QUERY
+        if($data['category'] == 'ALL'){
+            $query = $this->db->query("
+                ($Labor) UNION ALL
+                ($Trucking) 
+            ");
+        }else if($data['category'] == 'LABOR'){
+            $query = $this->db->query("($Labor)");
+        }else if($data['category'] == 'TRUCKING'){
+            $query = $this->db->query("($Trucking)");
+        }else if($data['category'] == 'OTHER INCOME'){
+            
+        }else if($data['category'] == 'CARPENTRY'){
+            
         }else{
             return false;
         }

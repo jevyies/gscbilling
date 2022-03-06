@@ -12,7 +12,7 @@ class DMPI_OC extends REST_Controller
         // Construct the parent class
         parent::__construct();
 
-        ini_set("pcre.backtrack_limit", "5000000");
+        ini_set("pcre.backtrack_limit", "50000000");
         ini_set("memory_limit", "-1");
         // Load session library
         // $this->load->library('session');
@@ -297,31 +297,60 @@ class DMPI_OC extends REST_Controller
             'client' => $this->get('client') ? $this->get('client') : '',
             'aging' => $this->get('aging') ? $this->get('aging') : '',
         ];
-        if($this->get('exists')){
-            $result = $this->dmpi_oc_model->get_aging($data, 1);
-            $this->returns($result);
-        }else{
-            $records = array(
-                'records' => $this->dmpi_oc_model->get_aging($data, 2),
-                'from' => $this->get('from'),
-                'to' => $this->get('to'),
-            );
-            if($this->get('type') == "excel"){
-                $html = $this->load->view('Aging_Report', $records);
+        if($this->get('summary')){
+            if($this->get('exists')){
+                $result = $this->dmpi_oc_model->get_aging_summary($data, 1);
+                $this->returns($result);
             }else{
-                $html = $this->load->view('Aging_Report', $records, true);
+                $records = array(
+                    'records' => $this->dmpi_oc_model->get_aging_summary($data, 2),
+                    'from' => $this->get('from'),
+                    'to' => $this->get('to'),
+                );
+                if($this->get('excel')){
+                    $html = $this->load->view('Aging_Report_Summary', $records);
+                }else{
+                    $html = $this->load->view('Aging_Report_Summary', $records, true);
+                }
+                $mpdf = new \Mpdf\Mpdf([
+                    'default_font_size' => 9,
+                    'default_font' => 'tahoma',
+                ]); 
+                $mpdf->useFixedNormalLineHeight = false;
+                $mpdf->useFixedTextBaseline = false;
+                $mpdf->adjustFontDescLineheight = 0.5;
+                $mpdf->packTableData = true;
+                $mpdf->shrink_tables_to_fit = 1;
+                $mpdf->WriteHTML($html);
+                $mpdf->Output();
             }
-            $mpdf = new \Mpdf\Mpdf([
-                'default_font_size' => 9,
-                'default_font' => 'tahoma',
-            ]); 
-            $mpdf->useFixedNormalLineHeight = false;
-            $mpdf->useFixedTextBaseline = false;
-            $mpdf->adjustFontDescLineheight = 0.5;
-            $mpdf->packTableData = true;
-            $mpdf->shrink_tables_to_fit = 1;
-            $mpdf->WriteHTML($html);
-            $mpdf->Output();
+        }else{
+            if($this->get('exists')){
+                $result = $this->dmpi_oc_model->get_aging($data, 1);
+                $this->returns($result);
+            }else{
+                $records = array(
+                    'records' => $this->dmpi_oc_model->get_aging($data, 2),
+                    'from' => $this->get('from'),
+                    'to' => $this->get('to'),
+                );
+                if($this->get('excel')){
+                    $html = $this->load->view('Aging_Report', $records);
+                }else{
+                    $html = $this->load->view('Aging_Report', $records, true);
+                }
+                $mpdf = new \Mpdf\Mpdf([
+                    'default_font_size' => 9,
+                    'default_font' => 'tahoma',
+                ]); 
+                $mpdf->useFixedNormalLineHeight = false;
+                $mpdf->useFixedTextBaseline = false;
+                $mpdf->adjustFontDescLineheight = 0.5;
+                $mpdf->packTableData = true;
+                $mpdf->shrink_tables_to_fit = 1;
+                $mpdf->WriteHTML($html);
+                $mpdf->Output();
+            }
         }
     }
     public function year_to_date_get(){

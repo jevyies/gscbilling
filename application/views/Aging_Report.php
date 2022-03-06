@@ -58,7 +58,7 @@
         <table width="100%">
             <tr>
                 <!-- <td style="width:20%;"><img src="http://192.168.1.250/epis/static/img/gsclogo.png" alt="GSC Logo" style="width:8%;"></td> -->
-                <td style="width:120%;text-align:center;">
+                <td style="width:120%;text-align:center;" colspan="16">
                     <h1 style="text-align:center;">GENERAL SERVICES MULTIPURPOSE COOPERATIVE</h1>
                     <h4 style="text-align:center;">BORJA ROAD, DAMILAG, MANOLO FORTICH, BUKIDNON</h4>
                     <br>
@@ -73,11 +73,13 @@
                     <th style="padding:10px 5px;background-color:#7CFC00;width:70px;" rowspan="2">CATEGORY</th>
                     <th style="padding:10px 5px;background-color:#7CFC00;width:70px;" rowspan="2">Client Name</th>
                     <th style="padding:10px 5px;background-color:#7CFC00;width:100px;" rowspan="2">Date Transmitted to Client</th>
+                    <th style="padding:10px 5px;background-color:#7CFC00;width:100px;" rowspan="2">SOA Date</th>
                     <th style="padding:10px 5px;background-color:#7CFC00;width:100px;" rowspan="2">SOA No.</th>
                     <th style="padding:10px 5px;background-color:#7CFC00;width:100px;" rowspan="2">SOA Amount</th>
                     <th style="padding:10px 5px;background-color:#7CFC00;width:100px;" rowspan="2">Collection</th>
                     <th style="padding:10px 5px;background-color:#7CFC00;width:100px;" rowspan="2">Check No.</th>
                     <th style="padding:10px 5px;background-color:#7CFC00;width:100px;" rowspan="2">Date Collected</th>
+                    <th style="padding:10px 5px;background-color:#7CFC00;width:100px;" rowspan="2">Balance</th>
                     <th style="padding:10px 5px;background-color:#7CFC00;width:100px;" rowspan="2">Current</th>
                     <th style="padding:10px 5px;background-color:#7CFC00;width:100px;" rowspan="2">Days Outstanding</th>
                     <!-- <th style="padding:10px 5px;background-color:#7CFC00;width:100px;" rowspan="2">Status</th> -->
@@ -97,31 +99,36 @@
                     <td><?php echo $record->Category; ?></td>
                     <td><?php echo $record->ClientName; ?></td>
                     <td style="text-align:right;"><?php echo date('m/d/Y', strtotime($record->DateTransmitted)); ?></td>
+                    <td style="text-align:right;"><?php echo date('m/d/Y', strtotime($record->SoaDate)); ?></td>
                     <td><?php echo $record->SOANo; ?></td>
                     <td style="text-align:right;"><?php echo number_format($record->SOAAmount, 2, '.', ','); ?></td>
                     <td style="text-align:right;"><?php echo number_format($record->Collection, 2, '.', ','); ?></td>
                     <td style="text-align:center;"><?php echo $record->ORNo; ?></td>
                     <td style="text-align:right;"><?php echo $record->CollectionDate ? date('m/d/Y', strtotime($record->CollectionDate)) : ''; ?></td>
-                    <td style="text-align:right;"><?php echo $outstanding <= 0 ? number_format(0, 2, '.', ',') : number_format($outstanding, 2, '.', ','); ?></td>
-                    <td style="text-align:center;"><?php echo $outstanding <= 0 ? '' : $record->Outstanding; ?></td>
-                    <!-- <td style="text-align:center;"><?php //echo $outstanding <= 0 ? 'PAID' : 'UNPAID'; ?></td> -->
+                    <td style="text-align:right;"><?php echo number_format($outstanding, 2, '.', ','); ?></td>
+                    <?php if($record->Outstanding < 31): ?>
+                        <td style="text-align:right;"><?php echo round($outstanding, 2) <= 0 ? '' : number_format($outstanding, 2, '.', ','); ?></td>
+                    <?php else: ?>
+                        <td style="text-align:right;"></td>
+                    <?php endif; ?>
+                    <td style="text-align:center;"><?php echo round($outstanding, 2) <= 0 ? '' : $record->Outstanding; ?></td>
                     <?php if($record->Outstanding > 31 and $record->Outstanding <= 60): ?>
-                        <td style="text-align:right;"><?php echo $outstanding <= 0 ? '' : number_format($outstanding, 2, '.', ','); ?></td>
+                        <td style="text-align:right;"><?php echo round($outstanding, 2) <= 0 ? '' : number_format($outstanding, 2, '.', ','); ?></td>
                     <?php else: ?>
                         <td style="text-align:right;"></td>
                     <?php endif; ?>
                     <?php if($record->Outstanding > 61 and $record->Outstanding <= 90): ?>
-                        <td style="text-align:right;"><?php echo $outstanding <= 0 ? '' : number_format($outstanding, 2, '.', ','); ?></td>
+                        <td style="text-align:right;"><?php echo round($outstanding, 2) <= 0 ? '' : number_format($outstanding, 2, '.', ','); ?></td>
                     <?php else: ?>
                         <td style="text-align:right;"></td>
                     <?php endif; ?>
                     <?php if($record->Outstanding > 91 and $record->Outstanding <= 150): ?>
-                        <td style="text-align:right;"><?php echo $outstanding <= 0 ? '' : number_format($outstanding, 2, '.', ','); ?></td>
+                        <td style="text-align:right;"><?php echo round($outstanding, 2) <= 0 ? '' : number_format($outstanding, 2, '.', ','); ?></td>
                     <?php else: ?>
                         <td style="text-align:right;"></td>
                     <?php endif; ?>
                     <?php if($record->Outstanding > 150): ?>
-                        <td style="text-align:right;"><?php echo $outstanding <= 0 ? '' : number_format($outstanding, 2, '.', ','); ?></td>
+                        <td style="text-align:right;"><?php echo round($outstanding, 2) <= 0 ? '' : number_format($outstanding, 2, '.', ','); ?></td>
                     <?php else: ?>
                         <td style="text-align:right;"></td>
                     <?php endif; ?>
