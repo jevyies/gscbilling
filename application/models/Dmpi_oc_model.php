@@ -469,10 +469,238 @@ Class DMPI_OC_Model extends CI_Model {
         WHERE soa_id > 0 AND trans_date BETWEEN '".$data['from']."' AND '".$data['to']."'
         GROUP BY soa_id$limit";
 
+        // BCC QUERY
+        $BCCAmount = 'SELECT SUM(b.total + ((a.admin_percentage/b.total) * 100)) FROM tbloc_bccdtl b WHERE b.hdr_id= a.TOCSHDR';
+        $BCCCollectionDate = 'SELECT b.PayDate FROM payment_dtl b, other_client_payment_link c WHERE c.HdrID = a.TOCSHDR AND b.PDTLID = c.PDTLID ORDER BY PayDate DESC LIMIT 1';
+        $BCCORNo = 'SELECT b.ORNo FROM payment_dtl b, other_client_payment_link c WHERE c.HdrID = a.TOCSHDR AND b.PDTLID = c.PDTLID ORDER BY PayDate DESC LIMIT 1';
+        $BCCCollection = 'SELECT SUM(c.Amount) FROM other_client_payment_link c WHERE c.HdrID = a.TOCSHDR GROUP BY c.HdrID'; 
+        $BCCQuery = "SELECT 'LABOR' AS Category, 
+        'BCC' AS ClientName, 
+        CONVERT(a.date_transmitted USING utf8) AS DateTransmitted,
+        CONVERT(a.Date USING utf8) AS SoaDate, 
+        CONVERT(a.SOANo USING utf8) AS SOANo,
+        ($BCCAmount) AS SOAAmount,
+        ($BCCCollection) AS Collection,
+        ($BCCCollectionDate) AS CollectionDate,
+        ($BCCORNo) AS ORNo,
+        DATEDIFF('".$data['aging']."', a.date_transmitted) AS Outstanding
+        FROM tbloc_bcchdr a 
+        WHERE a.Status = 'TRANSMITTED' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
+
+        // DEARBC QUERY
+        $DEARBCAmount = 'SELECT SUM(b.total + ((a.admin_percentage/b.total) * 100)) FROM tbloc_dearbcdtl b WHERE b.hdr_id= a.TOCDHDR';
+        $DEARBCCollectionDate = 'SELECT b.PayDate FROM payment_dtl b, other_client_payment_link c WHERE c.HdrID = a.TOCDHDR AND b.PDTLID = c.PDTLID ORDER BY PayDate DESC LIMIT 1';
+        $DEARBCORNo = 'SELECT b.ORNo FROM payment_dtl b, other_client_payment_link c WHERE c.HdrID = a.TOCDHDR AND b.PDTLID = c.PDTLID ORDER BY PayDate DESC LIMIT 1';
+        $DEARBCCollection = 'SELECT SUM(c.Amount) FROM other_client_payment_link c WHERE c.HdrID = a.TOCDHDR GROUP BY c.HdrID'; 
+        $DEARBCQuery = "SELECT 'LABOR' AS Category, 
+        'DEARBC' AS ClientName, 
+        CONVERT(b.date_transmitted USING utf8) AS DateTransmitted,
+        CONVERT(a.date_created USING utf8) AS SoaDate, 
+        CONVERT(a.SOANo USING utf8) AS SOANo,
+        ($DEARBCAmount) AS SOAAmount,
+        ($DEARBCCollection) AS Collection,
+        ($DEARBCCollectionDate) AS CollectionDate,
+        ($DEARBCORNo) AS ORNo,
+        DATEDIFF('".$data['aging']."', b.date_transmitted) AS Outstanding
+        FROM tbloc_dearbchdr a, tbloc_dearbc b
+        WHERE b.Status = 'TRANSMITTED' AND b.TOCDID = a.letter_id AND b.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
+
+        // SLERS QUERY
+        $SLERSAmount = 'SELECT SUM(b.total + ((a.admin_percentage/b.total) * 100)) FROM tbloc_slersdtl b WHERE b.hdr_id= a.TOCSHDR';
+        $SLERSCollectionDate = 'SELECT b.PayDate FROM payment_dtl b, other_client_payment_link c WHERE c.HdrID = a.TOCSHDR AND b.PDTLID = c.PDTLID ORDER BY PayDate DESC LIMIT 1';
+        $SLERSORNo = 'SELECT b.ORNo FROM payment_dtl b, other_client_payment_link c WHERE c.HdrID = a.TOCSHDR AND b.PDTLID = c.PDTLID ORDER BY PayDate DESC LIMIT 1';
+        $SLERSCollection = 'SELECT SUM(c.Amount) FROM other_client_payment_link c WHERE c.HdrID = a.TOCSHDR GROUP BY c.HdrID'; 
+        $SLERSQuery = "SELECT 'LABOR' AS Category, 
+        'SLERS' AS ClientName, 
+        CONVERT(a.date_transmitted USING utf8) AS DateTransmitted,
+        CONVERT(a.Date USING utf8) AS SoaDate, 
+        CONVERT(a.SOANo USING utf8) AS SOANo,
+        ($SLERSAmount) AS SOAAmount,
+        ($SLERSCollection) AS Collection,
+        ($SLERSCollectionDate) AS CollectionDate,
+        ($SLERSORNo) AS ORNo,
+        DATEDIFF('".$data['aging']."', a.date_transmitted) AS Outstanding
+        FROM tbloc_slershdr a 
+        WHERE a.Status = 'TRANSMITTED' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
+
+        // LABNOTIN QUERY
+        $LABNOTINAmount = 'SELECT SUM(b.amount_billed + ((a.admin_percentage/b.amount_billed) * 100)) FROM tbloc_labnotindtl b WHERE b.hdr_id= a.TOCLHDR';
+        $LABNOTINCollectionDate = 'SELECT b.PayDate FROM payment_dtl b, other_client_payment_link c WHERE c.HdrID = a.TOCLHDR AND b.PDTLID = c.PDTLID ORDER BY PayDate DESC LIMIT 1';
+        $LABNOTINORNo = 'SELECT b.ORNo FROM payment_dtl b, other_client_payment_link c WHERE c.HdrID = a.TOCLHDR AND b.PDTLID = c.PDTLID ORDER BY PayDate DESC LIMIT 1';
+        $LABNOTINCollection = 'SELECT SUM(c.Amount) FROM other_client_payment_link c WHERE c.HdrID = a.TOCLHDR GROUP BY c.HdrID'; 
+        $LABNOTINQuery = "SELECT 'LABOR' AS Category, 
+        'LABNOTIN' AS ClientName, 
+        CONVERT(a.date_transmitted USING utf8) AS DateTransmitted,
+        CONVERT(a.Date USING utf8) AS SoaDate, 
+        CONVERT(a.SOANo USING utf8) AS SOANo,
+        ($LABNOTINAmount) AS SOAAmount,
+        ($LABNOTINCollection) AS Collection,
+        ($LABNOTINCollectionDate) AS CollectionDate,
+        ($LABNOTINORNo) AS ORNo,
+        DATEDIFF('".$data['aging']."', a.date_transmitted) AS Outstanding
+        FROM tbloc_labnotinhdr a 
+        WHERE a.Status = 'TRANSMITTED' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
+
+        // CLUBHOUSE QUERY
+        $CLUBHOUSEAmount = 'SELECT SUM(b.total + ((a.admin_percentage/b.total) * 100)) FROM tbloc_cbdtl b WHERE b.hdr_id= a.TOCSHDR';
+        $CLUBHOUSECollectionDate = 'SELECT b.PayDate FROM payment_dtl b, other_client_payment_link c WHERE c.HdrID = a.TOCSHDR AND b.PDTLID = c.PDTLID ORDER BY PayDate DESC LIMIT 1';
+        $CLUBHOUSEORNo = 'SELECT b.ORNo FROM payment_dtl b, other_client_payment_link c WHERE c.HdrID = a.TOCSHDR AND b.PDTLID = c.PDTLID ORDER BY PayDate DESC LIMIT 1';
+        $CLUBHOUSECollection = 'SELECT SUM(c.Amount) FROM other_client_payment_link c WHERE c.HdrID = a.TOCSHDR GROUP BY c.HdrID'; 
+        $CLUBHOUSEQuery = "SELECT 'LABOR' AS Category, 
+        'CLUBHOUSE' AS ClientName, 
+        CONVERT(a.date_transmitted USING utf8) AS DateTransmitted,
+        CONVERT(a.Date USING utf8) AS SoaDate, 
+        CONVERT(a.SOANo USING utf8) AS SOANo,
+        ($CLUBHOUSEAmount) AS SOAAmount,
+        ($CLUBHOUSECollection) AS Collection,
+        ($CLUBHOUSECollectionDate) AS CollectionDate,
+        ($CLUBHOUSEORNo) AS ORNo,
+        DATEDIFF('".$data['aging']."', a.date_transmitted) AS Outstanding
+        FROM tbloc_cbhdr a 
+        WHERE a.Status = 'TRANSMITTED' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
+
+        // ALLOWANCE QUERY
+        $ALLOWANCEAmount = 'SELECT b.billed_amount FROM tblallowancepayment b WHERE b.hdr_idLink= a.AHID LIMIT 1';
+        $ALLOWANCECollectionDate = 'SELECT b.check_date FROM tblallowancepayment b WHERE b.hdr_idLink= a.AHID ORDER BY b.check_date DESC LIMIT 1';
+        $ALLOWANCEORNo = 'SELECT b.orNumber FROM tblallowancepayment b WHERE b.hdr_idLink= a.AHID ORDER BY b.check_date DESC LIMIT 1';
+        $ALLOWANCECollection = 'SELECT SUM(b.paidAmount) FROM tblallowancepayment b WHERE b.hdr_idLink= a.AHID GROUP BY b.hdr_idLink'; 
+        $ALLOWANCEQuery = "SELECT 'LABOR' AS Category, 
+        'ALLOWANCE' AS ClientName, 
+        CONVERT(a.date_transmitted USING utf8) AS DateTransmitted,
+        CONVERT(a.Date USING utf8) AS SoaDate, 
+        CONVERT(a.SOANo USING utf8) AS SOANo,
+        ($ALLOWANCEAmount) AS SOAAmount,
+        ($ALLOWANCECollection) AS Collection,
+        ($ALLOWANCECollectionDate) AS CollectionDate,
+        ($ALLOWANCEORNo) AS ORNo,
+        DATEDIFF('".$data['aging']."', a.date_transmitted) AS Outstanding
+        FROM v_totalamountallowance a 
+        WHERE a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
+        
+        // INCENTIVE QUERY
+        $INCENTIVEAmount = 'SELECT b.billed_amount FROM tblincentivespayment b WHERE b.hdr_idLink= a.IHID LIMIT 1';
+        $INCENTIVECollectionDate = 'SELECT b.check_date FROM tblincentivespayment b WHERE b.hdr_idLink= a.IHID ORDER BY b.check_date DESC LIMIT 1';
+        $INCENTIVEORNo = 'SELECT b.orNumber FROM tblincentivespayment b WHERE b.hdr_idLink= a.IHID ORDER BY b.check_date DESC LIMIT 1';
+        $INCENTIVECollection = 'SELECT SUM(b.paidAmount) FROM tblincentivespayment b WHERE b.hdr_idLink= a.IHID GROUP BY b.hdr_idLink'; 
+        $INCENTIVEQuery = "SELECT 'LABOR' AS Category, 
+        'INCENTIVE' AS ClientName, 
+        CONVERT(a.date_transmitted USING utf8) AS DateTransmitted,
+        CONVERT(a.Date USING utf8) AS SoaDate, 
+        CONVERT(a.SOANo USING utf8) AS SOANo,
+        ($INCENTIVEAmount) AS SOAAmount,
+        ($INCENTIVECollection) AS Collection,
+        ($INCENTIVECollectionDate) AS CollectionDate,
+        ($INCENTIVEORNo) AS ORNo,
+        DATEDIFF('".$data['aging']."', a.date_transmitted) AS Outstanding
+        FROM v_totalamountincentives a 
+        WHERE a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
+
+        // PPE QUERY
+        $PPEAmount = 'SELECT b.billed_amount FROM tblppepayment b WHERE b.hdr_idLink= a.PHID LIMIT 1';
+        $PPECollectionDate = 'SELECT b.check_date FROM tblppepayment b WHERE b.hdr_idLink= a.PHID ORDER BY b.check_date DESC LIMIT 1';
+        $PPEORNo = 'SELECT b.orNumber FROM tblppepayment b WHERE b.hdr_idLink= a.PHID ORDER BY b.check_date DESC LIMIT 1';
+        $PPECollection = 'SELECT SUM(b.paidAmount) FROM tblppepayment b WHERE b.hdr_idLink= a.PHID GROUP BY b.hdr_idLink'; 
+        $PPEQuery = "SELECT 'OTHER INCOME' AS Category, 
+        'PPE' AS ClientName, 
+        CONVERT(a.date_transmitted USING utf8) AS DateTransmitted,
+        CONVERT(a.SOADate USING utf8) AS SoaDate, 
+        CONVERT(a.SOANo USING utf8) AS SOANo,
+        ($PPEAmount) AS SOAAmount,
+        ($PPECollection) AS Collection,
+        ($PPECollectionDate) AS CollectionDate,
+        ($PPEORNo) AS ORNo,
+        DATEDIFF('".$data['aging']."', a.date_transmitted) AS Outstanding
+        FROM v_totalamountppe a 
+        WHERE a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
+
+        // FUEL QUERY
+        $FUELAmount = 'SELECT b.billed_amount FROM tblfuelpayment b WHERE b.hdr_idLink= a.FHID LIMIT 1';
+        $FUELCollectionDate = 'SELECT b.check_date FROM tblfuelpayment b WHERE b.hdr_idLink= a.FHID ORDER BY b.check_date DESC LIMIT 1';
+        $FUELORNo = 'SELECT b.orNumber FROM tblfuelpayment b WHERE b.hdr_idLink= a.FHID ORDER BY b.check_date DESC LIMIT 1';
+        $FUELCollection = 'SELECT SUM(b.paidAmount) FROM tblfuelpayment b WHERE b.hdr_idLink= a.FHID GROUP BY b.hdr_idLink'; 
+        $FUELQuery = "SELECT 'OTHER INCOME' AS Category, 
+        'FUEL' AS ClientName, 
+        CONVERT(a.date_transmitted USING utf8) AS DateTransmitted,
+        CONVERT(a.SOADate USING utf8) AS SoaDate, 
+        CONVERT(a.SOANo USING utf8) AS SOANo,
+        ($FUELAmount) AS SOAAmount,
+        ($FUELCollection) AS Collection,
+        ($FUELCollectionDate) AS CollectionDate,
+        ($FUELORNo) AS ORNo,
+        DATEDIFF('".$data['aging']."', a.date_transmitted) AS Outstanding
+        FROM v_totalamountfuel a 
+        WHERE a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
+
+        // SUPPLIES QUERY
+        $SUPPLIESAmount = 'SELECT b.billed_amount FROM tblsuppayment b WHERE b.hdr_idLink= a.SHID LIMIT 1';
+        $SUPPLIESCollectionDate = 'SELECT b.check_date FROM tblsuppayment b WHERE b.hdr_idLink= a.SHID ORDER BY b.check_date DESC LIMIT 1';
+        $SUPPLIESORNo = 'SELECT b.orNumber FROM tblsuppayment b WHERE b.hdr_idLink= a.SHID ORDER BY b.check_date DESC LIMIT 1';
+        $SUPPLIESCollection = 'SELECT SUM(b.paidAmount) FROM tblsuppayment b WHERE b.hdr_idLink= a.SHID GROUP BY b.hdr_idLink'; 
+        $SUPPLIESQuery = "SELECT 'OTHER INCOME' AS Category, 
+        'SUPPLIES' AS ClientName, 
+        CONVERT(a.date_transmitted USING utf8) AS DateTransmitted,
+        CONVERT(a.SOADate USING utf8) AS SoaDate, 
+        CONVERT(a.SOANo USING utf8) AS SOANo,
+        ($SUPPLIESAmount) AS SOAAmount,
+        ($SUPPLIESCollection) AS Collection,
+        ($SUPPLIESCollectionDate) AS CollectionDate,
+        ($SUPPLIESORNo) AS ORNo,
+        DATEDIFF('".$data['aging']."', a.date_transmitted) AS Outstanding
+        FROM v_totalamountsup a 
+        WHERE a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
+
+        // OTHERS QUERY
+        $OTHERSAmount = 'SELECT b.billed_amount FROM tblotherspayment b WHERE b.hdr_idLink= a.OHID LIMIT 1';
+        $OTHERSCollectionDate = 'SELECT b.check_date FROM tblotherspayment b WHERE b.hdr_idLink= a.OHID ORDER BY b.check_date DESC LIMIT 1';
+        $OTHERSORNo = 'SELECT b.orNumber FROM tblotherspayment b WHERE b.hdr_idLink= a.OHID ORDER BY b.check_date DESC LIMIT 1';
+        $OTHERSCollection = 'SELECT SUM(b.paidAmount) FROM tblotherspayment b WHERE b.hdr_idLink= a.OHID GROUP BY b.hdr_idLink'; 
+        $OTHERSQuery = "SELECT 'OTHER INCOME' AS Category, 
+        'OTHERS' AS ClientName, 
+        CONVERT(a.date_transmitted USING utf8) AS DateTransmitted,
+        CONVERT(a.SOADate USING utf8) AS SoaDate, 
+        CONVERT(a.SOANo USING utf8) AS SOANo,
+        ($OTHERSAmount) AS SOAAmount,
+        ($OTHERSCollection) AS Collection,
+        ($OTHERSCollectionDate) AS CollectionDate,
+        ($OTHERSORNo) AS ORNo,
+        DATEDIFF('".$data['aging']."', a.date_transmitted) AS Outstanding
+        FROM v_totalamountothers a 
+        WHERE a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
+
+        // // CONSTRUCTION QUERY
+        // $CONSTRUCTIONAmount = 'SELECT b.billed_amount FROM tblconstructionpayment b WHERE b.hdr_idLink= a.OHID LIMIT 1';
+        // $CONSTRUCTIONCollectionDate = 'SELECT b.check_date FROM tblconstructionpayment b WHERE b.hdr_idLink= a.OHID ORDER BY b.check_date DESC LIMIT 1';
+        // $CONSTRUCTIONORNo = 'SELECT b.orNumber FROM tblconstructionpayment b WHERE b.hdr_idLink= a.OHID ORDER BY b.check_date DESC LIMIT 1';
+        // $CONSTRUCTIONCollection = 'SELECT SUM(b.paidAmount) FROM tblconstructionpayment b WHERE b.hdr_idLink= a.OHID GROUP BY b.hdr_idLink'; 
+        // $CONSTRUCTIONQuery = "SELECT 'CARPENTRY' AS Category, 
+        // 'CONSTRUCTION' AS ClientName, 
+        // CONVERT(a.date_transmitted USING utf8) AS DateTransmitted,
+        // CONVERT(a.SOADate USING utf8) AS SoaDate, 
+        // CONVERT(a.SOANo USING utf8) AS SOANo,
+        // ($CONSTRUCTIONAmount) AS SOAAmount,
+        // ($CONSTRUCTIONCollection) AS Collection,
+        // ($CONSTRUCTIONCollectionDate) AS CollectionDate,
+        // ($CONSTRUCTIONORNo) AS ORNo,
+        // DATEDIFF('".$data['aging']."', a.date_transmitted) AS Outstanding
+        // FROM v_totalamountothers a 
+        // WHERE a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
+
         if($data['category'] == 'ALL'){
             $query = $this->db->query("
                 ($DARQuery) UNION 
                 ($SARQuery) UNION 
+                ($BCCQuery) UNION 
+                ($DEARBCQuery) UNION 
+                ($SLERSQuery) UNION 
+                ($LABNOTINQuery) UNION 
+                ($CLUBHOUSEQuery) UNION 
+                ($ALLOWANCEQuery) UNION 
+                ($INCENTIVEQuery) UNION 
+                ($PPEQuery) UNION 
+                ($FUELQuery) UNION 
+                ($SUPPLIESQuery) UNION 
+                ($OTHERSQuery) UNION 
+               
                 ($GolfCartQuery) UNION 
                 ($JeepQuery) UNION 
                 ($PHBQuery) UNION 
@@ -485,6 +713,13 @@ Class DMPI_OC_Model extends CI_Model {
             if($data['client'] == 'ALL'){
                 $query = $this->db->query("
                     ($DARQuery) UNION 
+                    ($BCCQuery) UNION 
+                    ($DEARBCQuery) UNION 
+                    ($SLERSQuery) UNION 
+                    ($LABNOTINQuery) UNION 
+                    ($CLUBHOUSEQuery) UNION 
+                    ($ALLOWANCEQuery) UNION 
+                    ($INCENTIVEQuery) UNION 
                     ($SARQuery)
                 ");
             }else if($data['client'] == 'DMPI DAR'){
@@ -492,19 +727,19 @@ Class DMPI_OC_Model extends CI_Model {
             }else if($data['client'] == 'DMPI SAR'){
                 $query = $this->db->query($SARQuery);
             }else if($data['client'] == 'BCC'){
-
+                $query = $this->db->query($BCCQuery);
             }else if($data['client'] == 'DEARBC'){
-
+                $query = $this->db->query($DEARBCQuery);
             }else if($data['client'] == 'SLERS'){
-
+                $query = $this->db->query($SLERSQuery);
             }else if($data['client'] == 'LABNOTIN'){
-
+                $query = $this->db->query($LABNOTINQuery);
             }else if($data['client'] == 'CLUBHOUSE'){
-
+                $query = $this->db->query($CLUBHOUSEQuery);
             }else if($data['client'] == 'INCENTIVE'){
-
+                $query = $this->db->query($INCENTIVEQuery);
             }else if($data['client'] == 'ALLOWANCE'){
-
+                $query = $this->db->query($ALLOWANCEQuery);
             }else{
                 return false;
             }
@@ -512,14 +747,14 @@ Class DMPI_OC_Model extends CI_Model {
         }else if($data['category'] == 'TRUCKING'){
             if($data['client'] == 'ALL'){
                 $query = $this->db->query("
-                ($GolfCartQuery) UNION 
-                ($JeepQuery) UNION 
-                ($PHBQuery) UNION 
-                ($OVLQuery) UNION 
-                ($LiftruckQuery) UNION 
-                ($WingVanQuery) UNION 
-                ($VanRentalQuery) 
-            ");
+                    ($GolfCartQuery) UNION 
+                    ($JeepQuery) UNION 
+                    ($PHBQuery) UNION 
+                    ($OVLQuery) UNION 
+                    ($LiftruckQuery) UNION 
+                    ($WingVanQuery) UNION 
+                    ($VanRentalQuery) 
+                ");
             }else if($data['client'] == 'GOLFCART'){
                 $query = $this->db->query($GolfCartQuery);
             }else if($data['client'] == 'JEEP'){
@@ -539,23 +774,29 @@ Class DMPI_OC_Model extends CI_Model {
             }
         }else if($data['category'] == 'OTHER INCOME'){
             if($data['client'] == 'ALL'){
-
+                $query = $this->db->query("
+                    ($PPEQuery) UNION
+                    ($FUELQuery) UNION 
+                    ($SUPPLIESQuery) UNION 
+                    ($INCENTIVEQuery) UNION 
+                    ($OTHERSQuery)
+                ");
             }else if($data['client'] == 'PPE'){
-
+                $query = $this->db->query($PPEQuery);
             }else if($data['client'] == 'FUEL'){
-
+                $query = $this->db->query($FUELQuery);
             }else if($data['client'] == 'SUPPLIES'){
-
+                $query = $this->db->query($SUPPLIESQuery);
             }else if($data['client'] == 'INCENTIVES'){
-
+                $query = $this->db->query($INCENTIVEQuery);
             }else if($data['client'] == 'OTHERS'){
-
+                $query = $this->db->query($OTHERSQuery);
             }else{
                 return false;
             }
         }else if($data['category'] == 'CARPENTRY'){
             if($data['client'] == 'CONSTRUCTION'){
-
+                // $query = $this->db->query($CONSTRUCTIONQuery);
             }else{
                 return false;
             }
@@ -571,17 +812,59 @@ Class DMPI_OC_Model extends CI_Model {
             SELECT SUM(b.totalAmt) AS TotalBilling FROM dmpi_dar_hdrs a, dmpi_dar_dtls b WHERE b.hdr_id= a.id AND status = 'PRINTED TRANSMITTAL' AND TransmittedDate BETWEEN '".$data['from']."' AND '".$data['to']."'
             UNION ALL
             SELECT SUM(b.amount) AS TotalBilling FROM dmpi_sars a, dmpi_sar_dtls b, dmpi_sar_transmittal d WHERE b.hdr_id= a.id AND a.status = 'transmitted' AND d.id = a.transmittal_id AND d.date BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(b.total + ((a.admin_percentage/b.total) * 100)) AS TotalBilling FROM tbloc_bcchdr a, tbloc_bccdtl b WHERE b.hdr_id= a.TOCSHDR AND a.Status = 'TRANSMITTED' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(b.total + ((a.admin_percentage/b.total) * 100)) AS TotalBilling FROM tbloc_dearbchdr a, tbloc_dearbcdtl b, tbloc_dearbc c WHERE b.hdr_id= a.TOCDHDR AND c.TOCDID = a.letter_id AND c.Status = 'TRANSMITTED' AND c.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(b.total + ((a.admin_percentage/b.total) * 100)) AS TotalBilling FROM tbloc_slershdr a, tbloc_slersdtl b WHERE b.hdr_id= a.TOCSHDR AND a.Status = 'TRANSMITTED' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(b.amount_billed + ((a.admin_percentage/b.amount_billed) * 100)) AS TotalBilling FROM tbloc_labnotinhdr a, tbloc_labnotindtl b WHERE b.hdr_id= a.TOCLHDR AND a.Status = 'TRANSMITTED' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(b.total + ((a.admin_percentage/b.total) * 100)) AS TotalBilling FROM tbloc_cbhdr a, tbloc_cbdtl b WHERE b.hdr_id= a.TOCSHDR AND a.Status = 'TRANSMITTED' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(a.TotalAmount) AS TotalBilling FROM v_totalamountallowance a WHERE a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(a.TotalAmount) AS TotalBilling FROM v_totalamountincentives a WHERE a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
         ) tbl";
         $TotalLaborCollection = "SELECT SUM(TotalCollection) FROM(
             SELECT SUM(c.Amount) AS TotalCollection FROM dmpi_dar_hdrs a, dar_payment_link c WHERE c.DARID = a.id AND status = 'PRINTED TRANSMITTAL' AND TransmittedDate BETWEEN '".$data['from']."' AND '".$data['to']."'
             UNION ALL
             SELECT SUM(c.Amount) AS TotalCollection FROM dmpi_sars a, sar_payment_link c, dmpi_sar_transmittal d WHERE c.SARID = a.id AND a.status = 'transmitted' AND d.id = a.transmittal_id AND d.date BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(c.Amount) AS TotalCollection FROM tbloc_bcchdr a, other_client_payment_link c WHERE a.TOCSHDR = c.HdrID AND a.Status = 'TRANSMITTED' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(c.Amount) AS TotalCollection FROM tbloc_dearbchdr a, other_client_payment_link c, tbloc_dearbc d WHERE a.TOCDHDR = c.HdrID AND a.letter_id = d.TOCDID AND d.Status = 'TRANSMITTED' AND d.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(c.Amount) AS TotalCollection FROM tbloc_slershdr a, other_client_payment_link c WHERE a.TOCSHDR = c.HdrID AND a.Status = 'TRANSMITTED' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(c.Amount) AS TotalCollection FROM tbloc_labnotinhdr a, other_client_payment_link c WHERE a.TOCLHDR = c.HdrID AND a.Status = 'TRANSMITTED' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(c.Amount) AS TotalCollection FROM tbloc_cbhdr a, other_client_payment_link c WHERE a.TOCSHDR = c.HdrID AND a.Status = 'TRANSMITTED' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(c.paidAmount) AS TotalCollection FROM v_totalamountallowance a, tblallowancepayment c WHERE a.AHID = c.hdr_idLink AND a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(c.paidAmount) AS TotalCollection FROM v_totalamountincentives a, tblallowancepayment c WHERE a.IHID = c.hdr_idLink AND a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
         ) tbl
         ";
         $AverageLaborOutstanding = "SELECT AVG(Outstanding) FROM(
             SELECT AVG(DATEDIFF('".$data['aging']."', TransmittedDate)) AS Outstanding FROM dmpi_dar_hdrs a WHERE status = 'PRINTED TRANSMITTAL' AND TransmittedDate BETWEEN '".$data['from']."' AND '".$data['to']."'
             UNION ALL
             SELECT AVG(DATEDIFF('".$data['aging']."', d.date)) AS Outstanding FROM dmpi_sars a, dmpi_sar_transmittal d WHERE a.status = 'transmitted' AND d.id = a.transmittal_id AND d.date BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT AVG(DATEDIFF('".$data['aging']."', a.date_transmitted)) AS Outstanding FROM tbloc_bcchdr a WHERE a.Status = 'TRANSMITTED' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT AVG(DATEDIFF('".$data['aging']."', b.date_transmitted)) AS Outstanding FROM tbloc_dearbchdr a, tbloc_dearbc b WHERE a.letter_id = b.TOCDID AND b.Status = 'TRANSMITTED' AND b.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT AVG(DATEDIFF('".$data['aging']."', a.date_transmitted)) AS Outstanding FROM tbloc_slershdr a WHERE a.Status = 'TRANSMITTED' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT AVG(DATEDIFF('".$data['aging']."', a.date_transmitted)) AS Outstanding FROM tbloc_labnotinhdr a WHERE a.Status = 'TRANSMITTED' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT AVG(DATEDIFF('".$data['aging']."', a.date_transmitted)) AS Outstanding FROM tbloc_cbhdr a WHERE a.Status = 'TRANSMITTED' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT AVG(DATEDIFF('".$data['aging']."', a.date_transmitted)) AS Outstanding FROM v_totalamountallowance a WHERE a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT AVG(DATEDIFF('".$data['aging']."', a.date_transmitted)) AS Outstanding FROM v_totalamountincentives a WHERE a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
         ) tbl
         ";
         $Labor = "SELECT 'DMPI' AS Category, ($TotalLaborBilling) AS TotalBilling, ($TotalLaborCollection) AS TotalCollection, ($AverageLaborOutstanding) AS Outstanding";
@@ -636,6 +919,52 @@ Class DMPI_OC_Model extends CI_Model {
         ";
         $Trucking = "SELECT 'Trucking' AS Category, ($TotalTruckingBilling) AS TotalBilling, ($TotalTruckingCollection) AS TotalCollection, ($AverageTruckingOutstanding) AS Outstanding";
 
+        // OTHER INCOME
+        $TotalOCBilling = "SELECT SUM(TotalBilling) FROM(
+            SELECT SUM(a.TotalAmount) AS TotalBilling FROM v_totalamountppe a WHERE a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(a.TotalAmount) AS TotalBilling FROM v_totalamountfuel a WHERE a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(a.TotalAmount) AS TotalBilling FROM v_totalamountsup a WHERE a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(a.TotalAmount) AS TotalBilling FROM v_totalamountothers a WHERE a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+        ) tbl";
+        $TotalOCCollection = "SELECT SUM(TotalCollection) FROM(
+            SELECT SUM(c.paidAmount) AS TotalCollection FROM v_totalamountppe a, tblppepayment c WHERE a.PHID = c.hdr_idLink AND a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(c.paidAmount) AS TotalCollection FROM v_totalamountfuel a, tblfuelpayment c WHERE a.FHID = c.hdr_idLink AND a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(c.paidAmount) AS TotalCollection FROM v_totalamountsup a, tblsuppayment c WHERE a.SHID = c.hdr_idLink AND a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT SUM(c.paidAmount) AS TotalCollection FROM v_totalamountothers a, tblotherspayment c WHERE a.OHID = c.hdr_idLink AND a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+        ) tbl
+        ";
+        $AverageOCOutstanding = "SELECT AVG(Outstanding) FROM(
+            SELECT AVG(DATEDIFF('".$data['aging']."', a.date_transmitted)) AS Outstanding FROM v_totalamountppe a WHERE a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT AVG(DATEDIFF('".$data['aging']."', a.date_transmitted)) AS Outstanding FROM v_totalamountincentives a WHERE a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT AVG(DATEDIFF('".$data['aging']."', a.date_transmitted)) AS Outstanding FROM v_totalamountsup a WHERE a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+            UNION ALL
+            SELECT AVG(DATEDIFF('".$data['aging']."', a.date_transmitted)) AS Outstanding FROM v_totalamountothers a WHERE a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+        ) tbl
+        ";
+        $other_income = "SELECT 'OTHER INCOME' AS Category, ($TotalOCBilling) AS TotalBilling, ($TotalOCCollection) AS TotalCollection, ($AverageOCOutstanding) AS Outstanding";
+
+        // CARPENTRY
+        // $TotalCarpentryBilling = "SELECT SUM(TotalBilling) FROM(
+        //     SELECT SUM(a.TotalAmount) AS TotalBilling FROM v_totalamountppe a WHERE a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+        // ) tbl";
+        // $TotalCarpentryCollection = "SELECT SUM(TotalCollection) FROM(
+        //     SELECT SUM(c.paidAmount) AS TotalCollection FROM v_totalamountppe a, tblppepayment c WHERE a.PHID = c.hdr_idLink AND a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+        // ) tbl
+        // ";
+        // $AverageCarpentryOutstanding = "SELECT AVG(Outstanding) FROM(
+        //     SELECT AVG(DATEDIFF('".$data['aging']."', a.date_transmitted)) AS Outstanding FROM v_totalamountppe a WHERE a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+        // ) tbl
+        // ";
+        // $carpentry = "SELECT 'CARPENTRY' AS Category, ($TotalCarpentryBilling) AS TotalBilling, ($TotalCarpentryCollection) AS TotalCollection, ($AverageCarpentryOutstanding) AS Outstanding";
+
         // OVERALL QUERY
         if($data['category'] == 'ALL'){
             $query = $this->db->query("
@@ -647,9 +976,9 @@ Class DMPI_OC_Model extends CI_Model {
         }else if($data['category'] == 'TRUCKING'){
             $query = $this->db->query("($Trucking)");
         }else if($data['category'] == 'OTHER INCOME'){
-            
+            $query = $this->db->query("($other_income)");
         }else if($data['category'] == 'CARPENTRY'){
-            
+            // $query = $this->db->query("($carpentry)");
         }else{
             return false;
         }
