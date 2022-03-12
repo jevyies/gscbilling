@@ -7,6 +7,7 @@ angular
 	.controller('PaymentUploadCtrl', PaymentUploadCtrl)
 	.controller('UploadSOAPerCheckCtrl', UploadSOAPerCheckCtrl)
 	.controller('InspectSOACtrl', InspectSOACtrl)
+	.controller('OverPaymentCtrl', OverPaymentCtrl)
 
 PaymentCtrl.$inject = ['$scope', '$ocLazyLoad', '$injector'];
 PaymentHDRCtrl.$inject = ['$scope', '$ocLazyLoad', '$injector', 'data', '$uibModalInstance'];
@@ -15,6 +16,7 @@ PaymentDetailsCtrl.$inject = ['$scope', '$ocLazyLoad', '$injector', 'data', '$ui
 PaymentUploadCtrl.$inject = ['$scope', '$ocLazyLoad', '$injector', 'data', '$uibModalInstance', '$q', '$filter'];
 UploadSOAPerCheckCtrl.$inject = ['$scope', '$ocLazyLoad', '$injector', 'data', '$uibModalInstance', '$q', '$filter'];
 InspectSOACtrl.$inject = ['$scope', '$ocLazyLoad', '$injector', 'data', '$uibModalInstance', '$q', '$filter'];
+OverPaymentCtrl.$inject = ['$scope', '$ocLazyLoad', '$injector', 'data', '$uibModalInstance', '$q', '$filter'];
 
 function PaymentCtrl($scope, $ocLazyLoad, $injector) {
 	var vm = this;
@@ -24,7 +26,7 @@ function PaymentCtrl($scope, $ocLazyLoad, $injector) {
 	vm.payments = [];
 	vm.notSaved = [];
 	vm.soas = [];
-    vm.excelTitle = 'DAR Collection';
+	vm.excelTitle = 'DAR Collection';
 	$ocLazyLoad.load([PAYURL + 'service.js?v=' + VERSION]).then(function (d) {
 		PaymentSvc = $injector.get('PaymentSvc');
 	});
@@ -197,6 +199,17 @@ function PaymentCtrl($scope, $ocLazyLoad, $injector) {
 		};
 		AppSvc.modal(options);
 	};
+	vm.addOverPayment = function () {
+		var options = {
+			data: '',
+			animation: true,
+			templateUrl: PAYURL + 'over_payment.html?v=' + VERSION,
+			controllerName: 'OverPaymentCtrl',
+			viewSize: 'md',
+			filesToLoad: [PAYURL + 'over_payment.html?v=' + VERSION, PAYURL + 'controller.js?v=' + VERSION],
+		};
+		AppSvc.modal(options);
+	}
 	vm.calculateTotalAmount = function () {
 		var sum = 0;
 		var payment = angular.copy(vm.variables.TotalAmount);
@@ -317,14 +330,14 @@ function PaymentCtrl($scope, $ocLazyLoad, $injector) {
 		if (!vm.variables.PHDRID) {
 			return AppSvc.showSwal('Confirmation', 'Save Header First', 'warning');
 		}
-        var ORNo = '';
-        var CardNo = '';
-        var PayDate = new Date();
-        if(vm.payments.length > 0){
-            ORNo = vm.payments[0].ORNo;
-            CardNo = vm.payments[0].CardNo;
-            PayDate = new Date(vm.payments[0].PayDate);
-        }
+		var ORNo = '';
+		var CardNo = '';
+		var PayDate = new Date();
+		if (vm.payments.length > 0) {
+			ORNo = vm.payments[0].ORNo;
+			CardNo = vm.payments[0].CardNo;
+			PayDate = new Date(vm.payments[0].PayDate);
+		}
 		var data = { variables: vm.variables, ORNo: ORNo, CardNo: CardNo, PayDate: PayDate };
 		var options = {
 			data: data,
@@ -473,6 +486,7 @@ function ClientHDRCtrl($scope, $ocLazyLoad, $injector, data, $uibModalInstance) 
 function InspectSOACtrl($scope, $ocLazyLoad, $injector, data, $uibModalInstance) {
 	var modal = this;
 	modal.variables = {};
+	modal.variables.Type = 'Summary';
 	modal.list = [];
 	modal.defaultGrid = {
 		enableRowSelection: true,
@@ -490,15 +504,25 @@ function InspectSOACtrl($scope, $ocLazyLoad, $injector, data, $uibModalInstance)
 			{ name: 'Check No.', field: 'CheckNo', width: 200 },
 			{ name: 'Ref No.', field: 'RefNo', width: 200 },
 		],
-		data: 'modal.list',
-		onRegisterApi: function (gridApi) {
-			// gridApi.selection.on.rowSelectionChanged(null, function (row) {
-			// 	$uibModalInstance.close(row.entity);
-			// });
-		},
+		data: 'modal.list'
+	};
+	modal.detailedGrid = {
+		enableRowSelection: true,
+		enableCellEdit: false,
+		enableColumnMenus: false,
+		modifierKeysToMultiSelect: true,
+		enableRowHeaderSelection: false,
+		columnDefs: [
+			{ name: 'SOA Number', displayName: 'SOA Number', field: 'soaNumber', width: 200 },
+			{ name: 'OR No.', field: 'ORNo', width: 200 },
+			{ name: 'OR Date', field: 'PayDate', width: 200 },
+			{ name: 'Check No.', field: 'CardNo', width: 200 },
+			{ name: 'Ref No.', field: 'Remarks', width: 200 },
+		],
+		data: 'modal.list'
 	};
 	modal.searching = function () {
-		var data = { soaNumber: modal.search };
+		var data = { soaNumber: modal.search, type: modal.variables.Type };
 		if (modal.variables.Client === 'DAR') {
 			data.dar = true;
 		} else if (modal.variables.Client === 'SAR') {
@@ -518,10 +542,16 @@ function InspectSOACtrl($scope, $ocLazyLoad, $injector, data, $uibModalInstance)
 			if (response.message) {
 				modal.list = [];
 			} else {
-				response.forEach(function (item) {
-					item.AmountPaid = item.AmountPaid ? item.AmountPaid : 0;
-					item.Balance = item.Amount - item.AmountPaid;
-				});
+				if(modal.variables.Type === 'Summary'){
+					response.forEach(function (item) {
+						item.AmountPaid = item.AmountPaid ? item.AmountPaid : 0;
+						item.Balance = item.Amount - item.AmountPaid;
+					});
+				}else{
+					response.forEach(function(item){
+						item.Remarks = item.referenceNo;
+					})
+				}
 				modal.list = response;
 			}
 		});
@@ -544,7 +574,7 @@ function PaymentDetailsCtrl($scope, $ocLazyLoad, $injector, data, $uibModalInsta
 		modal.variables.HDRID = data.variables.PHDRID;
 		modal.variables.PayDate = new Date();
 		modal.variables.Mode = 'CHECK';
-		if(data.payment){
+		if (data.payment) {
 			modal.variables.PayDate = new Date(data.payment.PayDate);
 			modal.variables.ORNo = data.payment.ORNo;
 			modal.variables.CardNo = data.payment.CardNo;
@@ -577,8 +607,8 @@ function PaymentUploadCtrl($scope, $ocLazyLoad, $injector, data, $uibModalInstan
 	var modal = this;
 	modal.variables = {};
 	modal.variables.HDRID = data.variables.PHDRID;
-    modal.variables.ORNo = data.ORNo;
-    modal.variables.CardNo = data.CardNo;
+	modal.variables.ORNo = data.ORNo;
+	modal.variables.CardNo = data.CardNo;
 	modal.rowObject = [];
 	modal.list = [];
 	modal.uploaded = [];
@@ -612,7 +642,7 @@ function PaymentUploadCtrl($scope, $ocLazyLoad, $injector, data, $uibModalInstan
 		modal.fetched = [];
 		modal.notFetched = [];
 	};
-	modal.fileNameChanged = function(){
+	modal.fileNameChanged = function () {
 		modal.disableSave = true;
 	}
 	modal.checkExcel = function () {
@@ -988,4 +1018,38 @@ function UploadSOAPerCheckCtrl($scope, $ocLazyLoad, $injector, data, $uibModalIn
 
 		return new Date(date_info.getFullYear(), date_info.getMonth(), date_info.getDate(), hours, minutes, seconds);
 	}
+}
+function OverPaymentCtrl($scope, $ocLazyLoad, $injector, data, $uibModalInstance) {
+	var modal = this;
+	modal.variables = {};
+	modal.variables.soaNumber = 'GSMPC-';
+	$ocLazyLoad.load([PAYURL + 'service.js?v=' + VERSION]).then(function (d) {
+		PaymentSvc = $injector.get('PaymentSvc');
+	});
+	modal.defaultSOA = function () {
+		if (!modal.variables.soaNumber || defaultValue !== modal.variables.soaNumber.substring(0, 6)) {
+			modal.variables.soaNumber = defaultValue;
+		}
+	}
+	modal.save = function () {
+		var data = angular.copy(modal.variables);
+		data.overpayment = true;
+		data.Amount = AppSvc.getAmount(modal.variables.Amount);
+		PaymentSvc.save(data).then(function (response) {
+			if (response.success) {
+				modal.variables = {};
+				modal.variables.soaNumber = 'GSMPC-';
+				AppSvc.showSwal('Success', response.message, 'success');
+			} else {
+				if (response.error) {
+					AppSvc.showSwal('Confirmation', 'SOA Number does not exist', 'warning');
+				} else {
+					AppSvc.showSwal('Confirmation', 'Nothing to Update. Saving failed', 'warning');
+				}
+			}
+		})
+	};
+	modal.close = function () {
+		$uibModalInstance.dismiss('cancel');
+	};
 }

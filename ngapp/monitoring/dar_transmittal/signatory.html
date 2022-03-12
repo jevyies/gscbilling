@@ -25,6 +25,22 @@
         <div class="row bottom-margin">
             <div class="col-md-12">
                 <label>
+                    <strong>Noted By:</strong>
+                </label>
+                <div class="input-group">
+                    <input type="text" class="form-control form-control-sm" ng-model="modal.variables.notedBy" required disabled>
+                    <input type="text" class="form-control form-control-sm" ng-model="modal.variables.notedByPosition" required disabled>
+                    <div class="button-group-append">
+                        <button type="button" class="btn btn-outline-success" ng-click="modal.searchSignatory(5)">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row bottom-margin">
+            <div class="col-md-12">
+                <label>
                     <strong>Approved By:</strong>
                     <span class="text-success" ng-click="modal.addSig = 1" ng-if="modal.addSig !== 1">
                         <i class="fa fa-plus fa-fw"></i>Add Signatory</span>

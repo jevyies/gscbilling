@@ -335,6 +335,9 @@ function ForTransmitSummaryCtrl($scope, $ocLazyLoad, $injector, data, $uibModalI
                 } else if (number == 4) {
                     modal.variables.approvedBy2 = data.fullname;
                     modal.variables.approvedByPosition2 = data.position;
+                }else if (number == 5) {
+                    modal.variables.notedBy = data.fullname;
+                    modal.variables.notedByPosition = data.position;
                 }
             }
         })

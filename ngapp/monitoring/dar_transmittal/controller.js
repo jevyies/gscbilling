@@ -316,6 +316,9 @@ function TransmitSummaryCtrl($scope, $ocLazyLoad, $injector, data, $uibModalInst
                 if (number == 2) {
                     modal.variables.confirmedBy = data.fullname;
                     modal.variables.confirmedByPosition = data.position;
+                } else if(number == 5){
+                    modal.variables.notedBy = data.fullname;
+                    modal.variables.notedByPosition = data.position;
                 } else {
                     modal.variables.approvedBy = data.fullname;
                     modal.variables.approvedByPosition = data.position;

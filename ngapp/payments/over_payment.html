@@ -1,0 +1,39 @@
+<div class="modal-content">
+    <div class="modal-title-div">
+        <strong class="modal-title-name">Over Payment Entry</strong>
+        <button class="modal-exit" ng-click="modal.close()">
+            <span class="fa fa-times"></span>
+        </button>
+    </div>
+    <form ng-submit="modal.save()">
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <label for="soaNo">SOA Number</label>
+                    <input type="text" class="form-control form-control-sm toUpper"
+                        ng-model="modal.variables.soaNumber">
+                </div>
+                <div class="col-sm-12">
+                    <label for="amount">Amount</label>
+                    <input type="text" class="form-control form-control-sm text-right"
+                        ng-model="modal.variables.Amount" only-numbers-wo-negative>
+                </div>
+                <div class="col-sm-12">
+                    <label for="refence">Ref. No.</label>
+                    <input type="text" class="form-control form-control-sm"
+                        ng-model="modal.variables.refNo">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-save fa-fw"></i>Save</button>
+                    <button type="button" class="btn btn-default" ng-click="modal.close()">
+                        <i class="fa fa-times fa-fw"></i>Close</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -325,16 +325,16 @@ Class DMPI_OC_Model extends CI_Model {
         $DARCollection = 'SELECT SUM(c.Amount) FROM dar_payment_link c WHERE c.DARID = a.id GROUP BY c.DARID'; 
         $DARQuery = "SELECT 'LABOR' AS Category, 
         'DAR' AS ClientName, 
-        CONVERT(TransmittedDate USING utf8) AS DateTransmitted, 
+        CONVERT(DMPIReceivedDate USING utf8) AS DateTransmitted, 
         CONVERT(soaDate USING utf8) AS SoaDate, 
         CONVERT(soaNumber USING utf8) AS SOANo,
         ($DARAmount) AS SOAAmount,
         ($DARCollection) AS Collection,
         ($DARCollectionDate) AS CollectionDate,
         ($DARORNo) AS ORNo,
-        DATEDIFF('".$data['aging']."', TransmittedDate) AS Outstanding
+        DATEDIFF('".$data['aging']."', DMPIReceivedDate) AS Outstanding
         FROM dmpi_dar_hdrs a
-        WHERE status = 'PRINTED TRANSMITTAL' AND TransmittedDate BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
+        WHERE status = 'PRINTED TRANSMITTAL' AND soaDate BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
 
         // SAR QUERY
         $SARAmount = 'SELECT SUM(b.amount) FROM dmpi_sar_dtls b WHERE b.hdr_id= a.id';
