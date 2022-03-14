@@ -569,7 +569,7 @@ Class DMPI_OC_Model extends CI_Model {
         CONVERT(a.date_transmitted USING utf8) AS DateTransmitted,
         CONVERT(a.Date USING utf8) AS SoaDate, 
         CONVERT(a.SOANo USING utf8) AS SOANo,
-        ($ALLOWANCEAmount) AS SOAAmount,
+        a.TotalAmount AS SOAAmount,
         ($ALLOWANCECollection) AS Collection,
         ($ALLOWANCECollectionDate) AS CollectionDate,
         ($ALLOWANCEORNo) AS ORNo,
@@ -587,7 +587,7 @@ Class DMPI_OC_Model extends CI_Model {
         CONVERT(a.date_transmitted USING utf8) AS DateTransmitted,
         CONVERT(a.Date USING utf8) AS SoaDate, 
         CONVERT(a.SOANo USING utf8) AS SOANo,
-        ($INCENTIVEAmount) AS SOAAmount,
+        a.TotalAmount AS SOAAmount,
         ($INCENTIVECollection) AS Collection,
         ($INCENTIVECollectionDate) AS CollectionDate,
         ($INCENTIVEORNo) AS ORNo,
@@ -605,7 +605,7 @@ Class DMPI_OC_Model extends CI_Model {
         CONVERT(a.date_transmitted USING utf8) AS DateTransmitted,
         CONVERT(a.SOADate USING utf8) AS SoaDate, 
         CONVERT(a.SOANo USING utf8) AS SOANo,
-        ($PPEAmount) AS SOAAmount,
+        a.TotalAmount AS SOAAmount,
         ($PPECollection) AS Collection,
         ($PPECollectionDate) AS CollectionDate,
         ($PPEORNo) AS ORNo,
@@ -623,7 +623,7 @@ Class DMPI_OC_Model extends CI_Model {
         CONVERT(a.date_transmitted USING utf8) AS DateTransmitted,
         CONVERT(a.SOADate USING utf8) AS SoaDate, 
         CONVERT(a.SOANo USING utf8) AS SOANo,
-        ($FUELAmount) AS SOAAmount,
+        a.TotalAmount AS SOAAmount,
         ($FUELCollection) AS Collection,
         ($FUELCollectionDate) AS CollectionDate,
         ($FUELORNo) AS ORNo,
@@ -641,7 +641,7 @@ Class DMPI_OC_Model extends CI_Model {
         CONVERT(a.date_transmitted USING utf8) AS DateTransmitted,
         CONVERT(a.SOADate USING utf8) AS SoaDate, 
         CONVERT(a.SOANo USING utf8) AS SOANo,
-        ($SUPPLIESAmount) AS SOAAmount,
+        a.TotalAmount AS SOAAmount,
         ($SUPPLIESCollection) AS Collection,
         ($SUPPLIESCollectionDate) AS CollectionDate,
         ($SUPPLIESORNo) AS ORNo,
@@ -659,7 +659,7 @@ Class DMPI_OC_Model extends CI_Model {
         CONVERT(a.date_transmitted USING utf8) AS DateTransmitted,
         CONVERT(a.SOADate USING utf8) AS SoaDate, 
         CONVERT(a.SOANo USING utf8) AS SOANo,
-        ($OTHERSAmount) AS SOAAmount,
+        a.TotalAmount AS SOAAmount,
         ($OTHERSCollection) AS Collection,
         ($OTHERSCollectionDate) AS CollectionDate,
         ($OTHERSORNo) AS ORNo,
@@ -667,23 +667,23 @@ Class DMPI_OC_Model extends CI_Model {
         FROM v_totalamountothers a 
         WHERE a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
 
-        // // CONSTRUCTION QUERY
-        // $CONSTRUCTIONAmount = 'SELECT b.billed_amount FROM tblconstructionpayment b WHERE b.hdr_idLink= a.OHID LIMIT 1';
-        // $CONSTRUCTIONCollectionDate = 'SELECT b.check_date FROM tblconstructionpayment b WHERE b.hdr_idLink= a.OHID ORDER BY b.check_date DESC LIMIT 1';
-        // $CONSTRUCTIONORNo = 'SELECT b.orNumber FROM tblconstructionpayment b WHERE b.hdr_idLink= a.OHID ORDER BY b.check_date DESC LIMIT 1';
-        // $CONSTRUCTIONCollection = 'SELECT SUM(b.paidAmount) FROM tblconstructionpayment b WHERE b.hdr_idLink= a.OHID GROUP BY b.hdr_idLink'; 
-        // $CONSTRUCTIONQuery = "SELECT 'CARPENTRY' AS Category, 
-        // 'CONSTRUCTION' AS ClientName, 
-        // CONVERT(a.date_transmitted USING utf8) AS DateTransmitted,
-        // CONVERT(a.SOADate USING utf8) AS SoaDate, 
-        // CONVERT(a.SOANo USING utf8) AS SOANo,
-        // ($CONSTRUCTIONAmount) AS SOAAmount,
-        // ($CONSTRUCTIONCollection) AS Collection,
-        // ($CONSTRUCTIONCollectionDate) AS CollectionDate,
-        // ($CONSTRUCTIONORNo) AS ORNo,
-        // DATEDIFF('".$data['aging']."', a.date_transmitted) AS Outstanding
-        // FROM v_totalamountothers a 
-        // WHERE a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
+        // CONSTRUCTION QUERY
+        $CONSTRUCTIONAmount = 'SELECT b.billed_amount FROM tblconstructionpayment b WHERE b.hdr_idLink= a.soaID LIMIT 1';
+        $CONSTRUCTIONCollectionDate = 'SELECT b.check_date FROM tblconstructionpayment b WHERE b.hdr_idLink= a.soaID ORDER BY b.check_date DESC LIMIT 1';
+        $CONSTRUCTIONORNo = 'SELECT b.orNumber FROM tblconstructionpayment b WHERE b.hdr_idLink= a.soaID ORDER BY b.check_date DESC LIMIT 1';
+        $CONSTRUCTIONCollection = 'SELECT SUM(b.paidAmount) FROM tblconstructionpayment b WHERE b.hdr_idLink= a.soaID GROUP BY b.hdr_idLink'; 
+        $CONSTRUCTIONQuery = "SELECT 'CARPENTRY' AS Category, 
+        'CONSTRUCTION' AS ClientName, 
+        CONVERT(a.date_transmitted USING utf8) AS DateTransmitted,
+        CONVERT(a.soaDate USING utf8) AS SoaDate, 
+        CONVERT(a.SOANo USING utf8) AS SOANo,
+        a.amountInFigure AS SOAAmount,
+        ($CONSTRUCTIONCollection) AS Collection,
+        ($CONSTRUCTIONCollectionDate) AS CollectionDate,
+        ($CONSTRUCTIONORNo) AS ORNo,
+        DATEDIFF('".$data['aging']."', a.date_transmitted) AS Outstanding
+        FROM tblsoa a 
+        WHERE a.Status = 'TRANSMITTED' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
 
         if($data['category'] == 'ALL'){
             $query = $this->db->query("
@@ -700,7 +700,7 @@ Class DMPI_OC_Model extends CI_Model {
                 ($FUELQuery) UNION 
                 ($SUPPLIESQuery) UNION 
                 ($OTHERSQuery) UNION 
-               
+                ($CONSTRUCTIONQuery) UNION 
                 ($GolfCartQuery) UNION 
                 ($JeepQuery) UNION 
                 ($PHBQuery) UNION 
@@ -778,7 +778,6 @@ Class DMPI_OC_Model extends CI_Model {
                     ($PPEQuery) UNION
                     ($FUELQuery) UNION 
                     ($SUPPLIESQuery) UNION 
-                    ($INCENTIVEQuery) UNION 
                     ($OTHERSQuery)
                 ");
             }else if($data['client'] == 'PPE'){
@@ -787,8 +786,6 @@ Class DMPI_OC_Model extends CI_Model {
                 $query = $this->db->query($FUELQuery);
             }else if($data['client'] == 'SUPPLIES'){
                 $query = $this->db->query($SUPPLIESQuery);
-            }else if($data['client'] == 'INCENTIVES'){
-                $query = $this->db->query($INCENTIVEQuery);
             }else if($data['client'] == 'OTHERS'){
                 $query = $this->db->query($OTHERSQuery);
             }else{
@@ -796,7 +793,7 @@ Class DMPI_OC_Model extends CI_Model {
             }
         }else if($data['category'] == 'CARPENTRY'){
             if($data['client'] == 'CONSTRUCTION'){
-                // $query = $this->db->query($CONSTRUCTIONQuery);
+                $query = $this->db->query($CONSTRUCTIONQuery);
             }else{
                 return false;
             }
@@ -952,18 +949,18 @@ Class DMPI_OC_Model extends CI_Model {
         $other_income = "SELECT 'OTHER INCOME' AS Category, ($TotalOCBilling) AS TotalBilling, ($TotalOCCollection) AS TotalCollection, ($AverageOCOutstanding) AS Outstanding";
 
         // CARPENTRY
-        // $TotalCarpentryBilling = "SELECT SUM(TotalBilling) FROM(
-        //     SELECT SUM(a.TotalAmount) AS TotalBilling FROM v_totalamountppe a WHERE a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
-        // ) tbl";
-        // $TotalCarpentryCollection = "SELECT SUM(TotalCollection) FROM(
-        //     SELECT SUM(c.paidAmount) AS TotalCollection FROM v_totalamountppe a, tblppepayment c WHERE a.PHID = c.hdr_idLink AND a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
-        // ) tbl
-        // ";
-        // $AverageCarpentryOutstanding = "SELECT AVG(Outstanding) FROM(
-        //     SELECT AVG(DATEDIFF('".$data['aging']."', a.date_transmitted)) AS Outstanding FROM v_totalamountppe a WHERE a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
-        // ) tbl
-        // ";
-        // $carpentry = "SELECT 'CARPENTRY' AS Category, ($TotalCarpentryBilling) AS TotalBilling, ($TotalCarpentryCollection) AS TotalCollection, ($AverageCarpentryOutstanding) AS Outstanding";
+        $TotalCarpentryBilling = "SELECT SUM(TotalBilling) FROM(
+            SELECT SUM(a.amountInFigure) AS TotalBilling FROM tblsoa a WHERE a.Status = 'TRANSMITTED' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+        ) tbl";
+        $TotalCarpentryCollection = "SELECT SUM(TotalCollection) FROM(
+            SELECT SUM(c.check_amount) AS TotalCollection FROM tblsoa a, tblconstructionpayment c WHERE a.soaID = c.hdr_idLink AND a.Status = 'TRANSMITTED' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+        ) tbl
+        ";
+        $AverageCarpentryOutstanding = "SELECT AVG(Outstanding) FROM(
+            SELECT AVG(DATEDIFF('".$data['aging']."', a.date_transmitted)) AS Outstanding FROM tblsoa a WHERE a.Status = 'TRANSMITTED' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'
+        ) tbl
+        ";
+        $carpentry = "SELECT 'CARPENTRY' AS Category, ($TotalCarpentryBilling) AS TotalBilling, ($TotalCarpentryCollection) AS TotalCollection, ($AverageCarpentryOutstanding) AS Outstanding";
 
         // OVERALL QUERY
         if($data['category'] == 'ALL'){
@@ -978,7 +975,7 @@ Class DMPI_OC_Model extends CI_Model {
         }else if($data['category'] == 'OTHER INCOME'){
             $query = $this->db->query("($other_income)");
         }else if($data['category'] == 'CARPENTRY'){
-            // $query = $this->db->query("($carpentry)");
+            $query = $this->db->query("($carpentry)");
         }else{
             return false;
         }

@@ -366,9 +366,9 @@ function AgingReportCtrl($scope, $ocLazyLoad, $injector, data, $uibModalInstance
             data.exists = true;
             data.summary = false;
             AgingReportSvc.get(data).then(function (response) {
-                if (response.message) {
-                    return AppSvc.showSwal('Error', 'Nothing to Display', 'error');
-                }
+                // if (response.message) {
+                //     return AppSvc.showSwal('Error', 'Nothing to Display', 'error');
+                // }
                 delete data.exists;
                 var query = '';
                 for(var key in data){
@@ -390,9 +390,9 @@ function AgingReportCtrl($scope, $ocLazyLoad, $injector, data, $uibModalInstance
             data.exists = true;
             data.summary = true;
             AgingReportSvc.get(data).then(function (response) {
-                if (response.message) {
-                    return AppSvc.showSwal('Error', 'Nothing to Display', 'error');
-                }
+                // if (response.message) {
+                //     return AppSvc.showSwal('Error', 'Nothing to Display', 'error');
+                // }
                 delete data.exists;
                 var query = '';
                 for(var key in data){
