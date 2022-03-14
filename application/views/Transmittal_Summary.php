@@ -15,6 +15,8 @@ foreach($records as $record){
 foreach($infos as $info){
 	$received_by = $info->confirmedBy ? $info->confirmedBy : '';
 	$received_by_pos = $info->confirmedByPosition ? $info->confirmedByPosition : '';
+	$noted_by = $info->notedBy ? $info->notedBy : '';
+	$noted_by_pos = $info->notedByPosition ? $info->notedByPosition : '';
 	$approved_by = $info->approvedBy ? $info->approvedBy : '';
 	$approved_by_pos = $info->approvedByPosition ? $info->approvedByPosition : '';
 	$approved_by2 = $info->approvedBy2 ? $info->approvedBy2 : '';
@@ -190,31 +192,36 @@ if($day <= 15){
 						</tr>
 						<tr>
 							<td></td>
-							<td colspan="4" style="font-size:13px;"><strong>APPROVED BY:</strong></td>
-							<?php if($approved_by2): ?>
+							<td colspan="4" style="font-size:13px;"><strong>NOTED BY:</strong></td>
+							<td colspan="5" style="font-size:13px;"><strong>APPROVED BY:</strong></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td colspan="4" style="padding:10px 5px 0;font-size:12px;"><strong style="border-bottom:1px solid black;"><?php echo strtoupper($noted_by); ?></strong></td>
+							<td colspan="5" style="padding:10px 5px 0;font-size:12px;"><strong style="border-bottom:1px solid black;"><?php echo strtoupper($approved_by); ?></strong></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td colspan="4" style="padding:3px 5px 10px;font-size:12px;"><span style="border-top:1px solid black;"><?php echo $noted_by_pos; ?> </td>
+							<td colspan="5" style="padding:3px 5px 10px;font-size:12px;"><span style="border-top:1px solid black;"><?php echo $approved_by_pos; ?> </td>
+						</tr>
+						<?php if($approved_by2): ?>
+							<tr>
+								<td></td>
 								<td colspan="4" style="font-size:13px;"><strong>APPROVED BY:</strong></td>
-							<?php else: ?>
 								<td colspan="3"></td>
-							<?php endif; ?>
-						</tr>
-						<tr>
+							</tr>
+							<tr>
 							<td></td>
-							<td colspan="4" style="padding:10px 5px 0;font-size:12px;"><strong style="border-bottom:1px solid black;"><?php echo strtoupper($approved_by); ?></strong></td>
-							<?php if($approved_by2): ?>
 								<td colspan="4" style="padding:10px 5px 0;font-size:12px;"><strong style="border-bottom:1px solid black;"><?php echo strtoupper($approved_by2); ?></strong></td>
-							<?php else: ?>
 								<td colspan="3"></td>
-							<?php endif; ?>
-						</tr>
-						<tr>
-							<td></td>
-							<td colspan="4" style="padding:3px 5px 10px;font-size:12px;"><span style="border-top:1px solid black;"><?php echo $approved_by_pos; ?> </td>
-							<?php if($approved_by2): ?>
-							<td colspan="4" style="padding:3px 5px 10px;font-size:12px;"><span style="border-top:1px solid black;"><?php echo $approved_by_pos2; ?> </td>
-							<?php else: ?>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="4" style="padding:3px 5px 10px;font-size:12px;"><span style="border-top:1px solid black;"><?php echo $approved_by_pos2; ?> </td>
 								<td colspan="3"></td>
-							<?php endif; ?>
-						</tr>
+							</tr>
+						<?php endif; ?>
 					</table>
 			</div>
 			<?php endif; ?>
@@ -322,31 +329,36 @@ if($day <= 15){
 						</tr>
 						<tr>
 							<td></td>
-							<td colspan="4" style="font-size:13px;"><strong>APPROVED BY:</strong></td>
-							<?php if($approved_by2): ?>
+							<td colspan="4" style="font-size:13px;"><strong>NOTED BY:</strong></td>
+							<td colspan="5" style="font-size:13px;"><strong>APPROVED BY:</strong></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td colspan="4" style="padding:10px 5px 0;font-size:12px;"><strong style="border-bottom:1px solid black;"><?php echo strtoupper($noted_by); ?></strong></td>
+							<td colspan="5" style="padding:10px 5px 0;font-size:12px;"><strong style="border-bottom:1px solid black;"><?php echo strtoupper($approved_by); ?></strong></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td colspan="4" style="padding:3px 5px 10px;font-size:12px;"><span style="border-top:1px solid black;"><?php echo $noted_by_pos; ?> </td>
+							<td colspan="5" style="padding:3px 5px 10px;font-size:12px;"><span style="border-top:1px solid black;"><?php echo $approved_by_pos; ?> </td>
+						</tr>
+						<?php if($approved_by2): ?>
+							<tr>
+								<td></td>
 								<td colspan="4" style="font-size:13px;"><strong>APPROVED BY:</strong></td>
-							<?php else: ?>
 								<td colspan="3"></td>
-							<?php endif; ?>
-						</tr>
-						<tr>
+							</tr>
+							<tr>
 							<td></td>
-							<td colspan="4" style="padding:10px 5px 0;font-size:12px;"><strong style="border-bottom:1px solid black;"><?php echo strtoupper($approved_by); ?></strong></td>
-							<?php if($approved_by2): ?>
 								<td colspan="4" style="padding:10px 5px 0;font-size:12px;"><strong style="border-bottom:1px solid black;"><?php echo strtoupper($approved_by2); ?></strong></td>
-							<?php else: ?>
 								<td colspan="3"></td>
-							<?php endif; ?>
-						</tr>
-						<tr>
-							<td></td>
-							<td colspan="4" style="padding:3px 5px 10px;font-size:12px;"><span style="border-top:1px solid black;"><?php echo $approved_by_pos; ?> </td>
-							<?php if($approved_by2): ?>
-							<td colspan="4" style="padding:3px 5px 10px;font-size:12px;"><span style="border-top:1px solid black;"><?php echo $approved_by_pos2; ?> </td>
-							<?php else: ?>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="4" style="padding:3px 5px 10px;font-size:12px;"><span style="border-top:1px solid black;"><?php echo $approved_by_pos2; ?> </td>
 								<td colspan="3"></td>
-							<?php endif; ?>
-						</tr>
+							</tr>
+						<?php endif; ?>
 					</table>
 				</div>
 				<pagebreak />
@@ -452,31 +464,36 @@ if($day <= 15){
 						</tr>
 						<tr>
 							<td></td>
-							<td colspan="4" style="font-size:13px;"><strong>APPROVED BY:</strong></td>
-							<?php if($approved_by2): ?>
+							<td colspan="4" style="font-size:13px;"><strong>NOTED BY:</strong></td>
+							<td colspan="5" style="font-size:13px;"><strong>APPROVED BY:</strong></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td colspan="4" style="padding:10px 5px 0;font-size:12px;"><strong style="border-bottom:1px solid black;"><?php echo strtoupper($noted_by); ?></strong></td>
+							<td colspan="5" style="padding:10px 5px 0;font-size:12px;"><strong style="border-bottom:1px solid black;"><?php echo strtoupper($approved_by); ?></strong></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td colspan="4" style="padding:3px 5px 10px;font-size:12px;"><span style="border-top:1px solid black;"><?php echo $noted_by_pos; ?> </td>
+							<td colspan="5" style="padding:3px 5px 10px;font-size:12px;"><span style="border-top:1px solid black;"><?php echo $approved_by_pos; ?> </td>
+						</tr>
+						<?php if($approved_by2): ?>
+							<tr>
+								<td></td>
 								<td colspan="4" style="font-size:13px;"><strong>APPROVED BY:</strong></td>
-							<?php else: ?>
 								<td colspan="3"></td>
-							<?php endif; ?>
-						</tr>
-						<tr>
+							</tr>
+							<tr>
 							<td></td>
-							<td colspan="4" style="padding:10px 5px 0;font-size:12px;"><strong style="border-bottom:1px solid black;"><?php echo strtoupper($approved_by); ?></strong></td>
-							<?php if($approved_by2): ?>
 								<td colspan="4" style="padding:10px 5px 0;font-size:12px;"><strong style="border-bottom:1px solid black;"><?php echo strtoupper($approved_by2); ?></strong></td>
-							<?php else: ?>
 								<td colspan="3"></td>
-							<?php endif; ?>
-						</tr>
-						<tr>
-							<td></td>
-							<td colspan="4" style="padding:3px 5px 10px;font-size:12px;"><span style="border-top:1px solid black;"><?php echo $approved_by_pos; ?> </td>
-							<?php if($approved_by2): ?>
-							<td colspan="4" style="padding:3px 5px 10px;font-size:12px;"><span style="border-top:1px solid black;"><?php echo $approved_by_pos2; ?> </td>
-							<?php else: ?>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="4" style="padding:3px 5px 10px;font-size:12px;"><span style="border-top:1px solid black;"><?php echo $approved_by_pos2; ?> </td>
 								<td colspan="3"></td>
-							<?php endif; ?>
-						</tr>
+							</tr>
+						<?php endif; ?>
 					</table>
 				</div>
 				<pagebreak />
@@ -582,31 +599,36 @@ if($day <= 15){
 						</tr>
 						<tr>
 							<td></td>
-							<td colspan="4" style="font-size:13px;"><strong>APPROVED BY:</strong></td>
-							<?php if($approved_by2): ?>
+							<td colspan="4" style="font-size:13px;"><strong>NOTED BY:</strong></td>
+							<td colspan="5" style="font-size:13px;"><strong>APPROVED BY:</strong></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td colspan="4" style="padding:10px 5px 0;font-size:12px;"><strong style="border-bottom:1px solid black;"><?php echo strtoupper($noted_by); ?></strong></td>
+							<td colspan="5" style="padding:10px 5px 0;font-size:12px;"><strong style="border-bottom:1px solid black;"><?php echo strtoupper($approved_by); ?></strong></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td colspan="4" style="padding:3px 5px 10px;font-size:12px;"><span style="border-top:1px solid black;"><?php echo $noted_by_pos; ?> </td>
+							<td colspan="5" style="padding:3px 5px 10px;font-size:12px;"><span style="border-top:1px solid black;"><?php echo $approved_by_pos; ?> </td>
+						</tr>
+						<?php if($approved_by2): ?>
+							<tr>
+								<td></td>
 								<td colspan="4" style="font-size:13px;"><strong>APPROVED BY:</strong></td>
-							<?php else: ?>
 								<td colspan="3"></td>
-							<?php endif; ?>
-						</tr>
-						<tr>
+							</tr>
+							<tr>
 							<td></td>
-							<td colspan="4" style="padding:10px 5px 0;font-size:12px;"><strong style="border-bottom:1px solid black;"><?php echo strtoupper($approved_by); ?></strong></td>
-							<?php if($approved_by2): ?>
 								<td colspan="4" style="padding:10px 5px 0;font-size:12px;"><strong style="border-bottom:1px solid black;"><?php echo strtoupper($approved_by2); ?></strong></td>
-							<?php else: ?>
 								<td colspan="3"></td>
-							<?php endif; ?>
-						</tr>
-						<tr>
-							<td></td>
-							<td colspan="4" style="padding:3px 5px 10px;font-size:12px;"><span style="border-top:1px solid black;"><?php echo $approved_by_pos; ?> </td>
-							<?php if($approved_by2): ?>
-							<td colspan="4" style="padding:3px 5px 10px;font-size:12px;"><span style="border-top:1px solid black;"><?php echo $approved_by_pos2; ?> </td>
-							<?php else: ?>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="4" style="padding:3px 5px 10px;font-size:12px;"><span style="border-top:1px solid black;"><?php echo $approved_by_pos2; ?> </td>
 								<td colspan="3"></td>
-							<?php endif; ?>
-						</tr>
+							</tr>
+						<?php endif; ?>
 					</table>
 				</div>
 			<?php endif; ?>

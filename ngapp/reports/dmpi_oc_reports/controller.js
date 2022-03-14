@@ -364,7 +364,6 @@ function AgingReportCtrl($scope, $ocLazyLoad, $injector, data, $uibModalInstance
             data.to = AppSvc.getDate(modal.variables.to);
             data.aging = AppSvc.getDate(modal.variables.aging);
             data.exists = true;
-            data.summary = false;
             AgingReportSvc.get(data).then(function (response) {
                 // if (response.message) {
                 //     return AppSvc.showSwal('Error', 'Nothing to Display', 'error');

@@ -269,7 +269,7 @@
 
             function getDate(inputDate) {
                 var dt = new Date(inputDate);
-                var dtString = dt.getFullYear() + '-' + pad(dt.getMonth() + 1) + '-' + pad(dt.getDate());
+                var dtString = dt.getFullYear() + '-' + pad(dt.getMonth() + 1, 2) + '-' + pad(dt.getDate(), 2);
                 return dtString;
             }
 

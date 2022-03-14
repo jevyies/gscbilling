@@ -323,6 +323,8 @@ Class Dmpi_Dar_Model extends CI_Model {
         $sess = $this->session->userdata('gscbilling_session');
         date_default_timezone_set('Asia/Manila');
         if($data['id'] > 0){
+            $query = $this->db->select('soaNumber')->from('dmpi_dar_hdrs')->where('soaNumber', $data['soaNumber'])->where("id <> ".$data['id'])->get()->result();
+            if($query){return ['id'=> 0, 'error' => true];}
             $this->db->where('id', $data['id'])->update('dmpi_dar_hdrs', $data);
             if($this->db->affected_rows()){
                 $log = [
@@ -337,6 +339,8 @@ Class Dmpi_Dar_Model extends CI_Model {
                 return false;
             }
         }else{
+            $query = $this->db->select('soaNumber')->from('dmpi_dar_hdrs')->where('soaNumber', $data['soaNumber'])->get()->result();
+            if($query){return ['id'=> 0, 'error' => true];}
             $data['adminencodedById'] = $sess['id'];
             $data['adminencodedby'] = $sess['fullname'];
             $this->db->insert('dmpi_dar_hdrs', $data);
@@ -349,7 +353,7 @@ Class Dmpi_Dar_Model extends CI_Model {
                     'log_date' => Date('Y-m-d H:i:s'),
                 ];
                 $this->db->insert('dar_audit_logs', $log);
-                return ['id' => $id];
+                return ['id' => $id, 'error' => false];
             }else{
                 return false;
             }

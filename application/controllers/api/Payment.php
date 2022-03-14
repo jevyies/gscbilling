@@ -33,7 +33,7 @@ class Payment extends REST_Controller {
     }
     public function index_get(){
         if($this->get('dar')){
-            $result = $this->payment_model->get_dar_hdr($this->get('soaNumber'));
+            $result = $this->payment_model->get_dar_hdr($this->get('soaNumber'), $this->get('type'));
         }elseif($this->get('sar')){
             $result = $this->payment_model->get_sar_hdr($this->get('soaNumber'));
         }elseif($this->get('bcc')){
@@ -231,6 +231,34 @@ class Payment extends REST_Controller {
                     $result = array(
                         'success' => false,
                         'message' => 'Nothing to update'
+                    );
+                    $this->response($result, REST_Controller::HTTP_OK);
+                }
+            }
+        }elseif($this->post('overpayment')){
+            $data = [
+                'soaNumber' => $this->post('soaNumber') ? $this->post('soaNumber') : '',
+                'Amount' => $this->post('Amount') ? $this->post('Amount') : '',
+                'refNo' => $this->post('refNo') ? $this->post('refNo') : '',
+            ];
+            $result = $this->payment_model->save_overpayment($data);
+            if(gettype($result) == "array"){
+                $result = array(
+                    'success' => false,
+                    'error' => true
+                );
+                $this->response($result, REST_Controller::HTTP_OK);
+            }else{
+                if($result){
+                    $result = array(
+                        'success' => true,
+                        'message' => 'Successfully saved'
+                    );
+                    $this->response($result, REST_Controller::HTTP_OK);
+                }else{
+                    $result = array(
+                        'success' => false,
+                        'message' => 'Nothing to save'
                     );
                     $this->response($result, REST_Controller::HTTP_OK);
                 }

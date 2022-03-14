@@ -47,15 +47,21 @@ Class Payment_Model extends CI_Model {
             return $query->result() ? $query->result() : false;
         }
     }
-    public function get_dar_hdr($soa){
-        $amount = 'SELECT SUM(b.totalAmt) FROM dmpi_dar_dtls b WHERE a.id = b.hdr_id GROUP BY b.hdr_id';
-        $paid = 'SELECT SUM(c.Amount) FROM dar_payment_link c WHERE a.id = c.DARID GROUP BY c.DARID';
-        $ORNo = 'SELECT GROUP_CONCAT(d.ORNo) FROM dar_payment_link c, payment_dtl d WHERE a.id = c.DARID AND d.PDTLID = c.PDTLID GROUP BY c.DARID';
-        $ORDate = 'SELECT GROUP_CONCAT(d.PayDate) FROM dar_payment_link c, payment_dtl d WHERE a.id = c.DARID AND d.PDTLID = c.PDTLID GROUP BY c.DARID';
-        $CheckNo = 'SELECT GROUP_CONCAT(d.CardNo) FROM dar_payment_link c, payment_dtl d WHERE a.id = c.DARID AND d.PDTLID = c.PDTLID GROUP BY c.DARID';
-        $RefNo = 'SELECT GROUP_CONCAT(d.Remarks) FROM dar_payment_link c, payment_dtl d WHERE a.id = c.DARID AND d.PDTLID = c.PDTLID GROUP BY c.DARID';
-        $query = $this->db->select("a.id AS SOAID, a.soaNumber, (".$amount.") AS Amount, (".$paid.") AS AmountPaid, (".$ORNo.") AS ORNo, (".$ORDate.") AS ORDate, (".$CheckNo.") AS CheckNo, (".$RefNo.") AS RefNo")->from('dmpi_dar_hdrs a')->like('a.soaNumber', $soa)->get();
-        return $query->result() ? $query->result() : false;
+    public function get_dar_hdr($soa, $type){
+        if($type == 'Summary'){
+            $amount = 'SELECT SUM(b.totalAmt) FROM dmpi_dar_dtls b WHERE a.id = b.hdr_id GROUP BY b.hdr_id';
+            $paid = 'SELECT SUM(c.Amount) FROM dar_payment_link c WHERE a.id = c.DARID GROUP BY c.DARID';
+            $ORNo = 'SELECT GROUP_CONCAT(d.ORNo) FROM dar_payment_link c, payment_dtl d WHERE a.id = c.DARID AND d.PDTLID = c.PDTLID GROUP BY c.DARID';
+            $ORDate = 'SELECT GROUP_CONCAT(d.PayDate) FROM dar_payment_link c, payment_dtl d WHERE a.id = c.DARID AND d.PDTLID = c.PDTLID GROUP BY c.DARID';
+            $CheckNo = 'SELECT GROUP_CONCAT(d.CardNo) FROM dar_payment_link c, payment_dtl d WHERE a.id = c.DARID AND d.PDTLID = c.PDTLID GROUP BY c.DARID';
+            $RefNo = 'SELECT GROUP_CONCAT(d.Remarks) FROM dar_payment_link c, payment_dtl d WHERE a.id = c.DARID AND d.PDTLID = c.PDTLID GROUP BY c.DARID';
+            $query = $this->db->select("a.id AS SOAID, a.soaNumber, (".$amount.") AS Amount, (".$paid.") AS AmountPaid, (".$ORNo.") AS ORNo, (".$ORDate.") AS ORDate, (".$CheckNo.") AS CheckNo, (".$RefNo.") AS RefNo")->from('dmpi_dar_hdrs a')->like('a.soaNumber', $soa)->get();
+            return $query->result() ? $query->result() : false;    
+        }else{
+            $query = $this->db->select("*")->from('dmpi_dar_hdrs a')->join('dar_payment_link b', 'a.id = b.DARID', 'left')->join('payment_dtl c', 'c.PDTLID = b.PDTLID', 'left')->like('a.soaNumber', $soa)->get();
+            return $query->result() ? $query->result() : false;
+        }
+        
     }
 
     public function get_sar_hdr($soa){
@@ -248,7 +254,6 @@ Class Payment_Model extends CI_Model {
 
     public function delete_dtl($id, $client){
         if($client == 'DAR'){
-            var_dump($client);
             $this->db->where('PDTLID', $id)->delete('dar_payment_link');
         }elseif($client == 'SAR'){
             $this->db->where('PDTLID', $id)->delete('sar_payment_link');
@@ -258,6 +263,24 @@ Class Payment_Model extends CI_Model {
             return true;
         }else{
             return false;
+        }
+    }
+
+    public function save_overpayment($data){
+        $query = $this->db->select('id, soaNumber')->from('dmpi_dar_hdrs')->where('soaNumber', $data['soaNumber'])->get()->result();
+        if(!$query){return ['id'=> 0, 'error' => true];}
+        else{
+            $array = [
+                'DARID' => $query[0]->id,
+                'Amount' => $data['Amount'],
+                'referenceNo' => $data['refNo']
+            ];
+            $this->db->insert('dar_payment_link', $array);
+            if($this->db->insert_id()){
+                return true;
+            }else{
+                return false;
+            }
         }
     }
 }

@@ -1051,40 +1051,48 @@ function DMPIDARCtrl($scope, $ocLazyLoad, $injector, $q, filter) {
                 $(window).scrollTop($('#scrollTop').offset().top);
                 return vm.transmittalExist = true;
             } else {
+                vm.soaCheck = 0;
                 DMPIDARSvc.save(data).then(function (response) {
-                    if (response.success) {
-                        if (response.id) {
-                            vm.variables.id = response.id;
+                    if(response.error){
+                        vm.soaIsLoading = false;
+                        vm.soaCheck = 1;
+                        $(window).scrollTop($('#scrollTop').offset().top);
+                        LOADING.classList.remove("open");
+                    }else{
+                        if (response.success) {
+                            if (response.id) {
+                                vm.variables.id = response.id;
+                            }
+                            if (vm.variables.nonBatch == 1 && vm.saveChoice == 1) {
+                                vm.saveDetails(vm.variables.id);
+                            }
+                            if (vm.variables.nonBatch == 0) {
+                                vm.saveBatches(vm.variables.id);
+                            }
+                            if (vm.saveChoice == 2 && vm.variables.nonBatch == 1) {
+                                LOADING.classList.remove("open");
+                            }
+                            if (vm.saveChoice == 3 && vm.variables.nonBatch == 1) {
+                                LOADING.classList.remove("open");
+                            }
+                            AppSvc.showSwal('Success', response.message, 'success');
+                        } else {
+                            if (vm.variables.nonBatch == 1 && vm.saveChoice == 1) {
+                                vm.saveDetails(vm.variables.id);
+                            }
+                            if (vm.variables.nonBatch == 0) {
+                                vm.saveBatches(vm.variables.id);
+                            }
+                            if (vm.saveChoice == 2 && vm.variables.nonBatch == 1) {
+                                LOADING.classList.remove("open");
+                            }
+                            if (vm.saveChoice == 3 && vm.variables.nonBatch == 1) {
+                                LOADING.classList.remove("open");
+                            }
+                            AppSvc.showSwal('Confirmation', 'Nothing to Update', 'warning');
                         }
-                        if (vm.variables.nonBatch == 1 && vm.saveChoice == 1) {
-                            vm.saveDetails(vm.variables.id);
-                        }
-                        if (vm.variables.nonBatch == 0) {
-                            vm.saveBatches(vm.variables.id);
-                        }
-                        if (vm.saveChoice == 2 && vm.variables.nonBatch == 1) {
-                            LOADING.classList.remove("open");
-                        }
-                        if (vm.saveChoice == 3 && vm.variables.nonBatch == 1) {
-                            LOADING.classList.remove("open");
-                        }
-                        AppSvc.showSwal('Success', response.message, 'success');
-                    } else {
-                        if (vm.variables.nonBatch == 1 && vm.saveChoice == 1) {
-                            vm.saveDetails(vm.variables.id);
-                        }
-                        if (vm.variables.nonBatch == 0) {
-                            vm.saveBatches(vm.variables.id);
-                        }
-                        if (vm.saveChoice == 2 && vm.variables.nonBatch == 1) {
-                            LOADING.classList.remove("open");
-                        }
-                        if (vm.saveChoice == 3 && vm.variables.nonBatch == 1) {
-                            LOADING.classList.remove("open");
-                        }
-                        AppSvc.showSwal('Confirmation', 'Nothing to Update', 'warning');
+                        vm.calculateTotalAmt();
                     }
-                    vm.calculateTotalAmt();
                 })
             }
         })

@@ -29,12 +29,29 @@
                     </label>
                     <input type="text" class="form-control form-control-sm" ng-model="modal.search" required>
                 </div>
+                <div class="col-md-3">
+                    <label>
+                        <strong>Type</strong>
+                    </label>
+                    <select class="form-control form-control-sm" ng-model="modal.variables.Type" required>
+                        <option></option>
+                        <option>Summary</option>
+                        <option>Detailed</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row" ng-if="modal.variables.Type === 'Summary'">
+                <div class="col-md-12">
+                    <div style="height: 350px;" ui-grid="modal.defaultGrid" ui-grid-selection ui-grid-resize-columns>
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-if="modal.variables.Type === 'Detailed'">
+                <div class="col-md-12">
+                    <div style="height: 350px;" ui-grid="modal.detailedGrid" ui-grid-selection ui-grid-resize-columns>
+                    </div>
+                </div>
             </div>
         </form>
-        <div class="row">
-            <div class="col-md-12">
-                <div style="height: 350px;" ui-grid="modal.defaultGrid" ui-grid-selection ui-grid-resize-columns></div>
-            </div>
-        </div>
     </div>
 </div>
