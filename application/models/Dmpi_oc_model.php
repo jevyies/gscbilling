@@ -671,7 +671,7 @@ Class DMPI_OC_Model extends CI_Model {
         $CONSTRUCTIONAmount = 'SELECT b.billed_amount FROM tblconstructionpayment b WHERE b.hdr_idLink= a.soaID LIMIT 1';
         $CONSTRUCTIONCollectionDate = 'SELECT b.check_date FROM tblconstructionpayment b WHERE b.hdr_idLink= a.soaID ORDER BY b.check_date DESC LIMIT 1';
         $CONSTRUCTIONORNo = 'SELECT b.orNumber FROM tblconstructionpayment b WHERE b.hdr_idLink= a.soaID ORDER BY b.check_date DESC LIMIT 1';
-        $CONSTRUCTIONCollection = 'SELECT SUM(b.paidAmount) FROM tblconstructionpayment b WHERE b.hdr_idLink= a.soaID GROUP BY b.hdr_idLink'; 
+        $CONSTRUCTIONCollection = 'SELECT SUM(b.check_amount) FROM tblconstructionpayment b WHERE b.hdr_idLink= a.soaID GROUP BY b.hdr_idLink'; 
         $CONSTRUCTIONQuery = "SELECT 'CARPENTRY' AS Category, 
         'CONSTRUCTION' AS ClientName, 
         CONVERT(a.date_transmitted USING utf8) AS DateTransmitted,

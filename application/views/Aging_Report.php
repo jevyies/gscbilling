@@ -93,6 +93,7 @@
                 </tr>
             </thead>
             <tbody>
+                <?php if(isset($record)): ?>
                 <?php foreach($records as $record): ?>
                 <?php $outstanding = $record->SOAAmount - $record->Collection; ?>
                 <tr style="border:1px solid black;">
@@ -134,6 +135,7 @@
                     <?php endif; ?>
                 </tr>
                 <?php endforeach;?>
+                <?php endif;?>
             </tbody>
         </table>
         <!-- footer -->
