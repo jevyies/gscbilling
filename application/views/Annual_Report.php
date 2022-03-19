@@ -82,7 +82,7 @@
             <tbody>
                 <?php foreach($records as $record): ?>
                     <tr>
-                        <?php $percent = ($record->Net/$record->Billing)*100; ?>
+                        <?php $percent = (($record->Billing - $record->Gross)/$record->Billing)*100; ?>
                         <td><?php echo $record->Date; ?></td>
                         <td style="text-align:center;"><?php echo $record->HeadCount; ?></td>
                         <td style="text-align:right;"><?php echo number_format($record->Gross, 2, '.', ','); ?></td>

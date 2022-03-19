@@ -1392,11 +1392,16 @@ Class DMPI_OC_Model extends CI_Model {
             $query_end = date('Y-m-15', $start);
             
             $Payroll = $db2->query(
-                "SELECT COUNT(EmpIDLink) AS HeadCount, SUM(GrossPay) AS Gross, SUM(NetPay) AS Net FROM tblpaysliphdr WHERE PayMonthYear = '".$payroll_month."' AND PayPeriod = '".$dmpi_period."' GROUP BY PayMonthYear, PayPeriod"
+                "SELECT SUM(GrossPay) AS Gross, SUM(NetPay) AS Net FROM tblpaysliphdr WHERE PayMonthYear = '".$payroll_month."' AND PayPeriod = '".$dmpi_period."' GROUP BY PayMonthYear, PayPeriod"
             )->row();
-            $array['HeadCount'] = $Payroll->HeadCount;
+
             $array['Gross'] = $Payroll->Gross;
             $array['Net'] = $Payroll->Net;
+
+            $hcount = $db2->query(
+                "SELECT COUNT(DISTINCT(EmpIDLink)) AS HeadCount FROM tblpayroll_expanded WHERE PayMonthYear = '".$payroll_month."' AND PayPeriod = '".$dmpi_period."' GROUP BY PayMonthYear, PayPeriod"
+            )->row();
+            $array['HeadCount'] = $hcount->HeadCount;
 
             $Billing = $this->db->query("
                 SELECT SUM(total) AS Billing FROM 
@@ -1421,11 +1426,15 @@ Class DMPI_OC_Model extends CI_Model {
             $query_start = date('Y-m-16', $start);
             $query_end = date('Y-m-t', $start);
             $Payroll = $db2->query(
-                "SELECT COUNT(EmpIDLink) AS HeadCount, SUM(GrossPay) AS Gross, SUM(NetPay) AS Net FROM tblpaysliphdr WHERE PayMonthYear = '".$payroll_month."' AND PayPeriod = '".$dmpi_period."' GROUP BY PayMonthYear, PayPeriod"
+                "SELECT SUM(GrossPay) AS Gross, SUM(NetPay) AS Net FROM tblpaysliphdr WHERE PayMonthYear = '".$payroll_month."' AND PayPeriod = '".$dmpi_period."' GROUP BY PayMonthYear, PayPeriod"
             )->row();
-            $array['HeadCount'] = $Payroll->HeadCount;
             $array['Gross'] = $Payroll->Gross;
             $array['Net'] = $Payroll->Net;
+
+            $hcount = $db2->query(
+                "SELECT COUNT(DISTINCT(EmpIDLink)) AS HeadCount FROM tblpayroll_expanded WHERE PayMonthYear = '".$payroll_month."' AND PayPeriod = '".$dmpi_period."' GROUP BY PayMonthYear, PayPeriod"
+            )->row();
+            $array['HeadCount'] = $hcount->HeadCount;
 
             $Billing = $this->db->query("
                 SELECT SUM(total) AS Billing FROM 

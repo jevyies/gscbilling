@@ -93,48 +93,48 @@
                 </tr>
             </thead>
             <tbody>
-                <?php if(isset($record)): ?>
-                <?php foreach($records as $record): ?>
-                <?php $outstanding = $record->SOAAmount - $record->Collection; ?>
-                <tr style="border:1px solid black;">
-                    <td><?php echo $record->Category; ?></td>
-                    <td><?php echo $record->ClientName; ?></td>
-                    <td style="text-align:right;"><?php echo date('m/d/Y', strtotime($record->DateTransmitted)); ?></td>
-                    <td style="text-align:right;"><?php echo date('m/d/Y', strtotime($record->SoaDate)); ?></td>
-                    <td><?php echo $record->SOANo; ?></td>
-                    <td style="text-align:right;"><?php echo number_format($record->SOAAmount, 2, '.', ','); ?></td>
-                    <td style="text-align:right;"><?php echo number_format($record->Collection, 2, '.', ','); ?></td>
-                    <td style="text-align:center;"><?php echo $record->ORNo; ?></td>
-                    <td style="text-align:right;"><?php echo $record->CollectionDate ? date('m/d/Y', strtotime($record->CollectionDate)) : ''; ?></td>
-                    <td style="text-align:right;"><?php echo number_format($outstanding, 2, '.', ','); ?></td>
-                    <?php if($record->Outstanding < 31): ?>
-                        <td style="text-align:right;"><?php echo round($outstanding, 2) <= 0 ? '' : number_format($outstanding, 2, '.', ','); ?></td>
-                    <?php else: ?>
-                        <td style="text-align:right;"></td>
-                    <?php endif; ?>
-                    <td style="text-align:center;"><?php echo round($outstanding, 2) <= 0 ? '' : $record->Outstanding; ?></td>
-                    <?php if($record->Outstanding > 31 and $record->Outstanding <= 60): ?>
-                        <td style="text-align:right;"><?php echo round($outstanding, 2) <= 0 ? '' : number_format($outstanding, 2, '.', ','); ?></td>
-                    <?php else: ?>
-                        <td style="text-align:right;"></td>
-                    <?php endif; ?>
-                    <?php if($record->Outstanding > 61 and $record->Outstanding <= 90): ?>
-                        <td style="text-align:right;"><?php echo round($outstanding, 2) <= 0 ? '' : number_format($outstanding, 2, '.', ','); ?></td>
-                    <?php else: ?>
-                        <td style="text-align:right;"></td>
-                    <?php endif; ?>
-                    <?php if($record->Outstanding > 91 and $record->Outstanding <= 150): ?>
-                        <td style="text-align:right;"><?php echo round($outstanding, 2) <= 0 ? '' : number_format($outstanding, 2, '.', ','); ?></td>
-                    <?php else: ?>
-                        <td style="text-align:right;"></td>
-                    <?php endif; ?>
-                    <?php if($record->Outstanding > 150): ?>
-                        <td style="text-align:right;"><?php echo round($outstanding, 2) <= 0 ? '' : number_format($outstanding, 2, '.', ','); ?></td>
-                    <?php else: ?>
-                        <td style="text-align:right;"></td>
-                    <?php endif; ?>
-                </tr>
-                <?php endforeach;?>
+                <?php if($records && count($records) > 0): ?>
+                    <?php foreach($records as $record): ?>
+                    <?php $outstanding = $record->SOAAmount - $record->Collection; ?>
+                    <tr style="border:1px solid black;">
+                        <td><?php echo $record->Category; ?></td>
+                        <td><?php echo $record->ClientName; ?></td>
+                        <td style="text-align:right;"><?php echo date('m/d/Y', strtotime($record->DateTransmitted)); ?></td>
+                        <td style="text-align:right;"><?php echo date('m/d/Y', strtotime($record->SoaDate)); ?></td>
+                        <td><?php echo $record->SOANo; ?></td>
+                        <td style="text-align:right;"><?php echo number_format($record->SOAAmount, 2, '.', ','); ?></td>
+                        <td style="text-align:right;"><?php echo number_format($record->Collection, 2, '.', ','); ?></td>
+                        <td style="text-align:center;"><?php echo $record->ORNo; ?></td>
+                        <td style="text-align:right;"><?php echo $record->CollectionDate ? date('m/d/Y', strtotime($record->CollectionDate)) : ''; ?></td>
+                        <td style="text-align:right;"><?php echo number_format($outstanding, 2, '.', ','); ?></td>
+                        <?php if($record->Outstanding < 31): ?>
+                            <td style="text-align:right;"><?php echo round($outstanding, 2) <= 0 ? '' : number_format($outstanding, 2, '.', ','); ?></td>
+                        <?php else: ?>
+                            <td style="text-align:right;"></td>
+                        <?php endif; ?>
+                        <td style="text-align:center;"><?php echo round($outstanding, 2) <= 0 ? '' : $record->Outstanding; ?></td>
+                        <?php if($record->Outstanding > 31 and $record->Outstanding <= 60): ?>
+                            <td style="text-align:right;"><?php echo round($outstanding, 2) <= 0 ? '' : number_format($outstanding, 2, '.', ','); ?></td>
+                        <?php else: ?>
+                            <td style="text-align:right;"></td>
+                        <?php endif; ?>
+                        <?php if($record->Outstanding > 61 and $record->Outstanding <= 90): ?>
+                            <td style="text-align:right;"><?php echo round($outstanding, 2) <= 0 ? '' : number_format($outstanding, 2, '.', ','); ?></td>
+                        <?php else: ?>
+                            <td style="text-align:right;"></td>
+                        <?php endif; ?>
+                        <?php if($record->Outstanding > 91 and $record->Outstanding <= 150): ?>
+                            <td style="text-align:right;"><?php echo round($outstanding, 2) <= 0 ? '' : number_format($outstanding, 2, '.', ','); ?></td>
+                        <?php else: ?>
+                            <td style="text-align:right;"></td>
+                        <?php endif; ?>
+                        <?php if($record->Outstanding > 150): ?>
+                            <td style="text-align:right;"><?php echo round($outstanding, 2) <= 0 ? '' : number_format($outstanding, 2, '.', ','); ?></td>
+                        <?php else: ?>
+                            <td style="text-align:right;"></td>
+                        <?php endif; ?>
+                    </tr>
+                    <?php endforeach;?>
                 <?php endif;?>
             </tbody>
         </table>
