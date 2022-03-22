@@ -1412,7 +1412,7 @@ Class DMPI_OC_Model extends CI_Model {
                     UNION ALL
                     (SELECT SUM(TotalAmount) AS total FROM v_totalamountallowance WHERE Period = '".$dmpi_start."-".$dmpi_period."')
                     UNION ALL
-                    (SELECT SUM(TotalAmount) AS total FROM v_totalamountincentives WHERE AND SOADate BETWEEN '".$query_start."' AND '".$query_end."')
+                    (SELECT SUM(TotalAmount) AS total FROM v_totalamountincentives WHERE SOADate BETWEEN '".$query_start."' AND '".$query_end."')
                     UNION ALL
                     (SELECT SUM(b.amount_billed + ((a.admin_percentage/b.amount_billed) * 100)) AS total FROM tbloc_labnotinhdr a, tbloc_labnotindtl b WHERE a.TOCLHDR = b.hdr_id AND a.period = '".$dmpi_start.$dmpi_period."')
                 ) AS TotalDMPI
@@ -1445,7 +1445,7 @@ Class DMPI_OC_Model extends CI_Model {
                     UNION ALL
                     (SELECT SUM(TotalAmount) AS total FROM v_totalamountallowance WHERE Period = '".$dmpi_start."-".$dmpi_period."')
                     UNION ALL
-                    (SELECT SUM(TotalAmount) AS total FROM v_totalamountincentives WHERE AND SOADate BETWEEN '".$query_start."' AND '".$query_end."')
+                    (SELECT SUM(TotalAmount) AS total FROM v_totalamountincentives WHERE SOADate BETWEEN '".$query_start."' AND '".$query_end."')
                     UNION ALL
                     (SELECT SUM(b.amount_billed + ((a.admin_percentage/b.amount_billed) * 100)) AS total FROM tbloc_labnotinhdr a, tbloc_labnotindtl b WHERE a.TOCLHDR = b.hdr_id AND a.period = '".$dmpi_start.$dmpi_period."')
                 ) AS TotalDMPI

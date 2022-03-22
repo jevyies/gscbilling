@@ -23,12 +23,12 @@ Class OC_CB_Model extends CI_Model {
     }
 
     public function get_rates($id){
-        $query = $this->db->select('*')->from('clubhouse_rate_masters')->where('activityID', $id)->get();
+        $query = $this->db->select('*')->from('clubhouse_rate_masters')->where('activityID', $id)->where('status', 'active')->limit(1)->get();
         return $query->result() ? $query->result() : false;
     }
 
     public function get_rates_selected($id){
-        $query = $this->db->query("SELECT * FROM clubhouse_rate_masters WHERE activityID IN(SELECT activity_id FROM tbloc_cbdtl WHERE hdr_id = " . $id . " GROUP BY activity_id) ORDER BY activity_fr_mg");
+        $query = $this->db->query("SELECT * FROM clubhouse_rate_masters WHERE id IN(SELECT activity_id FROM tbloc_cbdtl WHERE hdr_id = " . $id . " GROUP BY activity_id) ORDER BY activity_fr_mg");
         return $query->result() ? $query->result() : false;
     }
 
@@ -45,7 +45,7 @@ Class OC_CB_Model extends CI_Model {
         $this->db->from("tbloc_cbhdr h, tbloc_cbdtl d, clubhouse_rate_masters r");
         $this->db->where("h.TOCSHDR", $id);
         $this->db->where("h.TOCSHDR = d.hdr_id");
-        $this->db->where("d.activity_id = r.activityID");
+        $this->db->where("d.activity_id = r.id");
         $this->db->order_by("d.Activity", "asc");
         $this->db->order_by("d.Name", "asc");
         $query = $this->db->get();

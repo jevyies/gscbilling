@@ -23,12 +23,12 @@ Class OC_Construction_Model extends CI_Model {
     }
 
     public function get_rates($id){
-        $query = $this->db->select('*')->from('construction_rate_masters')->where('activityID', $id)->get();
+        $query = $this->db->select('*')->from('construction_rate_masters')->where('activityID', $id)->where('status', 'active')->limit(1)->get();
         return $query->result() ? $query->result() : false;
     }
 
     public function get_rates_selected($id){
-        $query = $this->db->query("SELECT * FROM construction_rate_masters WHERE `status` = 'active' AND activityID IN(SELECT activity_id FROM tbloc_constructiondtl WHERE hdr_id = " . $id . " GROUP BY activity_id) ORDER BY activity_fr_mg");
+        $query = $this->db->query("SELECT * FROM construction_rate_masters WHERE id IN(SELECT activity_id FROM tbloc_constructiondtl WHERE hdr_id = " . $id . " GROUP BY activity_id) ORDER BY activity_fr_mg");
         return $query->result() ? $query->result() : false;
     }
 
@@ -56,7 +56,7 @@ Class OC_Construction_Model extends CI_Model {
         $this->db->from("tbloc_constructionhdr h, tbloc_constructiondtl d, construction_rate_masters r");
         $this->db->where("h.TOCSHDR", $id);
         $this->db->where("h.TOCSHDR = d.hdr_id");
-        $this->db->where("d.activity_id = r.activityID");
+        $this->db->where("d.activity_id = r.id");
         $this->db->where("r.status", "active");
         $this->db->order_by("d.Activity", "asc");
         $this->db->order_by("d.Name", "asc");

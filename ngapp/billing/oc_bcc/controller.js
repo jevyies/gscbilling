@@ -506,9 +506,9 @@ function OCBCCDtlCtrl($scope, $ocLazyLoad, $injector, data, $uibModalInstance) {
             if (data) {
                 LOADING.classList.add("open");
                 modal.variables.Activity = data.activity;
-                modal.variables.activity_id = data.id;
                 OCBccSvc.get({ getRates: true, activity_id: data.id }).then(function(response) {
                     if (!response.message) {
+                        modal.variables.activity_id = response[0].id;
                         modal.rates = angular.copy(response[0]);
                     } else {
                         modal.rates = {};
