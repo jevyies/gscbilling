@@ -1561,7 +1561,7 @@ function DMPIDARHeaderCtrl($scope, $ocLazyLoad, $injector, data, $uibModalInstan
     });
     modal.displayPMY = function () {
         var dateNow = new Date();
-        modal.variables.month = new Date();
+        // modal.variables.month = new Date();
         if (dateNow.getDate() < 16) {
             modal.variables.period = 1;
         } else {
