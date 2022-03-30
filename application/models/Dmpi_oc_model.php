@@ -985,6 +985,12 @@ Class DMPI_OC_Model extends CI_Model {
         $return_array = [];
         $start = strtotime($from);
         $end = strtotime($to);
+        if($type == 1){
+            $query = $this->db->select("SUM(b.c_totalAmt) AS total")->from('dmpi_dar_dtls b, dmpi_dar_hdrs a')->where('a.id = b.hdr_id')->where('a.status = "PRINTED TRANSMITTAL"')->where('a.DMPIReceivedDate BETWEEN "'.date('Y-m-1', $start).'" AND "'.date('Y-m-15', $start).'"')->get()->result();
+            if($query){
+                return true;
+            }
+        }
         while($start <= $end)
         {
             $month = date('Ym', $start);
@@ -997,7 +1003,7 @@ Class DMPI_OC_Model extends CI_Model {
             $volumebase = 0;
             $head_base_collection = array();
             // DAR QUERY
-            $total_query1 = $this->db->select("SUM(b.c_totalAmt) AS total")->from('dmpi_dar_dtls b, dmpi_dar_hdrs a')->where('a.id = b.hdr_id')->where('pmy',$month)->where('period', '1')->get()->result();
+            $total_query1 = $this->db->select("SUM(b.c_totalAmt) AS total")->from('dmpi_dar_dtls b, dmpi_dar_hdrs a')->where('a.id = b.hdr_id')->where('a.status = "PRINTED TRANSMITTAL"')->where('a.DMPIReceivedDate BETWEEN "'.$start_between.'" AND "'.$end_between.'"')->get()->result();
             $headbase += $total_query1[0]->total;
 
             $collect_query1 = $this->db
@@ -1137,7 +1143,7 @@ Class DMPI_OC_Model extends CI_Model {
             }
 
             //SAR QUERY 
-            $total_query1 = $this->db->select("SUM(b.amount) AS total")->from('dmpi_sar_dtls b, dmpi_sars a')->where('a.id = b.hdr_id')->where("a.periodCoveredFrom BETWEEN '".$start_between."' AND '".$end_between."'")->get()->result();
+            $total_query1 = $this->db->select("SUM(b.amount) AS total")->from('dmpi_sar_dtls b, dmpi_sars a')->where('a.id = b.hdr_id')->where("a.docDate BETWEEN '".$start_between."' AND '".$end_between."'")->where('a.status = "transmitted"')->get()->result();
             $volumebase += $total_query1[0]->total;
 
             $push_array = ['Period' => strtoupper(date('M 1-15', $start)), 'hbc' => $head_base_collection, 'headbase' => $headbase, 'volumebase' => $volumebase, 'vbc' => array()];
@@ -1151,7 +1157,7 @@ Class DMPI_OC_Model extends CI_Model {
             $headbase = 0;
             $head_base_collection = array();
             // DAR QUERY
-            $total_query2 = $this->db->select("SUM(b.c_totalAmt) AS total")->from('dmpi_dar_dtls b, dmpi_dar_hdrs a')->where('a.id = b.hdr_id')->where('pmy',$month)->where('period', '2')->get()->result();
+            $total_query2 = $this->db->select("SUM(b.c_totalAmt) AS total")->from('dmpi_dar_dtls b, dmpi_dar_hdrs a')->where('a.id = b.hdr_id')->where('a.status = "PRINTED TRANSMITTAL"')->where('a.DMPIReceivedDate BETWEEN "'.$start_between.'" AND "'.$end_between.'"')->get()->result();
             $headbase += $total_query2[0]->total;
 
             $collect_query2 = $this->db
@@ -1291,7 +1297,7 @@ Class DMPI_OC_Model extends CI_Model {
             }
 
             // SAR QUERY 
-            $total_query1 = $this->db->select("SUM(b.amount) AS total")->from('dmpi_sar_dtls b, dmpi_sars a')->where('a.id = b.hdr_id')->where("a.periodCoveredFrom BETWEEN '".$start_between."' AND '".$end_between."'")->get()->result();
+            $total_query1 = $this->db->select("SUM(b.amount) AS total")->from('dmpi_sar_dtls b, dmpi_sars a')->where('a.id = b.hdr_id')->where("a.docDate BETWEEN '".$start_between."' AND '".$end_between."'")->where('a.status = "transmitted"')->get()->result();
             $volumebase += $total_query1[0]->total;
 
             $push_array = ['Period' => strtoupper(date('M 16-t', $start)), 'hbc' => $head_base_collection, 'headbase' => $headbase, 'volumebase' => $volumebase, 'vbc' => array()];
@@ -1406,9 +1412,9 @@ Class DMPI_OC_Model extends CI_Model {
             $Billing = $this->db->query("
                 SELECT SUM(total) AS Billing FROM 
                 (
-                    (SELECT SUM(b.totalAmt) AS total FROM dmpi_dar_hdrs a, dmpi_dar_dtls b WHERE a.id = b.hdr_id AND a.pmy = '".$dmpi_start."' AND a.period = '".$dmpi_period."')
+                    (SELECT SUM(b.totalAmt) AS total FROM dmpi_dar_hdrs a, dmpi_dar_dtls b WHERE a.id = b.hdr_id AND a.DMPIReceivedDate BETWEEN '".$query_start."' AND '".$query_end."' AND a.status = 'PRINTED TRANSMITTAL')
                     UNION ALL
-                    (SELECT SUM(b.amount) AS total FROM dmpi_sars a, dmpi_sar_dtls b WHERE a.id = b.hdr_id AND soaDate BETWEEN '".$query_start."' AND '".$query_end."')
+                    (SELECT SUM(b.amount) AS total FROM dmpi_sars a, dmpi_sar_dtls b WHERE a.id = b.hdr_id AND docDate BETWEEN '".$query_start."' AND '".$query_end."' AND a.status = 'transmitted')
                     UNION ALL
                     (SELECT SUM(TotalAmount) AS total FROM v_totalamountallowance WHERE Date BETWEEN '".$query_start."' AND '".$query_end."')
                     UNION ALL
@@ -1439,9 +1445,9 @@ Class DMPI_OC_Model extends CI_Model {
             $Billing = $this->db->query("
                 SELECT SUM(total) AS Billing FROM 
                 (
-                    (SELECT SUM(b.totalAmt) AS total FROM dmpi_dar_hdrs a, dmpi_dar_dtls b WHERE a.id = b.hdr_id AND a.pmy = '".$dmpi_start."' AND a.period = '".$dmpi_period."')
+                    (SELECT SUM(b.totalAmt) AS total FROM dmpi_dar_hdrs a, dmpi_dar_dtls b WHERE a.id = b.hdr_id AND a.DMPIReceivedDate BETWEEN '".$query_start."' AND '".$query_end."' AND a.status = 'PRINTED TRANSMITTAL')
                     UNION ALL
-                    (SELECT SUM(b.amount) AS total FROM dmpi_sars a, dmpi_sar_dtls b WHERE a.id = b.hdr_id AND soaDate BETWEEN '".$query_start."' AND '".$query_end."')
+                    (SELECT SUM(b.amount) AS total FROM dmpi_sars a, dmpi_sar_dtls b WHERE a.id = b.hdr_id AND docdate BETWEEN '".$query_start."' AND '".$query_end."' AND a.status = 'transmitted')
                     UNION ALL
                     (SELECT SUM(TotalAmount) AS total FROM v_totalamountallowance WHERE Date BETWEEN '".$query_start."' AND '".$query_end."')
                     UNION ALL
@@ -1545,7 +1551,7 @@ Class DMPI_OC_Model extends CI_Model {
         FROM dmpi_sars a, dmpi_sar_transmittal b
         WHERE a.status = "transmitted"
         AND a.transmittal_id = b.id
-        AND a.periodCoveredFrom BETWEEN "'.$from.'" AND "'.$to.'"';
+        AND a.docDate BETWEEN "'.$from.'" AND "'.$to.'"';
         // ALLOWANCE QUERY 
         $allowance_query = 'SELECT Date as DMPIReceivedDate, Date as soaDate, SOANo as soaNumber, TotalAmount AS TotalAmt, DATEDIFF(Date, date_transmitted) AS billing_period, "0000-00-00" as SupervisorDate, "0000-00-00" as ManagerDate, 0 AS total_processing, "0000-00-00" as date_finalize
         FROM v_totalamountallowance
