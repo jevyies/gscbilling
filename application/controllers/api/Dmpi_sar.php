@@ -241,6 +241,8 @@ class Dmpi_Sar extends REST_Controller {
                 'CheckedByPos' => $this->post('CheckedByPos') ? $this->post('CheckedByPos') : '',
                 'ApprovedBy' => $this->post('ApprovedBy') ? $this->post('ApprovedBy') : '',
                 'ApprovedByPos' => $this->post('ApprovedByPos') ? $this->post('ApprovedByPos') : '',
+                'NotedBy' => $this->post('NotedBy') ? $this->post('NotedBy') : '',
+                'NotedByPos' => $this->post('NotedByPos') ? $this->post('NotedByPos') : '',
             ];
             $result = $this->dmpi_sar_model->save_transmittal($data);
             if(gettype($result) ===  "array"){

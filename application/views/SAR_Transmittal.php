@@ -10,6 +10,8 @@ foreach($records as $record){
     $CheckedByPos = $record->CheckedByPos;
     $ApprovedBy = $record->ApprovedBy;
     $ApprovedByPos = $record->ApprovedByPos;
+    $NotedBy = $record->NotedBy;
+    $NotedByPos = $record->NotedByPos;
     $TransmittalNo = $record->TransmittalNo;
     $BillingStatement = $record->billing_statement;
     $period = $record->period;
@@ -272,6 +274,30 @@ foreach($records as $record){
             <tr>
                 <td style="border:none;">&nbsp;</td>
                 <td style="border:none;"><?php echo $ApprovedByPos; ?></td>
+            </tr>
+            <tr>
+                <td style="border:none;">&nbsp;</td>
+                <td style="border:none;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="border:none;">&nbsp;</td>
+                <td style="border:none;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="border:none;">NOTED BY:</td>
+                <td style="border:none;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="border:none;">&nbsp;</td>
+                <td style="border:none;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="border:none;">&nbsp;</td>
+                <td style="border:none;"><u><?php echo $NotedBy; ?></u></td>
+            </tr>
+            <tr>
+                <td style="border:none;">&nbsp;</td>
+                <td style="border:none;"><?php echo $NotedByPos; ?></td>
             </tr>
         </table>
     </body>

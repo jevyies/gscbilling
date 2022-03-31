@@ -495,6 +495,9 @@ function DMPISARTransmittalCtrl($scope, $ocLazyLoad, $injector, $q, filter) {
 				} else if (number == 3) {
 					vm.variables.ApprovedBy = data.fullname;
 					vm.variables.ApprovedByPos = data.position;
+				} else if (number == 4) {
+					vm.variables.NotedBy = data.fullname;
+					vm.variables.NotedByPos = data.position;
 				}
 			}
 		});
