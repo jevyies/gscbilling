@@ -74,6 +74,9 @@
                     <th style="padding:10px 5px;background-color:#7CFC00;width:70px;" rowspan="2">Client Name</th>
                     <th style="padding:10px 5px;background-color:#7CFC00;width:100px;" rowspan="2">Date Transmitted to Client</th>
                     <th style="padding:10px 5px;background-color:#7CFC00;width:100px;" rowspan="2">SOA Date</th>
+                    <?php if($category == "LABOR" && $client == "DMPI SAR"): ?>
+                    <th style="padding:10px 5px;background-color:#7CFC00;width:100px;" rowspan="2">Transmittal #</th>
+                    <?php endif; ?>
                     <th style="padding:10px 5px;background-color:#7CFC00;width:100px;" rowspan="2">SOA No.</th>
                     <th style="padding:10px 5px;background-color:#7CFC00;width:100px;" rowspan="2">SOA Amount</th>
                     <th style="padding:10px 5px;background-color:#7CFC00;width:100px;" rowspan="2">Collection</th>
@@ -101,6 +104,9 @@
                         <td><?php echo $record->ClientName; ?></td>
                         <td style="text-align:right;"><?php echo date('m/d/Y', strtotime($record->DateTransmitted)); ?></td>
                         <td style="text-align:right;"><?php echo date('m/d/Y', strtotime($record->SoaDate)); ?></td>
+                        <?php if($category == "LABOR" && $client == "DMPI SAR"): ?>
+                            <td style="text-align:center;"><?php echo $record->TransmittalNo; ?></td>
+                        <?php endif;?>
                         <td><?php echo $record->SOANo; ?></td>
                         <td style="text-align:right;"><?php echo number_format($record->SOAAmount, 2, '.', ','); ?></td>
                         <td style="text-align:right;"><?php echo number_format($record->Collection, 2, '.', ','); ?></td>

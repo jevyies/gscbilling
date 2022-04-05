@@ -332,6 +332,7 @@ Class DMPI_OC_Model extends CI_Model {
         ($DARCollection) AS Collection,
         ($DARCollectionDate) AS CollectionDate,
         ($DARORNo) AS ORNo,
+        '' AS TransmittalNo,
         DATEDIFF('".$data['aging']."', DMPIReceivedDate) AS Outstanding
         FROM dmpi_dar_hdrs a
         WHERE status = 'PRINTED TRANSMITTAL' AND soaDate BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
@@ -350,6 +351,7 @@ Class DMPI_OC_Model extends CI_Model {
         ($SARCollection) AS Collection,
         ($SARCollectionDate) AS CollectionDate,
         ($SARORNo) AS ORNo,
+        d.TransmittalNo,
         DATEDIFF('".$data['aging']."', d.date) AS Outstanding
         FROM dmpi_sars a, dmpi_sar_transmittal d
         WHERE status = 'transmitted' AND d.id = a.transmittal_id AND d.date BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
@@ -368,6 +370,7 @@ Class DMPI_OC_Model extends CI_Model {
         ($GolfCartCollection) AS Collection,
         ($GolfCartCollection) AS CollectionDate,
         ($GolfCartORNo) AS ORNo,
+        '' AS TransmittalNo,
         DATEDIFF('".$data['aging']."', trans_date) AS Outstanding
         FROM golf_cart_ledger a
         WHERE soaid_link > 0 AND trans_date BETWEEN '".$data['from']."' AND '".$data['to']."'
@@ -383,6 +386,7 @@ Class DMPI_OC_Model extends CI_Model {
         CollectedAmount AS Collection,
         CheckDate AS CollectionDate,
         ORNo,
+        '' AS TransmittalNo,
         DATEDIFF('".$data['aging']."', JVLDate) AS Outstanding
         FROM tbljeepvehicleloghdr a
         WHERE JVLDate BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
@@ -397,6 +401,7 @@ Class DMPI_OC_Model extends CI_Model {
         CollectedAmount AS Collection,
         CheckDate AS CollectionDate,
         CheckNumber AS ORNo,
+        '' AS TransmittalNo,
         DATEDIFF('".$data['aging']."', PHBVLDate) AS Outstanding
         FROM tblphbvehicleloghdr a
         WHERE PHBVLDate BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
@@ -411,6 +416,7 @@ Class DMPI_OC_Model extends CI_Model {
         CollectedAmount AS Collection,
         CheckDate AS CollectionDate,
         CheckNumber AS ORNo,
+        '' AS TransmittalNo,
         DATEDIFF('".$data['aging']."', OVLVLDate) AS Outstanding
         FROM tblovlvehicleloghdr a
         WHERE OVLVLDate BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
@@ -429,6 +435,7 @@ Class DMPI_OC_Model extends CI_Model {
         ($LiftruckCollection) AS Collection,
         ($LiftruckCollectionDate) AS CollectionDate,
         ($LiftruckORNo) AS ORNo,
+        '' AS TransmittalNo,
         DATEDIFF('".$data['aging']."', date) AS Outstanding
         FROM liftruck_rental a
         WHERE soaid_link > 0 AND date BETWEEN '".$data['from']."' AND '".$data['to']."'
@@ -448,6 +455,7 @@ Class DMPI_OC_Model extends CI_Model {
         ($WingVanCollection) AS Collection,
         ($WingVanCollectionDate) AS CollectionDate,
         ($WingVanORNo) AS ORNo,
+        '' AS TransmittalNo,
         DATEDIFF('".$data['aging']."', date) AS Outstanding
         FROM wingvan_requisition a
         WHERE soaid_link > 0 AND date BETWEEN '".$data['from']."' AND '".$data['to']."'
@@ -464,6 +472,7 @@ Class DMPI_OC_Model extends CI_Model {
         SUM(amount) AS Collection,
         payment_date AS CollectionDate,
         ORNo,
+        '' AS TransmittalNo,
         DATEDIFF('".$data['aging']."', trans_date) AS Outstanding
         FROM vanrental_collection a
         WHERE soa_id > 0 AND trans_date BETWEEN '".$data['from']."' AND '".$data['to']."'
@@ -483,6 +492,7 @@ Class DMPI_OC_Model extends CI_Model {
         ($BCCCollection) AS Collection,
         ($BCCCollectionDate) AS CollectionDate,
         ($BCCORNo) AS ORNo,
+        '' AS TransmittalNo,
         DATEDIFF('".$data['aging']."', a.date_transmitted) AS Outstanding
         FROM tbloc_bcchdr a 
         WHERE a.Status = 'TRANSMITTED' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
@@ -501,6 +511,7 @@ Class DMPI_OC_Model extends CI_Model {
         ($DEARBCCollection) AS Collection,
         ($DEARBCCollectionDate) AS CollectionDate,
         ($DEARBCORNo) AS ORNo,
+        '' AS TransmittalNo,
         DATEDIFF('".$data['aging']."', b.date_transmitted) AS Outstanding
         FROM tbloc_dearbchdr a, tbloc_dearbc b
         WHERE b.Status = 'TRANSMITTED' AND b.TOCDID = a.letter_id AND b.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
@@ -519,6 +530,7 @@ Class DMPI_OC_Model extends CI_Model {
         ($SLERSCollection) AS Collection,
         ($SLERSCollectionDate) AS CollectionDate,
         ($SLERSORNo) AS ORNo,
+        '' AS TransmittalNo,
         DATEDIFF('".$data['aging']."', a.date_transmitted) AS Outstanding
         FROM tbloc_slershdr a 
         WHERE a.Status = 'TRANSMITTED' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
@@ -537,6 +549,7 @@ Class DMPI_OC_Model extends CI_Model {
         ($LABNOTINCollection) AS Collection,
         ($LABNOTINCollectionDate) AS CollectionDate,
         ($LABNOTINORNo) AS ORNo,
+        '' AS TransmittalNo,
         DATEDIFF('".$data['aging']."', a.date_transmitted) AS Outstanding
         FROM tbloc_labnotinhdr a 
         WHERE a.Status = 'TRANSMITTED' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
@@ -555,6 +568,7 @@ Class DMPI_OC_Model extends CI_Model {
         ($CLUBHOUSECollection) AS Collection,
         ($CLUBHOUSECollectionDate) AS CollectionDate,
         ($CLUBHOUSEORNo) AS ORNo,
+        '' AS TransmittalNo,
         DATEDIFF('".$data['aging']."', a.date_transmitted) AS Outstanding
         FROM tbloc_cbhdr a 
         WHERE a.Status = 'TRANSMITTED' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
@@ -573,6 +587,7 @@ Class DMPI_OC_Model extends CI_Model {
         ($ALLOWANCECollection) AS Collection,
         ($ALLOWANCECollectionDate) AS CollectionDate,
         ($ALLOWANCEORNo) AS ORNo,
+        '' AS TransmittalNo,
         DATEDIFF('".$data['aging']."', a.date_transmitted) AS Outstanding
         FROM v_totalamountallowance a 
         WHERE a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
@@ -591,6 +606,7 @@ Class DMPI_OC_Model extends CI_Model {
         ($INCENTIVECollection) AS Collection,
         ($INCENTIVECollectionDate) AS CollectionDate,
         ($INCENTIVEORNo) AS ORNo,
+        '' AS TransmittalNo,
         DATEDIFF('".$data['aging']."', a.date_transmitted) AS Outstanding
         FROM v_totalamountincentives a 
         WHERE a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
@@ -609,6 +625,7 @@ Class DMPI_OC_Model extends CI_Model {
         ($PPECollection) AS Collection,
         ($PPECollectionDate) AS CollectionDate,
         ($PPEORNo) AS ORNo,
+        '' AS TransmittalNo,
         DATEDIFF('".$data['aging']."', a.date_transmitted) AS Outstanding
         FROM v_totalamountppe a 
         WHERE a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
@@ -627,6 +644,7 @@ Class DMPI_OC_Model extends CI_Model {
         ($FUELCollection) AS Collection,
         ($FUELCollectionDate) AS CollectionDate,
         ($FUELORNo) AS ORNo,
+        '' AS TransmittalNo,
         DATEDIFF('".$data['aging']."', a.date_transmitted) AS Outstanding
         FROM v_totalamountfuel a 
         WHERE a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
@@ -645,6 +663,7 @@ Class DMPI_OC_Model extends CI_Model {
         ($SUPPLIESCollection) AS Collection,
         ($SUPPLIESCollectionDate) AS CollectionDate,
         ($SUPPLIESORNo) AS ORNo,
+        '' AS TransmittalNo,
         DATEDIFF('".$data['aging']."', a.date_transmitted) AS Outstanding
         FROM v_totalamountsup a 
         WHERE a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
@@ -663,6 +682,7 @@ Class DMPI_OC_Model extends CI_Model {
         ($OTHERSCollection) AS Collection,
         ($OTHERSCollectionDate) AS CollectionDate,
         ($OTHERSORNo) AS ORNo,
+        '' AS TransmittalNo,
         DATEDIFF('".$data['aging']."', a.date_transmitted) AS Outstanding
         FROM v_totalamountothers a 
         WHERE a.Status = 'POSTED TO LEDGER' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";
@@ -681,6 +701,7 @@ Class DMPI_OC_Model extends CI_Model {
         ($CONSTRUCTIONCollection) AS Collection,
         ($CONSTRUCTIONCollectionDate) AS CollectionDate,
         ($CONSTRUCTIONORNo) AS ORNo,
+        '' AS TransmittalNo,
         DATEDIFF('".$data['aging']."', a.date_transmitted) AS Outstanding
         FROM tblsoa a 
         WHERE a.Status = 'TRANSMITTED' AND a.date_transmitted BETWEEN '".$data['from']."' AND '".$data['to']."'$limit";

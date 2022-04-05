@@ -333,6 +333,8 @@ class DMPI_OC extends REST_Controller
                     'records' => $this->dmpi_oc_model->get_aging($data, 2),
                     'from' => $this->get('from'),
                     'to' => $this->get('to'),
+                    'category' => $this->get('category') ? $this->get('category') : '',
+                    'client' => $this->get('client') ? $this->get('client') : '',
                 );
                 if($this->get('excel')){
                     $html = $this->load->view('Aging_Report', $records);
