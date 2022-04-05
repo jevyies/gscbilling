@@ -128,11 +128,11 @@ Class Jeep_Report_Model extends CI_Model {
     }
 
     public function get_operator_summary_report($data){
-        $fuel_adj = "SELECT SUM(b.amount) FROM tbljeepfueladjustment b WHERE a.TruckerIDLink = b.operatorID AND a.JeepIDLink = b.JeepIDLink";
-        $other_adj = "SELECT SUM(b.amount) FROM tbljeepotheradjustment b WHERE a.TruckerIDLink = b.operatorID AND a.JeepIDLink = b.JeepIDLink";
         if($data['type'] == 1){
+            $fuel_adj = "SELECT SUM(b.amount) FROM tbljeepfueladjustment b WHERE a.TruckerIDLink = b.operatorID AND a.JeepIDLink = b.JeepIDLink AND entry_date BETWEEN '".$data['from']."' AND '".$data['to']."'";
+            $other_adj = "SELECT SUM(b.amount) FROM tbljeepotheradjustment b WHERE a.TruckerIDLink = b.operatorID AND a.JeepIDLink = b.JeepIDLink AND entry_date BETWEEN '".$data['from']."' AND '".$data['to']."'";
             $query = $this->db
-            ->select('SUM(CWT) AS TotalCWT, SUM(CollectedAmount) AS TotalCollected, SUM(LessAdmin) As TotalAdmin,SUM(LessFuel) As TotalFuel, TruckerName, JeepPlateNo, ('.$fuel_adj.') AS FuelAdj, ('.$other_adj.') AS OtherAdj')
+            ->select('SUM(CWT) AS TotalCWT, SUM(CollectedAmount) AS TotalCollected, SUM(LessAdmin) As TotalAdmin, SUM(LessFuel) As TotalFuel, TruckerName, JeepPlateNo, ('.$fuel_adj.') AS FuelAdj, ('.$other_adj.') AS OtherAdj')
             ->from('tbljeepvehicleloghdr a')
             ->where("JVLDate BETWEEN '".$data['from']."' AND '".$data['to']."'")
             ->group_by('TruckerIDLink')
@@ -140,8 +140,10 @@ Class Jeep_Report_Model extends CI_Model {
             ->order_by('TruckerName', 'asc')
             ->get();
         }else if($data['type'] == 2){
+            $fuel_adj = "SELECT SUM(b.amount) FROM tbljeepfueladjustment b WHERE a.TruckerIDLink = b.operatorID AND a.JeepIDLink = b.JeepIDLink AND check_date <= '".$data['asof']."'";
+            $other_adj = "SELECT SUM(b.amount) FROM tbljeepotheradjustment b WHERE a.TruckerIDLink = b.operatorID AND a.JeepIDLink = b.JeepIDLink AND check_date <= '".$data['asof']."'";
             $query = $this->db
-            ->select('SUM(CWT) AS TotalCWT, SUM(CollectedAmount) AS TotalCollected, SUM(LessAdmin) As TotalAdmin,SUM(LessFuel) As TotalFuel, TruckerName, JeepPlateNo, ('.$fuel_adj.') AS FuelAdj, ('.$other_adj.') AS OtherAdj')
+            ->select('SUM(CWT) AS TotalCWT, SUM(CollectedAmount) AS TotalCollected, SUM(LessAdmin) As TotalAdmin, SUM(LessFuel) As TotalFuel, TruckerName, JeepPlateNo, ('.$fuel_adj.') AS FuelAdj, ('.$other_adj.') AS OtherAdj')
             ->from('tbljeepvehicleloghdr a')
             ->where("CheckDate <> '0000-00-00'")
             ->where("CheckDate <= '".$data['asof']."'")
@@ -150,8 +152,10 @@ Class Jeep_Report_Model extends CI_Model {
             ->order_by('TruckerName', 'asc')
             ->get();
         }else{
+            $fuel_adj = "SELECT SUM(b.amount) FROM tbljeepfueladjustment b WHERE a.TruckerIDLink = b.operatorID AND a.JeepIDLink = b.JeepIDLink AND check_date BETWEEN '".$data['from']."' AND '".$data['to']."'";
+            $other_adj = "SELECT SUM(b.amount) FROM tbljeepotheradjustment b WHERE a.TruckerIDLink = b.operatorID AND a.JeepIDLink = b.JeepIDLink AND check_date BETWEEN '".$data['from']."' AND '".$data['to']."'";
             $query = $this->db
-            ->select('SUM(CWT) AS TotalCWT, SUM(CollectedAmount) AS TotalCollected, SUM(LessAdmin) As TotalAdmin,SUM(LessFuel) As TotalFuel, TruckerName, JeepPlateNo, ('.$fuel_adj.') AS FuelAdj, ('.$other_adj.') AS OtherAdj')
+            ->select('SUM(CWT) AS TotalCWT, SUM(CollectedAmount) AS TotalCollected, SUM(LessAdmin) As TotalAdmin, SUM(LessFuel) As TotalFuel, TruckerName, JeepPlateNo, ('.$fuel_adj.') AS FuelAdj, ('.$other_adj.') AS OtherAdj')
             ->from('tbljeepvehicleloghdr a')
             ->where("CheckDate BETWEEN '".$data['from']."' AND '".$data['to']."'")
             ->group_by('TruckerIDLink')
@@ -163,8 +167,8 @@ Class Jeep_Report_Model extends CI_Model {
     }
 
     public function get_operator_summary_check_date($data){
-        $fuel_adj = "SELECT SUM(b.amount) FROM tbljeepfueladjustment b WHERE a.TruckerIDLink = b.operatorID AND a.JeepIDLink = b.JeepIDLink";
-        $other_adj = "SELECT SUM(b.amount) FROM tbljeepotheradjustment b WHERE a.TruckerIDLink = b.operatorID AND a.JeepIDLink = b.JeepIDLink";
+        $fuel_adj = "SELECT SUM(b.amount) FROM tbljeepfueladjustment b WHERE a.TruckerIDLink = b.operatorID AND a.JeepIDLink = b.JeepIDLink AND check_date BETWEEN '".$data['from']."' AND '".$data['to']."'";
+        $other_adj = "SELECT SUM(b.amount) FROM tbljeepotheradjustment b WHERE a.TruckerIDLink = b.operatorID AND a.JeepIDLink = b.JeepIDLink AND check_date BETWEEN '".$data['from']."' AND '".$data['to']."'";
         $result = array();
 
         $checks = $this->db
@@ -175,7 +179,7 @@ Class Jeep_Report_Model extends CI_Model {
         ->get()->result();
 
         $query = $this->db
-        ->select('TruckerIDLink, JeepIDLink, SUM(CWT) AS TotalCWT, SUM(LessAdmin) As TotalAdmin,SUM(LessFuel) As TotalFuel, TruckerName, JeepPlateNo, ('.$fuel_adj.') AS FuelAdj, ('.$other_adj.') AS OtherAdj')
+        ->select('TruckerIDLink, JeepIDLink, SUM(CWT) AS TotalCWT, SUM(LessAdmin) As TotalAdmin, SUM(LessFuel) As TotalFuel, TruckerName, JeepPlateNo, ('.$fuel_adj.') AS FuelAdj, ('.$other_adj.') AS OtherAdj')
         ->from('tbljeepvehicleloghdr a')
         ->where("CheckDate BETWEEN '".$data['from']."' AND '".$data['to']."'")
         ->group_by('TruckerIDLink')
