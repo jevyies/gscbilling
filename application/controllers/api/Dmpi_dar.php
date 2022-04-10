@@ -229,6 +229,8 @@ class Dmpi_Dar extends REST_Controller {
                 'leaveNoPayHrs' => $this->post('leaveNoPayHrs') ? $this->post('leaveNoPayHrs') : 0,
                 'rdst' => $this->post('rdst') ? $this->post('rdst') : 0,
                 'rdnd' => $this->post('rdnd') ? $this->post('rdnd') : 0,
+                'rdot' => $this->post('rdot') ? $this->post('rdot') : 0,
+                'rdndot' => $this->post('rdndot') ? $this->post('rdndot') : 0,
                 'totalst' => $this->post('c_totalst') ? $this->post('c_totalst') : 0,
                 'c_totalst' => $this->post('c_totalst') ? $this->post('c_totalst') : 0,
                 'totalnd' => $this->post('c_totalnd') ? $this->post('c_totalnd') : 0,

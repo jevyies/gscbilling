@@ -1129,6 +1129,8 @@ function DMPIDARCtrl($scope, $ocLazyLoad, $injector, $q, filter) {
         var data = angular.copy(vm.supervisorDetails);
         data.rdst = vm.supervisorDetails.rdst ? parseFloat(AppSvc.getAmount(vm.supervisorDetails.rdst)) : 0;
         data.rdnd = vm.supervisorDetails.rdnd ? parseFloat(AppSvc.getAmount(vm.supervisorDetails.rdnd)) : 0;
+        data.rdot = vm.supervisorDetails.rdot ? parseFloat(AppSvc.getAmount(vm.supervisorDetails.rdot)) : 0;
+        data.rdndot = vm.supervisorDetails.rdndot ? parseFloat(AppSvc.getAmount(vm.supervisorDetails.rdndot)) : 0;
         data.c_totalst = vm.supervisorDetails.c_totalst ? parseFloat(AppSvc.getAmount(vm.supervisorDetails.c_totalst)) : 0;
         data.c_totalnd = vm.supervisorDetails.c_totalnd ? parseFloat(AppSvc.getAmount(vm.supervisorDetails.c_totalnd)) : 0;
         data.leaveNoPayHrs = vm.supervisorDetails.leaveNoPayHrs ? parseFloat(AppSvc.getAmount(vm.supervisorDetails.leaveNoPayHrs)) : 0;
