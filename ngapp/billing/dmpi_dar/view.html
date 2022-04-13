@@ -459,7 +459,7 @@
                                 </div>
                             </div>
                             <div class="row bottom-margin">
-                                <div class="col-md-3 col-md-offset-3">
+                                <div class="col-md-3">
                                     <label>
                                         <strong>Total ND:</strong>
                                     </label>
@@ -467,11 +467,25 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label>
+                                        <strong>OT Hours Worked:</strong>
+                                    </label>
+                                    <input type="text" class="form-control form-control-sm toUpper" ng-model="vm.supervisorDetails.rdot">
+                                </div>
+                                <div class="col-md-3">
+                                    <label>
+                                        <strong>NDOT Hours Worked:</strong>
+                                    </label>
+                                    <input type="text" class="form-control form-control-sm toUpper" ng-model="vm.supervisorDetails.rdndot">
+                                </div>
+                                <div class="col-md-3">
+                                    <label>
                                         <strong>Total Leave w/out Pay:</strong>
                                     </label>
                                     <input type="text" ng-change="vm.calculateSupervisorDetails()" class="form-control form-control-sm toUpper" ng-model="vm.supervisorDetails.TotalLeave">
                                 </div>
-                                <div class="col-md-3">
+                            </div>
+                            <div class="row bottom-margin">
+                                <div class="col-md-3 col-md-offset-9">
                                     <label>
                                         <strong>Total Billing:</strong>
                                     </label>
