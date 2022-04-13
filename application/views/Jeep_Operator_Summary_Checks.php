@@ -206,17 +206,17 @@
 				<tr>
 					<td></td>
 					<td colspan="4" style="font-size:13px;"><strong>APPROVED BY:</strong></td>
-					<td colspan="4"></td>
+					<td colspan="4" style="font-size:13px;"><strong>NOTED BY:</strong></td>
 				</tr>
 				<tr>
 					<td></td>
 					<td colspan="4" style="padding:10px 5px 0;font-size:12px;"><strong style="border-bottom:1px solid black;"><?php echo strtoupper($ab); ?></strong></td>
-					<td colspan="4"></td>
+					<td colspan="4" style="padding:10px 5px 0;font-size:12px;"><strong style="border-bottom:1px solid black;"><?php echo strtoupper($nb); ?></strong></td>
 				</tr>
 				<tr>
 					<td></td>
 					<td colspan="4" style="padding:3px 5px 10px;font-size:12px;"><span style="border-top:1px solid black;"><?php echo $abp; ?> </td>
-					<td colspan="4"></td>
+					<td colspan="4" style="padding:3px 5px 10px;font-size:12px;"><span style="border-top:1px solid black;"><?php echo $nbp; ?></span></td>
 				</tr>
 			</table>
 			<?php else: ?>

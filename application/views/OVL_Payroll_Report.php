@@ -407,6 +407,17 @@
 											<td></td>
 											<td style="padding:3px 5px 10px;font-size:12px;"><span style="border-top:1px solid black;"><?php echo $abp; ?></span></td>
 										</tr>
+                                        <tr>
+											<td colspan="2" style="font-size:13px;"><strong>NOTED BY:</strong></td>
+										</tr>
+										<tr>
+											<td></td>
+											<td style="padding:20px 5px 0;font-size:12px;"><strong style="border-bottom:1px solid black;"><?php echo strtoupper($nb); ?></strong></td>
+										</tr>
+										<tr>
+											<td></td>
+											<td style="padding:3px 5px 10px;font-size:12px;"><span style="border-top:1px solid black;"><?php echo $nbp; ?></span></td>
+										</tr>
 									</table>
 								</td>
 							</tr>

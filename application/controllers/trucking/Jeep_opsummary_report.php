@@ -39,6 +39,8 @@ class Jeep_OpSummary_Report extends REST_Controller
             'cbp' => $this->get('cbp') ? $this->get('cbp') : '',
             'ab' => $this->get('ab') ? $this->get('ab') : '',
             'abp' => $this->get('abp') ? $this->get('abp') : '',
+            'nb' => $this->get('nb') ? $this->get('nb') : '',
+            'nbp' => $this->get('nbp') ? $this->get('nbp') : '',
         );
         if($data['type'] == 3){
             if($this->get('excel')){
