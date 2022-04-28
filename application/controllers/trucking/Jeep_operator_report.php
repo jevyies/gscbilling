@@ -38,6 +38,8 @@ class Jeep_Operator_Report extends REST_Controller
             'cbp' => $this->get('cbp') ? $this->get('cbp') : '',
             'ab' => $this->get('ab') ? $this->get('ab') : '',
             'abp' => $this->get('abp') ? $this->get('abp') : '',
+            'nb' => $this->get('nb') ? $this->get('nb') : '',
+            'nbp' => $this->get('nbp') ? $this->get('nbp') : '',
             'logs' => $this->jeep_report_model->get_logs($data)
             
         );

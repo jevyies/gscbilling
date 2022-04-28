@@ -36,6 +36,8 @@ class OVL_Payroll_Report extends REST_Controller
             'cbp' => $this->get('cbp') ? $this->get('cbp') : '',
             'ab' => $this->get('ab') ? $this->get('ab') : '',
             'abp' => $this->get('abp') ? $this->get('abp') : '',
+            'nb' => $this->get('nb') ? $this->get('nb') : '',
+            'nbp' => $this->get('nbp') ? $this->get('nbp') : '',
             'la' => $this->get('la') ? $this->get('la') : '',
             'fa' => $this->get('fa') ? $this->get('fa') : '',
             'oa' => $this->get('oa') ? $this->get('oa') : '',
