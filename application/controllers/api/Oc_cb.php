@@ -103,9 +103,13 @@ class OC_CB extends REST_Controller {
                 'Checked_by_desig' => $this->post('Checked_by_desig') ? $this->post('Checked_by_desig') : '',
                 'Approved_by' => $this->post('Approved_by') ? $this->post('Approved_by') : '',
                 'Approved_by_desig' => $this->post('Approved_by_desig') ? $this->post('Approved_by_desig') : '',
+                'Approved_by_2' => $this->post('Approved_by_2') ? $this->post('Approved_by_2') : '',
+                'Approved_by_2_desig' => $this->post('Approved_by_2_desig') ? $this->post('Approved_by_2_desig') : '',
+                'Approved_by_3' => $this->post('Approved_by_3') ? $this->post('Approved_by_3') : '',
+                'Approved_by_3_desig' => $this->post('Approved_by_3_desig') ? $this->post('Approved_by_3_desig') : '',
             ];
             $result = $this->oc_cb_model->save_header($data);
-            if($result['id']){
+            if(isset($result['id'])){
                 $result = array(
                     'success' => true,
                     'id' => $result['id'],

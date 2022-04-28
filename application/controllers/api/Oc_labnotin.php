@@ -90,11 +90,13 @@ class OC_Labnotin extends REST_Controller {
                 'Approved_by_desig' => $this->post('Approved_by_desig') ? $this->post('Approved_by_desig') : '',
                 'Approved_by_2' => $this->post('Approved_by_2') ? $this->post('Approved_by_2') : '',
                 'Approved_by_2_desig' => $this->post('Approved_by_2_desig') ? $this->post('Approved_by_2_desig') : '',
+                'Approved_by_3' => $this->post('Approved_by_3') ? $this->post('Approved_by_3') : '',
+                'Approved_by_3_desig' => $this->post('Approved_by_3_desig') ? $this->post('Approved_by_3_desig') : '',
                 'cut_off_month' => $this->post('cut_off_month') ? $this->post('cut_off_month') : '',
                 'cut_off_year' => $this->post('cut_off_year') ? $this->post('cut_off_year') : ''
             ];
             $result = $this->oc_labnotin_model->save_header($data);
-            if($result['id']){
+            if(isset($result['id'])){
                 $result = array(
                     'success' => true,
                     'id' => $result['id'],

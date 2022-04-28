@@ -323,6 +323,9 @@ function OCLABNOTINHDRCTRL($scope, $ocLazyLoad, $injector, data, $uibModalInstan
                 } else if (number == 5) {
                     modal.variables.Approved_by_2 = data.fullname;
                     modal.variables.Approved_by_2_desig = data.position;
+                } else if (number == 6) {
+                    modal.variables.Approved_by_3 = data.fullname;
+                    modal.variables.Approved_by_3_desig = data.position;
                 }
             }
         })
@@ -355,6 +358,7 @@ function OCLABNOTINHDRCTRL($scope, $ocLazyLoad, $injector, data, $uibModalInstan
                     modal.variables.SOANo = response.SOANo;
                 }
                 $uibModalInstance.close(modal.variables);
+                AppSvc.showSwal('Success', 'Successfully saved.', 'success');
             } else {
                 AppSvc.showSwal('Error', 'Something went wrong', 'error');
             }
@@ -745,7 +749,9 @@ function OCLABNOTINPrintPreviewTransmittalCtrl($scope, $ocLazyLoad, $injector, d
                     '&Approved_by=' + modal.variables.Approved_by +
                     '&Approved_by_desig=' + modal.variables.Approved_by_desig +
                     '&Approved_by_2=' + modal.variables.Approved_by_2 +
-                    '&Approved_by_2_desig=' + modal.variables.Approved_by_2_desig
+                    '&Approved_by_2_desig=' + modal.variables.Approved_by_2_desig +
+                    '&Approved_by_3=' + modal.variables.Approved_by_3 +
+                    '&Approved_by_3_desig=' + modal.variables.Approved_by_3_desig
                 );
             }
         })
@@ -780,6 +786,9 @@ function OCLABNOTINPrintPreviewTransmittalCtrl($scope, $ocLazyLoad, $injector, d
                 } else if (number == 5) {
                     modal.variables.Approved_by_2 = data.fullname;
                     modal.variables.Approved_by_2_desig = data.position;
+                } else if (number == 6) {
+                    modal.variables.Approved_by_3 = data.fullname;
+                    modal.variables.Approved_by_3_desig = data.position;
                 }
             }
         })

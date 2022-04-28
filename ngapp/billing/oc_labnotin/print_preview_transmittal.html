@@ -9,7 +9,7 @@
         <!-- <div class="row">
             <div class="col-md-8"> -->
         <div class="row" style="padding:20px;">
-            <div class="col-md-12" style="border: 1px solid black;height:420px;padding:10px;">
+            <div class="col-md-12" style="border: 1px solid black;height:490px;padding:10px;">
                 <div class="row">
                     <div class="col-md-3">
                         <label><b>Transmittal No:</b></label>
@@ -103,13 +103,29 @@
                 <br>
                 <div class="row">
                     <div class="col-md-3">
-                        <label><b>Approved By:</b></label>
+                        <label><b>Noted By:</b></label>
                     </div>
                     <div class="col-md-9">
                         <div class="group-input">
                             <input type="text" class="form-control form-control-sm" ng-model="modal.variables.Approved_by_2" required disabled>
                             <div class="button-group-append">
                                 <button type="button" class="btn" ng-click="modal.searchSig(5)">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label><b>Approved for Payment By:</b></label>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="group-input">
+                            <input type="text" class="form-control form-control-sm" ng-model="modal.variables.Approved_by_3" required disabled>
+                            <div class="button-group-append">
+                                <button type="button" class="btn" ng-click="modal.searchSig(6)">
                                     <i class="fa fa-search"></i>
                                 </button>
                             </div>

@@ -66,12 +66,34 @@
             </div>
             <br>
             <div class="row">
-                <div class="col-md-4 col-md-offset-8">
+                <div class="col-md-4">
                     <label for="approved_by">Approved By</label>
                     <div class="group-input">
                         <input type="text" class="form-control form-control-sm" ng-model="modal.variables.Approved_by" required disabled>
                         <div class="button-group-append">
                             <button type="button" class="btn" ng-click="modal.searchSig(4)">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="approved_by">Confirmed By</label>
+                    <div class="group-input">
+                        <input type="text" class="form-control form-control-sm" ng-model="modal.variables.Approved_by_2" required disabled>
+                        <div class="button-group-append">
+                            <button type="button" class="btn" ng-click="modal.searchSig(5)">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="approved_by">Approved for Payment By</label>
+                    <div class="group-input">
+                        <input type="text" class="form-control form-control-sm" ng-model="modal.variables.Approved_by_3" required disabled>
+                        <div class="button-group-append">
+                            <button type="button" class="btn" ng-click="modal.searchSig(6)">
                                 <i class="fa fa-search"></i>
                             </button>
                         </div>

@@ -20,7 +20,14 @@
 			$Noted_by = $record->Noted_by;
 			$Checked_by = $record->Checked_by;
 			$Approved_by = $record->Approved_by;
-			$Confirmed_by = $record->Confirmed_by;
+			$Approved_by_2 = $record->Approved_by_2;
+			$Approved_by_3 = $record->Approved_by_3;
+			$Prepared_by_desig = $record->Prepared_by_desig;
+			$Noted_by_desig = $record->Noted_by_desig;
+			$Checked_by_desig = $record->Checked_by_desig;
+			$Approved_by_desig = $record->Approved_by_desig;
+			$Approved_by_2_desig = $record->Approved_by_2_desig;
+			$Approved_by_3_desig = $record->Approved_by_3_desig;
 			break;
 		}
 	}
@@ -150,22 +157,32 @@
 				<tr>
 					<td style="width:40%;">PREPARED BY & CHECKED BY:</td>
 					<td></td>
-					<td style="width:40%;">NOTED BY:</td>
+					<td style="width:40%;">CONFIRMED BY:</td>
 				</tr>
 				<tr>
-					<td style="width:40%;"><br><br><b><u><?php echo strtoupper($Prepared_by).'/'.strtoupper($Checked_by); ?></u></b><br>GSMPC-ACCOUNTING CLERK</td>
+					<td style="width:40%;"><br><br><b><u><?php echo strtoupper($Prepared_by).'/<br>'.strtoupper($Checked_by); ?></u></b><br><?php echo strtoupper($Prepared_by_desig).'/<br>'.strtoupper($Checked_by_desig); ?></td>
 					<td></td>
-					<td style="width:40%;"><br><br><b><u><?php echo strtoupper($Noted_by); ?></u></b><br>GSMPC-GENERAL MANAGER</td>
+					<td style="width:40%;"><br><br><b><u><?php echo strtoupper($Approved_by_2); ?></u></b><br><?php echo strtoupper($Approved_by_2_desig); ?></td>
 				</tr>
 				<tr>
-					<td style="width:40%;"><br><br><br>CONFIRMED BY:</td>
+					<td style="width:40%;"><br><br><br>NOTED BY:</td>
 					<td></td>
-					<td style="width:40%;"><br><br><br>APPROVED BY:</td>
+					<td style="width:40%;"><br><br><br></td>
 				</tr>
 				<tr>
-					<td style="width:40%;"><br><br><b><u><?php echo strtoupper($Confirmed_by); ?></u></b><br>SUPERVISOR CLUBHOUSE</td>
+					<td style="width:40%;"><br><br><b><u><?php echo strtoupper($Noted_by); ?></u></b><br><?php echo strtoupper($Noted_by_desig); ?></td>
 					<td></td>
-					<td style="width:40%;"><br><br><b><u><?php echo strtoupper($Approved_by); ?></u></b><br>MANAGER, CLUBHOUSE</td>
+					<td style="width:40%;"><br><br><b></b><br></td>
+				</tr>
+				<tr>
+					<td style="width:40%;">APPROVED BY:</td>
+					<td></td>
+					<td style="width:40%;">APPROVED FOR PAYMENT BY:</td>
+				</tr>
+				<tr>
+					<td style="width:40%;"><br><br><b><u><?php echo strtoupper($Approved_by); ?></u></b><br><?php echo strtoupper($Approved_by_desig); ?></td>
+					<td></td>
+					<td style="width:40%;"><br><br><b><u><?php echo strtoupper($Approved_by_3); ?></u></b><br><?php echo strtoupper($Approved_by_3_desig); ?></td>
 				</tr>
 			</table>
 			<?php else: ?>

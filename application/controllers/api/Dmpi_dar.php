@@ -142,7 +142,7 @@ class Dmpi_Dar extends REST_Controller {
             ];
             $result = $this->dmpi_dar_model->save_header($data);
             if(gettype($result) ===  "array"){
-                if($result['error']){
+                if(isset($result['error'])){
                     $result = array(
                         'error' => true,
                         'message' => 'SOA Number Already Exist'

@@ -343,6 +343,12 @@ function OCCBHDRCTRL($scope, $ocLazyLoad, $injector, data, $uibModalInstance) {
                 } else if (number == 4) {
                     modal.variables.Approved_by = data.fullname;
                     modal.variables.Approved_by_desig = data.position;
+                } else if (number == 5) {
+                    modal.variables.Approved_by_2 = data.fullname;
+                    modal.variables.Approved_by_2_desig = data.position;
+                } else if (number == 6) {
+                    modal.variables.Approved_by_3 = data.fullname;
+                    modal.variables.Approved_by_3_desig = data.position;
                 }
             }
         })

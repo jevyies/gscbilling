@@ -123,7 +123,7 @@ header('Content-Disposition: attachment; filename='.$filename);
                 <tr>
                     <td style="width:40%;">PREPARED & CHECKED BY:</td>
                     <td style="width:10%;"></td>
-                    <td style="width:40%;">RECEIVED & APPROVED BY:</td>
+                    <td style="width:40%;">RECEIVED BY:</td>
                 </tr>
                 <tr>
                     <td style="padding-top:10px;"></td>
@@ -131,14 +131,14 @@ header('Content-Disposition: attachment; filename='.$filename);
                     <td style="padding-top:10px;"></td>
                 </tr>
                 <tr>
-                    <td style="border-bottom:1px solid black;font-weight:bold;"><?php echo $details['Prepared_by'].'/'.$details['Checked_by']; ?></td>
+                    <td style="border-bottom:1px solid black;font-weight:bold;"><?php echo $details['Prepared_by'].'/<br>'.$details['Checked_by']; ?></td>
                     <td style=""></td>
-                    <td style="border-bottom:1px solid black;font-weight:bold;"><?php echo $details['Received_by'].'/'.$details['Approved_by']; ?></td>
+                    <td style="border-bottom:1px solid black;font-weight:bold;"><?php echo $details['Received_by']; ?></td>
                 </tr>
                 <tr>
-                    <td style=""><?php echo $details['Prepared_by_desig'].'/'.$details['Checked_by_desig']; ?></td>
+                    <td style=""><?php echo $details['Prepared_by_desig'].'/<br>'.$details['Checked_by_desig']; ?></td>
                     <td style=""></td>
-                    <td style=""><?php echo $details['Received_by_desig'].'/'.$details['Approved_by_desig']; ?></td>
+                    <td style=""><?php echo $details['Received_by_desig']; ?></td>
                 </tr>
                 <tr>
                     <td style="padding-top:20px;"></td>
@@ -146,7 +146,7 @@ header('Content-Disposition: attachment; filename='.$filename);
                     <td style="padding-top:20px;"></td>
                 </tr>
                 <tr>
-                    <td style="width:40%;">APPROVED BY:</td>
+                    <td style="width:40%;">NOTED BY:</td>
                     <td style="width:10%;"></td>
                     <td style="width:40%;"></td>
                 </tr>
@@ -164,6 +164,31 @@ header('Content-Disposition: attachment; filename='.$filename);
                     <td style=""><?php echo $details['Approved_by_2_desig']; ?></td>
                     <td style=""></td>
                     <td style=""></td>
+                </tr>
+                <tr>
+                    <td style="padding-top:20px;"></td>
+                    <td style="padding-top:20px;"></td>
+                    <td style="padding-top:20px;"></td>
+                </tr>
+                <tr>
+                    <td style="width:40%;">APPROVED BY:</td>
+                    <td style="width:10%;"></td>
+                    <td style="width:40%;">APPROVED FOR PAYMENT BY:</td>
+                </tr>
+                <tr>
+                    <td style="padding-top:10px;"></td>
+                    <td style="padding-top:10px;"></td>
+                    <td style="padding-top:10px;"></td>
+                </tr>
+                <tr>
+                    <td style="border-bottom:1px solid black;font-weight:bold;"><?php echo $details['Approved_by']; ?></td>
+                    <td style=""></td>
+                    <td style="border-bottom:1px solid black;font-weight:bold;"><?php echo $details['Approved_by_3']; ?></td>
+                </tr>
+                <tr>
+                    <td style=""><?php echo $details['Approved_by_desig']; ?></td>
+                    <td style=""></td>
+                    <td style=""><?php echo $details['Approved_by_3_desig']; ?></td>
                 </tr>
             </table>
             <?php if($i != 3): ?>

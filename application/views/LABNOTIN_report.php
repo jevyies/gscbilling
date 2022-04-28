@@ -15,11 +15,13 @@
 			$Noted_by = $record->Noted_by;
 			$Approved_by = $record->Approved_by;
 			$Approved_by_2 = $record->Approved_by_2;
+			$Approved_by_3 = $record->Approved_by_3;
 			$Prepared_by_desig = $record->Prepared_by_desig;
 			$Checked_by_desig = $record->Checked_by_desig;
 			$Noted_by_desig = $record->Noted_by_desig;
 			$Approved_by_desig = $record->Approved_by_desig;
 			$Approved_by_2_desig = $record->Approved_by_2_desig;
+			$Approved_by_3_desig = $record->Approved_by_3_desig;
 			$last_activity = $record->Activity;
 			$last_gl = $record->gl;
 			$last_cc = $record->cc;
@@ -237,22 +239,32 @@
 				<tr>
 					<td style="width:50%;">PREPARED & CHECKED BY:</td>
 					<td style="width:15%;"></td>
-					<td style="width:35%;">CHECKED BY:</td>
+					<td style="width:35%;">CONFIRMED BY:</td>
 				</tr>
 				<tr>
-					<td style=""><br><u><b><?php echo strtoupper($Prepared_by) . '/ ' . strtoupper($Checked_by); ?></b></u><br><?php echo strtoupper($Prepared_by_desig) . '/ ' . strtoupper($Checked_by_desig); ?></td>
+					<td style=""><br><u><b><?php echo strtoupper($Prepared_by) . '/ <br>' . strtoupper($Checked_by); ?></b></u><br><?php echo strtoupper($Prepared_by_desig) . '/ <br>' . strtoupper($Checked_by_desig); ?></td>
 					<td></td>
 					<td style=""><br><u><b><?php echo strtoupper($Approved_by_2); ?></b></u><br><?php echo strtoupper($Approved_by_2_desig); ?></td>
 				</tr>
 				<tr>
 					<td style=""><br><br><br>NOTED BY:</td>
 					<td></td>
-					<td style=""><br><br><br>APPROVED BY:</td>
+					<td style=""><br><br><br></td>
 				</tr>
 				<tr>
 					<td style=""><br><u><b><?php echo strtoupper($Noted_by); ?></b></u><br><?php echo strtoupper($Noted_by_desig); ?></td>
 					<td></td>
+					<td style=""><br><u><b></td>
+				</tr>
+				<tr>
+					<td style=""><br><br><br>APPROVED BY:</td>
+					<td></td>
+					<td style=""><br><br><br>APPROVED FOR PAYMENT BY:</td>
+				</tr>
+				<tr>
 					<td style=""><br><u><b><?php echo strtoupper($Approved_by); ?></b></u><br><?php echo strtoupper($Approved_by_desig); ?></td>
+					<td></td>
+					<td style=""><br><u><b><?php echo strtoupper($Approved_by_3); ?></b></u><br><?php echo strtoupper($Approved_by_3_desig); ?></td>
 				</tr>
 			</table>
 			<?php else: ?>
